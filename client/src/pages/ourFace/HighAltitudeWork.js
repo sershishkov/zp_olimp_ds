@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { setNameOfPage } from '../../store/actions/nameOfPage';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -8,8 +12,13 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }));
 
-const HighAltitudeWork = () => {
+const HighAltitudeWork = ({ setNameOfPage }) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    setNameOfPage('Высотные');
+  }, [setNameOfPage]);
+
   return (
     <Grid container className={classes.root}>
       <Grid item>
@@ -19,4 +28,8 @@ const HighAltitudeWork = () => {
   );
 };
 
-export default HighAltitudeWork;
+HighAltitudeWork.propTypes = {
+  setNameOfPage: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setNameOfPage })(HighAltitudeWork);
