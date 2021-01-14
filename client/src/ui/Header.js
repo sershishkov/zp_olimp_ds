@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#e0e0e0',
     color: '#000',
     zIndex: theme.zIndex.modal + 1,
-    marginBottom: '6em',
+    marginBottom: '7em',
     [theme.breakpoints.down('md')]: {
       marginBottom: '2em',
     },

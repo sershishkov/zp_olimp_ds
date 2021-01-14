@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 70,
     padding: 0,
+    paddingTop: '1em',
     // border: '1px solid blue'
   },
 }));
