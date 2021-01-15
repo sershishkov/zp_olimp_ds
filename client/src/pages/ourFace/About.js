@@ -26,8 +26,8 @@ const About = ({ setNameOfPage }) => {
   return (
     <Grid container className={classes.root} direction='column'>
       <Grid item>
-        <Typography variant='h1' className={classes.header}>
-          Компания Олимп-ДС
+        <Typography variant='h3' className={classes.header} align='center'>
+          Компания Олимп - ДС
         </Typography>
         <Typography
           variant='h5'
@@ -39,7 +39,7 @@ const About = ({ setNameOfPage }) => {
         </Typography>
       </Grid>
 
-      <Grid item>
+      <Grid item style={{ marginBottom: '3em' }}>
         <Typography
           variant='h5'
           align='center'
@@ -97,7 +97,7 @@ const About = ({ setNameOfPage }) => {
       </Grid>
 
       <Grid item>
-        <Typography variant='h6' className={classes.groupOfWork}>
+        <Typography variant='h6' className={classes.groupOfWork} align='center'>
           Асфальтные работы
         </Typography>
 
@@ -142,7 +142,7 @@ const About = ({ setNameOfPage }) => {
       </Grid>
 
       <Grid item>
-        <Typography variant='h6' className={classes.groupOfWork}>
+        <Typography variant='h6' className={classes.groupOfWork} align='center'>
           Аварийные работы
         </Typography>
         <List>
@@ -247,7 +247,7 @@ const About = ({ setNameOfPage }) => {
       </Grid>
 
       <Grid item>
-        <Typography variant='h6' className={classes.groupOfWork}>
+        <Typography variant='h6' className={classes.groupOfWork} align='center'>
           Ремонт подъездов
         </Typography>
 
@@ -318,7 +318,7 @@ const About = ({ setNameOfPage }) => {
         </List>
       </Grid>
       <Grid item>
-        <Typography variant='h6' className={classes.groupOfWork}>
+        <Typography variant='h6' className={classes.groupOfWork} align='center'>
           Кровельные работы
         </Typography>
 
@@ -399,7 +399,7 @@ const About = ({ setNameOfPage }) => {
       </Grid>
 
       <Grid item>
-        <Typography variant='h6' className={classes.groupOfWork}>
+        <Typography variant='h6' className={classes.groupOfWork} align='center'>
           Высотные работы
         </Typography>
 
@@ -444,7 +444,7 @@ const About = ({ setNameOfPage }) => {
       </Grid>
 
       <Grid item>
-        <Typography variant='h6' className={classes.groupOfWork}>
+        <Typography variant='h6' className={classes.groupOfWork} align='center'>
           Электромонтажные работы
         </Typography>
 
@@ -491,7 +491,7 @@ const About = ({ setNameOfPage }) => {
       </Grid>
 
       <Grid item>
-        <Typography variant='h6' className={classes.groupOfWork}>
+        <Typography variant='h6' className={classes.groupOfWork} align='center'>
           Сантехнические работы
         </Typography>
 
@@ -544,11 +544,7 @@ const About = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item>
-            <Typography
-              variant='h4'
-              align='center'
-              className={classes.descriptionOfWork}
-            >
+            <Typography variant='h4' align='center'>
               связаться с нами:
             </Typography>
           </Grid>
