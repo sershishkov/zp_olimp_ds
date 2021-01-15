@@ -58,8 +58,23 @@ const useStyles = makeStyles((theme) => ({
   listDrawer: {
     marginTop: '5em',
   },
-  menu: {
-    zIndex: 1302,
+  buttonEnter: {
+    display: 'none',
+  },
+  buttonLogout: {
+    display: 'none',
+  },
+  buttonRegister: {
+    display: 'none',
+  },
+  drawerLogin: {
+    display: 'none',
+  },
+  drawerRegister: {
+    display: 'none',
+  },
+  drawerLogout: {
+    display: 'none',
   },
 }));
 
@@ -152,7 +167,7 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
         ))}
       </Tabs>
       <Button
-        className={classes.button}
+        className={classes.buttonEnter}
         variant='contained'
         component={Link}
         to='/login'
@@ -160,12 +175,15 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
         Вход
       </Button>
       <Button
-        className={classes.button}
+        className={classes.buttonRegister}
         variant='contained'
         component={Link}
         to='/register'
       >
         Регистрация
+      </Button>
+      <Button className={classes.buttonLogout} variant='contained'>
+        Выход
       </Button>
 
       <Menu
@@ -176,7 +194,7 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
         MenuListProps={{ onMouseLeave: handleClose }}
         classes={{ paper: classes.menu }}
         elevation={0}
-        className={classes.menu}
+        style={{ zIndex: 1302 }}
         keepMounted
       >
         {ourWorksOptions.map((option, index) => (
@@ -212,12 +230,10 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
             to='/login'
             divider
             button
-            classes={{
-              root: classes.drawerItemEstimate,
-            }}
             onClick={() => {
               setOpenDrawer(false);
             }}
+            className={classes.drawerLogin}
           >
             <ListItemIcon>
               <InboxIcon />
@@ -231,12 +247,10 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
             to='/register'
             divider
             button
-            classes={{
-              root: classes.drawerItemEstimate,
-            }}
             onClick={() => {
               setOpenDrawer(false);
             }}
+            className={classes.drawerRegister}
           >
             <ListItemIcon>
               <InboxIcon />
@@ -245,14 +259,28 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
               Регистрация
             </ListItemText>
           </ListItem>
+
+          <ListItem
+            divider
+            button
+            onClick={() => {
+              setOpenDrawer(false);
+            }}
+            className={classes.drawerLogout}
+          >
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText disableTypography className={classes.drawerItem}>
+              Выход
+            </ListItemText>
+          </ListItem>
+
           <ListItem
             component={Link}
             to='/about'
             divider
             button
-            classes={{
-              root: classes.drawerItemEstimate,
-            }}
             onClick={() => {
               setOpenDrawer(false);
             }}

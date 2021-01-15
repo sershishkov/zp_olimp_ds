@@ -7,9 +7,17 @@ import { setNameOfPage } from '../../store/actions/nameOfPage';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import grey from '@material-ui/core/colors/grey';
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    padding: '2em',
+  },
+  item: {
+    width: '100%',
+    marginBottom: '5em',
+    border: `2px solid ${grey[400]}`,
+  },
 }));
 
 const RoofingWork = ({ setNameOfPage }) => {
@@ -19,8 +27,15 @@ const RoofingWork = ({ setNameOfPage }) => {
   }, [setNameOfPage]);
   return (
     <Grid container className={classes.root}>
-      <Grid item>
-        <Typography variant='h1'>RoofingWork</Typography>
+      <Grid item className={classes.item}>
+        <Typography variant='h1' align='center'>
+          {' '}
+          Кровельные работы
+        </Typography>
+        <Typography variant='h4'>
+          {' '}
+          Скоро будут Фото и подробное описание работ
+        </Typography>
       </Grid>
     </Grid>
   );
