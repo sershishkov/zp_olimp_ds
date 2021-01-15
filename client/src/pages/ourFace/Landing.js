@@ -29,6 +29,9 @@ import landing_entrance from '../../images/landing_entrance.jpg';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2em',
+    [theme.breakpoints.down('md')]: {
+      padding: 0,
+    },
   },
   item: {
     width: '100%',
@@ -77,7 +80,7 @@ const Landing = ({ setNameOfPage }) => {
       justify='flex-start'
       alignItems='center'
     >
-      <Grid item>
+      <Grid item className={classes.item}>
         <Typography variant='h2' align='center'>
           Компания ОЛИМП-ДС предоставляет услуги для ОСББ и физических лиц
         </Typography>

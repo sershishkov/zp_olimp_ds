@@ -12,6 +12,9 @@ import grey from '@material-ui/core/colors/grey';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2em',
+    [theme.breakpoints.down('md')]: {
+      padding: 0,
+    },
   },
   item: {
     width: '100%',
@@ -30,7 +33,7 @@ const SteelStructures = ({ setNameOfPage }) => {
       <Grid item className={classes.item}>
         <Typography variant='h1' align='center'>
           {' '}
-          Металлоконструкции
+          Изделия из металла
         </Typography>
         <Typography variant='h4'>
           {' '}

@@ -12,6 +12,9 @@ import grey from '@material-ui/core/colors/grey';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2em',
+    [theme.breakpoints.down('md')]: {
+      padding: 0,
+    },
   },
   item: {
     width: '100%',
