@@ -4,15 +4,11 @@ import PropTypes from 'prop-types';
 
 import { setNameOfPage } from '../../store/actions/nameOfPage';
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import grey from '@material-ui/core/colors/grey';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import img_001 from '../../images/Electro/001.jpg';
 import img_002 from '../../images/Electro/002.jpg';
 import img_003 from '../../images/Electro/003.jpg';
@@ -20,6 +16,8 @@ import img_004 from '../../images/Electro/004.jpg';
 import img_005 from '../../images/Electro/005.jpg';
 import img_006 from '../../images/Electro/006.jpg';
 import img_007 from '../../images/Electro/007.jpg';
+
+import ListOfPhotos from '../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,9 +44,7 @@ const listOfFoto = [
 
 const Electro = ({ setNameOfPage }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
-  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
+
   useEffect(() => {
     setNameOfPage('Электро');
   }, [setNameOfPage]);
@@ -60,20 +56,8 @@ const Electro = ({ setNameOfPage }) => {
           Электро работы
         </Typography>
       </Grid>
-      <Grid itemclassName={classes.item}>
-        <GridList
-          cellHeight={380}
-          cols={matchesSM ? 1 : matchesMD ? 2 : 3}
-          className={classes.gridList}
-        >
-          {listOfFoto &&
-            listOfFoto.map((item) => (
-              <GridListTile key={item.imgUrl}>
-                <img src={item.imgUrl} alt={item.description} />
-                <GridListTileBar title={item.description} />
-              </GridListTile>
-            ))}
-        </GridList>
+      <Grid item className={classes.item}>
+        <ListOfPhotos listOfFoto={listOfFoto} />
       </Grid>
     </Grid>
   );

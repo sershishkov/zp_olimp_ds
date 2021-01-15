@@ -9,6 +9,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import grey from '@material-ui/core/colors/grey';
 
+import img_001 from '../../images/Windows/001.jpg';
+
+import ListOfPhotos from '../components/ListOfPhotos';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2em',
@@ -22,23 +26,24 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${grey[400]}`,
   },
 }));
+const listOfFoto = [{ imgUrl: img_001, description: 'Монтаж окон' }];
 
 const WindowsDoorPlastic = ({ setNameOfPage }) => {
   const classes = useStyles();
+
   useEffect(() => {
     setNameOfPage('Окна и Двери');
   }, [setNameOfPage]);
   return (
     <Grid container className={classes.root}>
       <Grid item className={classes.item}>
-        <Typography variant='h1' align='center'>
+        <Typography variant='h3' align='center'>
           {' '}
           Окна и Двери
         </Typography>
-        <Typography variant='h4'>
-          {' '}
-          Скоро будут Фото и подробное описание работ
-        </Typography>
+      </Grid>
+      <Grid item className={classes.item}>
+        <ListOfPhotos listOfFoto={listOfFoto} />
       </Grid>
     </Grid>
   );
