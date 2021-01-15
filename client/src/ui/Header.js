@@ -55,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
   tabContainer: {
     marginLeft: 'auto',
   },
+  listDrawer: {
+    marginTop: '5em',
+  },
+  menu: {
+    zIndex: 1302,
+  },
 }));
 
 const Header = ({ nameOfPage: { pageName, loading } }) => {
@@ -170,7 +176,7 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
         MenuListProps={{ onMouseLeave: handleClose }}
         classes={{ paper: classes.menu }}
         elevation={0}
-        style={{ zIndex: 1302 }}
+        className={classes.menu}
         keepMounted
       >
         {ourWorksOptions.map((option, index) => (
@@ -199,9 +205,8 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
         classes={{ paper: classes.drawer }}
-        // style={{ zIndex: 25000, marginTop: '7em' }}
       >
-        <List disablePadding style={{ marginTop: '5em' }}>
+        <List disablePadding className={classes.listDrawer}>
           <ListItem
             component={Link}
             to='/login'
