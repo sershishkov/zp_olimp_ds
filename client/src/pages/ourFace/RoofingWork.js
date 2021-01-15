@@ -4,10 +4,17 @@ import PropTypes from 'prop-types';
 
 import { setNameOfPage } from '../../store/actions/nameOfPage';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import grey from '@material-ui/core/colors/grey';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import img_001 from '../../images/Roof/001.jpg';
+import img_002 from '../../images/Roof/002.jpg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,22 +30,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const listOfFoto = [
+  { imgUrl: img_001, description: 'Кровельные работы' },
+  { imgUrl: img_002, description: 'Кровельные работы' },
+];
+
 const RoofingWork = ({ setNameOfPage }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
+  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
+
   useEffect(() => {
     setNameOfPage('Кровля');
   }, [setNameOfPage]);
   return (
     <Grid container className={classes.root}>
       <Grid item className={classes.item}>
-        <Typography variant='h1' align='center'>
+        <Typography variant='h3' align='center'>
           {' '}
           Кровля
         </Typography>
-        <Typography variant='h4'>
-          {' '}
-          Скоро будут Фото и подробное описание работ
-        </Typography>
+      </Grid>
+      <Grid itemclassName={classes.item}>
+        <GridList
+          cellHeight={380}
+          cols={matchesSM ? 1 : matchesMD ? 2 : 3}
+          className={classes.gridList}
+        >
+          {listOfFoto &&
+            listOfFoto.map((item) => (
+              <GridListTile key={item.imgUrl}>
+                <img src={item.imgUrl} alt={item.description} />
+                <GridListTileBar title={item.description} />
+              </GridListTile>
+            ))}
+        </GridList>
       </Grid>
     </Grid>
   );

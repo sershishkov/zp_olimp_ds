@@ -12,19 +12,19 @@ import grey from '@material-ui/core/colors/grey';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
-import landing_alpinist from '../../images/landing_alpinist.jpg';
-// import landing_alpinist_2 from '../../images/landing_alpinist_2.jpg';
-import landing_electro from '../../images/landing_electro.jpg';
-// import landing_electro2 from '../../images/landing_electro2.jpg';
-import landing_groundfloor from '../../images/landing_groundfloor.jpeg';
-import landing_metall from '../../images/landing_metall.jpg';
-import landing_plumbing from '../../images/landing_plumbing.jpg';
-import landing_porch from '../../images/landing_porch.jpg';
-import landing_roof from '../../images/landing_roof.jpg';
-// import landing_roof2 from '../../images/landing_roof2.jpg';
-import landing_windows from '../../images/landing_windows.jpg';
-import landing_asfalt from '../../images/landing_asfalt.jpg';
-import landing_entrance from '../../images/landing_entrance.jpg';
+import landing_alpinist from '../../images/landing/landing_alpinist.jpg';
+// import landing_alpinist_2 from '../../images/landing/landing_alpinist_2.jpg';
+import landing_electro from '../../images/landing/landing_electro.jpg';
+// import landing_electro2 from '../../images/landing/landing_electro2.jpg';
+import landing_groundfloor from '../../images/landing/landing_groundfloor.jpeg';
+import landing_metall from '../../images/landing/landing_metall.jpg';
+import landing_plumbing from '../../images/landing/landing_plumbing.jpg';
+import landing_porch from '../../images/landing/landing_porch.jpg';
+import landing_roof from '../../images/landing/landing_roof.jpg';
+// import landing_roof2 from '../../images/landing/landing_roof2.jpg';
+import landing_windows from '../../images/landing/landing_windows.jpg';
+import landing_asfalt from '../../images/landing/landing_asfalt.jpg';
+import landing_entrance from '../../images/landing/landing_entrance.jpg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,7 +81,7 @@ const Landing = ({ setNameOfPage }) => {
       alignItems='center'
     >
       <Grid item className={classes.item}>
-        <Typography variant='h2' align='center'>
+        <Typography variant='h3' align='center'>
           Компания ОЛИМП-ДС предоставляет услуги для ОСББ и физических лиц
         </Typography>
         <Typography variant='h4' align='center'>
@@ -98,7 +98,10 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'> Асфальтные работы</Typography>
+            <Typography variant='h4' align='center'>
+              {' '}
+              Асфальтные работы
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -160,7 +163,9 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>Электромонтажные работы</Typography>
+            <Typography variant='h4' align='center'>
+              Электромонтажные работы
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -224,7 +229,9 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>Цоколь и Ливневки</Typography>
+            <Typography variant='h4' align='center'>
+              Цоколь и Ливневки
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -308,7 +315,9 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>Высотные работы</Typography>
+            <Typography variant='h4' align='center'>
+              Высотные работы
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -374,7 +383,9 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>Сантехнические работы</Typography>
+            <Typography variant='h4' align='center'>
+              Сантехнические работы
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -492,7 +503,9 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>Крыльцо и козырьки</Typography>
+            <Typography variant='h4' align='center'>
+              Крыльцо и козырьки
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -567,7 +580,9 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>Ремонт подъездов</Typography>
+            <Typography variant='h4' align='center'>
+              Ремонт подъездов
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -660,7 +675,9 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>Кровельные работы</Typography>
+            <Typography variant='h4' align='center'>
+              Кровельные работы
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -762,7 +779,9 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>Металлоконструкции</Typography>
+            <Typography variant='h4' align='center'>
+              Металлоконструкции
+            </Typography>
           </Grid>
           <Grid item className={classes.wrapDescription}>
             <List>
@@ -838,7 +857,7 @@ const Landing = ({ setNameOfPage }) => {
           alignItems='center'
         >
           <Grid item className={classes.wrapHeader}>
-            <Typography variant='h4'>
+            <Typography variant='h4' align='center'>
               Окна и двери металлопластиковые
             </Typography>
           </Grid>
