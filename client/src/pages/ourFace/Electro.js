@@ -17,7 +17,7 @@ import img_005 from '../../images/Electro/005.jpg';
 import img_006 from '../../images/Electro/006.jpg';
 import img_007 from '../../images/Electro/007.jpg';
 
-import ListOfPhotos from '../components/ListOfPhotos';
+import ListOfPhotos from '../../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {

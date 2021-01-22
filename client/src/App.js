@@ -9,6 +9,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Alert from './components/Alert';
 import Header from './ui/Header';
 import Footer from './ui/Footer';
 import Landing from './pages/ourFace/Landing';
@@ -47,6 +48,7 @@ function App() {
         <Router>
           <Header />
           <Container maxWidth='lg' className={classes.root}>
+            <Alert />
             <Suspense fallback={<CircularProgress />}>
               <Switch>
                 <Route exact path='/' component={Landing} />

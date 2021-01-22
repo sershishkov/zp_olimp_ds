@@ -15,7 +15,7 @@ import img_003 from '../../images/GroundFloor/003.jpg';
 import img_004 from '../../images/GroundFloor/004.jpg';
 import img_005 from '../../images/GroundFloor/005.jpg';
 
-import ListOfPhotos from '../components/ListOfPhotos';
+import ListOfPhotos from '../../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -23,7 +23,7 @@ import img_011 from '../../images/Metall/011.jpg';
 import img_012 from '../../images/Metall/012.jpg';
 import img_013 from '../../images/Metall/013.jpg';
 
-import ListOfPhotos from '../components/ListOfPhotos';
+import ListOfPhotos from '../../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {

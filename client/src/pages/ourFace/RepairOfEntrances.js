@@ -25,7 +25,7 @@ import img_013 from '../../images/Entrance/013.jpg';
 import img_014 from '../../images/Entrance/014.jpg';
 import img_015 from '../../images/Entrance/015.jpg';
 
-import ListOfPhotos from '../components/ListOfPhotos';
+import ListOfPhotos from '../../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {

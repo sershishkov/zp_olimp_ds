@@ -12,7 +12,7 @@ import grey from '@material-ui/core/colors/grey';
 import img_001 from '../../images/HighAltitude/001.jpg';
 import img_002 from '../../images/HighAltitude/002.jpg';
 
-import ListOfPhotos from '../components/ListOfPhotos';
+import ListOfPhotos from '../../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {

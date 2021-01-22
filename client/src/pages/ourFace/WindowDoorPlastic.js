@@ -11,7 +11,7 @@ import grey from '@material-ui/core/colors/grey';
 
 import img_001 from '../../images/Windows/001.jpg';
 
-import ListOfPhotos from '../components/ListOfPhotos';
+import ListOfPhotos from '../../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {

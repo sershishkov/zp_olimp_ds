@@ -16,7 +16,7 @@ import img_004 from '../../images/Porch/004.jpg';
 import img_005 from '../../images/Porch/005.jpg';
 import img_006 from '../../images/Porch/006.jpg';
 
-import ListOfPhotos from '../components/ListOfPhotos';
+import ListOfPhotos from '../../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {

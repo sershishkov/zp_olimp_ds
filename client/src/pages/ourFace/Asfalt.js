@@ -17,7 +17,7 @@ import img_005 from '../../images/Asfalt/005.jpg';
 import img_006 from '../../images/Asfalt/006.jpg';
 import img_007 from '../../images/Asfalt/007.jpg';
 
-import ListOfPhotos from '../components/ListOfPhotos';
+import ListOfPhotos from '../../components/ListOfPhotos';
 
 const useStyles = makeStyles((theme) => ({
   root: {
