@@ -51,8 +51,14 @@ app.use(hpp());
 //Enable CORS
 app.use(cors());
 /////////////////////////////////////////////////////////
-//routes
+//Route file
+////////User////////
+const auth = require('./routes/user/auth/auth');
+
 /////////////////////////////////////////////////////
+//Mount routes
+/////USER/////
+app.use('/api/auth', auth);
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
