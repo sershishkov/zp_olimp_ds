@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logout } from '../store/actions/user/auth/auth';
+
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
@@ -20,9 +22,18 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import InboxIcon from '@material-ui/icons/Inbox';
+import HomeIcon from '@material-ui/icons/Home';
+import WorkIcon from '@material-ui/icons/Work';
+import InfoIcon from '@material-ui/icons/Info';
 import Hidden from '@material-ui/core/Hidden';
+
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+
 import logo from '../images/LogotipDS.PNG';
-import { connect } from 'react-redux';
+import { Grid } from '@material-ui/core';
+import { allOurPagesList } from '../utils/allOurPagesList';
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -58,64 +69,28 @@ const useStyles = makeStyles((theme) => ({
   listDrawer: {
     marginTop: '5em',
   },
-  buttonEnter: {
-    display: 'none',
+  wrapPageName: {
+    border: '1px solid #f00',
+    margin: 'auto',
   },
-  buttonLogout: {
-    display: 'none',
+  wrapPageNameTitle: {
+    alignSelf: 'center',
   },
-  buttonRegister: {
-    display: 'none',
-  },
-  drawerLogin: {
-    display: 'none',
-  },
-  drawerRegister: {
-    display: 'none',
-  },
-  drawerLogout: {
-    display: 'none',
+  nameOfPageTitle: {
+    margin: 'auto',
   },
 }));
 
-const Header = ({ nameOfPage: { pageName, loading } }) => {
+const Header = ({ state_nameOfPage, state_auth, logout }) => {
   const classes = useStyles();
+  const history = useHistory();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
-  const [value, setValue] = useState(0);
 
-  const ourFaceRoutes = [
-    { name: 'Домой', link: '/', activeIndex: 0 },
-    {
-      name: 'Наши работы',
-      link: '/asfalt',
-      activeIndex: 1,
-      ariaOwns: anchorEl ? 'menu-our-works-option' : undefined,
-      ariaPopup: anchorEl ? true : undefined,
-      mouseOver: (event) => handleClick(event),
-    },
-    { name: 'О нас', link: '/about', activeIndex: 2 },
-    // { name: 'Вход', link: '/login' },
-    // { name: 'Регистрация', link: '/register' },
-  ];
-
-  const ourWorksOptions = [
-    { name: 'Асфальтные работы', link: '/asfalt' },
-    { name: 'Електро работы работы', link: '/electro' },
-    { name: 'Цоколь и ливневки', link: '/ground-floor-storm-water' },
-    { name: 'Высотные работы', link: '/high-altitude-work' },
-    { name: 'Сантехнические работы', link: '/plumbing-work' },
-    { name: 'крыльцо и козырьки', link: '/porch-and-visors' },
-    { name: 'Ремонт подъездов', link: '/repair-of-entrance' },
-    { name: 'Кровельные работы', link: '/roofing-work' },
-    { name: 'Металлоконструкции', link: '/steel-structures' },
-    { name: 'Окна Двери Пластиковые', link: '/windows-door-plastic' },
-  ];
-
-  const handleMenuItemClick = (event, index) => {
+  const handleMenuItemClick = () => {
     setAnchorEl(null);
     setOpenMenu(false);
   };
@@ -126,65 +101,88 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
   };
 
   const handleClick = (event) => {
-    // console.log(event.currentTarget);
     setAnchorEl(event.currentTarget);
     setOpenMenu(true);
   };
 
-  useEffect(() => {
-    ourFaceRoutes.forEach((route, index) => {
-      switch (window.location.pathname) {
-        case `${route.link}`:
-          if (value !== route.activeIndex) {
-            setValue(route.activeIndex);
-          }
-          break;
-
-        default:
-          break;
-      }
-    });
-  });
+  const logoutHandler = () => {
+    logout();
+    history.push('/');
+  };
 
   const tabsOurFace = (
-    <React.Fragment>
-      <Tabs
-        className={classes.tabContainer}
-        indicatorColor='primary'
-        value={value}
-      >
-        {ourFaceRoutes.map((route, index) => (
-          <Tab
-            key={route.name}
-            className={classes.tab}
-            component={Link}
-            to={route.link}
-            label={route.name}
-            aria-owns={route.ariaOwns}
-            aria-haspopup={route.ariaPopup}
-            onMouseOver={route.mouseOver}
-          />
-        ))}
-      </Tabs>
-      <Button
-        className={classes.buttonEnter}
-        variant='contained'
-        component={Link}
-        to='/login'
-      >
-        Вход
-      </Button>
-      <Button
-        className={classes.buttonRegister}
-        variant='contained'
-        component={Link}
-        to='/register'
-      >
-        Регистрация
-      </Button>
-      <Button className={classes.buttonLogout} variant='contained'>
-        Выход
-      </Button>
+    <Grid container justify='flex-end' alignItems='center'>
+      <Grid item>
+        <IconButton aria-label='home' component={Link} to='/'>
+          <HomeIcon />
+        </IconButton>
+      </Grid>
+      <Grid item>
+        <IconButton
+          aria-label='works'
+          component={Link}
+          to='/asfalt'
+          aria-owns={anchorEl ? 'menu-our-works-option' : undefined}
+          aria-haspopup={anchorEl ? true : undefined}
+          onMouseOver={(event) => handleClick(event)}
+        >
+          <WorkIcon />
+        </IconButton>
+      </Grid>
+      <Grid item>
+        <IconButton aria-label='works' component={Link} to='/about'>
+          <InfoIcon />
+        </IconButton>
+      </Grid>
+      <Grid item>
+        <IconButton
+          aria-label='login'
+          component={Link}
+          to='/login'
+          style={{
+            display: state_auth.isAuthenticated ? 'none' : undefined,
+          }}
+        >
+          <ExitToAppIcon />
+        </IconButton>
+      </Grid>
+      <Grid item>
+        <IconButton
+          aria-label='register'
+          component={Link}
+          to='/register'
+          style={{
+            display: state_auth.isAuthenticated ? 'none' : undefined,
+          }}
+        >
+          <PersonAddIcon />
+        </IconButton>
+      </Grid>
+
+      <Grid item>
+        <Button
+          component={Link}
+          to='/user-detail'
+          style={{
+            display: state_auth.isAuthenticated ? undefined : 'none',
+          }}
+        >
+          {state_auth.isAuthenticated && state_auth.user
+            ? state_auth.user.name
+            : 'моя страница'}
+        </Button>
+      </Grid>
+      <Grid item>
+        <IconButton
+          aria-label='logout'
+          onClick={logoutHandler}
+          style={{
+            display: state_auth.isAuthenticated ? undefined : 'none',
+          }}
+        >
+          <DirectionsRunIcon />
+        </IconButton>
+      </Grid>
 
       <Menu
         id='menu-our-works-option'
@@ -197,22 +195,24 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
         style={{ zIndex: 1302 }}
         keepMounted
       >
-        {ourWorksOptions.map((option, index) => (
-          <MenuItem
-            key={option.name}
-            onClick={(event) => {
-              handleClose();
-              handleMenuItemClick(event, index);
-            }}
-            component={Link}
-            to={option.link}
-            classes={{ root: classes.menuItem }}
-          >
-            {option.name}
-          </MenuItem>
-        ))}
+        {allOurPagesList
+          .filter((page) => page.group === 'ourWorks')
+          .map((option) => (
+            <MenuItem
+              key={option.pageName}
+              onClick={() => {
+                handleClose();
+                handleMenuItemClick();
+              }}
+              component={Link}
+              to={option.linkToPage}
+              classes={{ root: classes.menuItem }}
+            >
+              {option.pageName}
+            </MenuItem>
+          ))}
       </Menu>
-    </React.Fragment>
+    </Grid>
   );
   const drawer = (
     <React.Fragment>
@@ -227,6 +227,29 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
         <List disablePadding className={classes.listDrawer}>
           <ListItem
             component={Link}
+            to='/user-detail'
+            divider
+            button
+            onClick={() => {
+              setOpenDrawer(false);
+            }}
+            className={classes.drawerLogin}
+            style={{
+              display: state_auth.isAuthenticated ? undefined : 'none',
+            }}
+          >
+            <ListItemIcon>
+              <ExitToAppIcon color='primary' />
+            </ListItemIcon>
+            <ListItemText disableTypography className={classes.drawerItem}>
+              {state_auth.isAuthenticated && state_auth.user
+                ? state_auth.user.name
+                : 'моя страница'}
+            </ListItemText>
+          </ListItem>
+
+          <ListItem
+            component={Link}
             to='/login'
             divider
             button
@@ -234,14 +257,18 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
               setOpenDrawer(false);
             }}
             className={classes.drawerLogin}
+            style={{
+              display: state_auth.isAuthenticated ? 'none' : undefined,
+            }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <ExitToAppIcon color='primary' />
             </ListItemIcon>
             <ListItemText disableTypography className={classes.drawerItem}>
               Вход
             </ListItemText>
           </ListItem>
+
           <ListItem
             component={Link}
             to='/register'
@@ -251,9 +278,12 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
               setOpenDrawer(false);
             }}
             className={classes.drawerRegister}
+            style={{
+              display: state_auth.isAuthenticated ? 'none' : undefined,
+            }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <PersonAddIcon color='primary' />
             </ListItemIcon>
             <ListItemText disableTypography className={classes.drawerItem}>
               Регистрация
@@ -265,11 +295,15 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
             button
             onClick={() => {
               setOpenDrawer(false);
+              logoutHandler();
             }}
             className={classes.drawerLogout}
+            style={{
+              display: state_auth.isAuthenticated ? undefined : 'none',
+            }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <DirectionsRunIcon color='error' />
             </ListItemIcon>
             <ListItemText disableTypography className={classes.drawerItem}>
               Выход
@@ -293,25 +327,56 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
             </ListItemText>
           </ListItem>
 
-          {ourWorksOptions.map((route, index) => (
-            <ListItem
-              key={route.name}
-              component={Link}
-              to={route.link}
-              divider
-              button
-              onClick={() => {
-                setOpenDrawer(false);
-              }}
-            >
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText disableTypography className={classes.drawerItem}>
-                {route.name}
-              </ListItemText>
-            </ListItem>
-          ))}
+          {allOurPagesList
+            .filter((page) => page.group === 'ourWorks')
+            .map((page) => (
+              <ListItem
+                key={page.pageName}
+                component={Link}
+                to={page.linkToPage}
+                divider
+                button
+                onClick={() => {
+                  setOpenDrawer(false);
+                }}
+              >
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText disableTypography className={classes.drawerItem}>
+                  {page.pageName}
+                </ListItemText>
+              </ListItem>
+            ))}
+
+          {state_auth.isAuthenticated &&
+            state_auth.user &&
+            allOurPagesList
+              .filter((page) =>
+                page.allowedRoles.includes(state_auth.user.role)
+              )
+              .map((page) => (
+                <ListItem
+                  key={page.pageName}
+                  component={Link}
+                  to={page.linkToPage}
+                  divider
+                  button
+                  onClick={() => {
+                    setOpenDrawer(false);
+                  }}
+                >
+                  <ListItemIcon>
+                    <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    disableTypography
+                    className={classes.drawerItem}
+                  >
+                    {page.pageName}
+                  </ListItemText>
+                </ListItem>
+              ))}
         </List>
       </SwipeableDrawer>
       <IconButton
@@ -329,24 +394,49 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
       <ElevationScroll>
         <AppBar className={classes.appbar}>
           <Toolbar disableGutters>
-            <Button
-              className={classes.logoContainer}
-              component={Link}
-              to='/'
-              disableRipple
-            >
-              <img
-                src={logo}
-                alt='company logo'
-                className={classes.logoImage}
-              />
-            </Button>
-            <Typography variant='h6' align='center'>
-              {loading ? <CircularProgress /> : pageName}
-            </Typography>
-
-            <Hidden mdDown>{tabsOurFace}</Hidden>
-            <Hidden lgUp>{drawer}</Hidden>
+            <Grid container justify='space-between' alignItems='center'>
+              <Grid item>
+                <Grid container justify='flex-start'>
+                  <Grid item>
+                    <Button
+                      className={classes.logoContainer}
+                      component={Link}
+                      to='/'
+                      disableRipple
+                    >
+                      <img
+                        src={logo}
+                        alt='company logo'
+                        className={classes.logoImage}
+                      />
+                    </Button>
+                  </Grid>
+                  <Grid item className={classes.wrapPageNameTitle}>
+                    <Grid
+                      container
+                      justify='flex-start'
+                      className={classes.wrapPageName1}
+                    >
+                      <Grid item className={classes.nameOfPageTitle}>
+                        <Typography variant='h6' align='center'>
+                          {state_nameOfPage.loading ? (
+                            <CircularProgress />
+                          ) : (
+                            state_nameOfPage.pageName
+                          )}
+                        </Typography>
+                      </Grid>
+                      <Hidden lgUp>
+                        <Grid item>{drawer}</Grid>
+                      </Hidden>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Hidden mdDown>{tabsOurFace}</Hidden>
+              </Grid>
+            </Grid>
 
             {/* {matches ? drawer : tabs} */}
           </Toolbar>
@@ -357,14 +447,14 @@ const Header = ({ nameOfPage: { pageName, loading } }) => {
 };
 
 Header.propTypes = {
-  // auth: PropTypes.object.isRequired,
-  // logout: PropTypes.func.isRequired,
-  nameOfPage: PropTypes.object.isRequired,
+  state_auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
+  state_nameOfPage: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  // auth: state.auth,
-  nameOfPage: state.nameOfPage,
+  state_nameOfPage: state.nameOfPage,
+  state_auth: state.auth,
 });
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, { logout })(Header);

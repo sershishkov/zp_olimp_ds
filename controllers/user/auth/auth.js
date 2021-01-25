@@ -9,7 +9,7 @@ exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
   const user = await User.create({
     name,
-    email,
+    email: email.toLowerCase(),
     password,
   });
 
@@ -29,7 +29,9 @@ exports.login = asyncHandler(async (req, res, next) => {
   }
 
   //Check for user
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email: email.toLowerCase() }).select(
+    '+password'
+  );
 
   if (!user) {
     return next(new ErrorResponse('Invalid credentials', 401));
@@ -46,7 +48,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 //@desc   Log user out / clear cookie
-//@route  GET /api/v1/auth/logout
+//@route  GET /api/auth/logout
 //@access Private
 exports.logout = asyncHandler(async (req, res, next) => {
   res.cookie('token', 'none', {
@@ -61,14 +63,14 @@ exports.logout = asyncHandler(async (req, res, next) => {
 });
 
 //@desc   Get current logged user
-//@route  POST /api/auth/me
+//@route  GET /api/auth/me
 //@access Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user);
 
   res.status(200).json({
     success: true,
-    data: user,
+    user,
   });
 });
 
@@ -78,10 +80,10 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 exports.updateDetails = asyncHandler(async (req, res, next) => {
   const fieldsToUpdate = {
     name: req.body.name,
-    email: req.body.email,
+    email: req.body.email.toLowerCase(),
   };
 
-  const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
+  const user = await User.findByIdAndUpdate(req.user, fieldsToUpdate, {
     new: true,
     runValidators: true,
   });
@@ -96,7 +98,7 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 //@route  PUT /api/auth/updatepassword
 //@access Private
 exports.updatePassword = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select('+password');
+  const user = await User.findById(req.user).select('+password');
 
   //Check current password
   if (!(await user.matchPassword(req.body.currentPassword))) {
@@ -127,5 +129,5 @@ const sendTokenResponse = (user, statusCode, res) => {
   res
     .status(statusCode)
     .cookie('token', token, options)
-    .json({ success: true, token }); // ???
+    .json({ success: true, token });
 };

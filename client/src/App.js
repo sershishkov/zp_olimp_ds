@@ -1,8 +1,12 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import theme from './ui/Theme';
+import { loadUser } from './store/actions/user/auth/auth';
+import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './utils/PrivateRoute';
+import { freePageTitles } from './utils/allOurPagesList';
 
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from '@material-ui/styles';
@@ -12,6 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from './components/Alert';
 import Header from './ui/Header';
 import Footer from './ui/Footer';
+
 import Landing from './pages/ourFace/Landing';
 import About from './pages/ourFace/About';
 import Asfalt from './pages/ourFace/Asfalt';
@@ -29,7 +34,8 @@ import Register from './pages/users/auth/Register';
 
 const UserAdmin = lazy(() => import('./pages/users/admin/UserAdmin'));
 const UserCreate = lazy(() => import('./pages/users/admin/UserCreate'));
-const UserEdit = lazy(() => import('./pages/users/admin/UserEdit'));
+const UserEditAdmin = lazy(() => import('./pages/users/admin/UserEditAdmin'));
+const UserEditDetail = lazy(() => import('./pages/users/auth/UserEditDetail'));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,8 +46,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 function App() {
   const classes = useStyles();
+
+  useEffect(() => {
+    let activePage = store.getState().nameOfPage.pageName;
+    if (!freePageTitles.includes(activePage)) {
+      store.dispatch(loadUser());
+    }
+  }, []);
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -91,9 +109,22 @@ function App() {
                   component={WindowsDoorPlastic}
                 />
 
-                <Route exact path='/user-admin' component={UserAdmin} />
-                <Route exact path='/user-create' component={UserCreate} />
-                <Route exact path='/user-edit/:id' component={UserEdit} />
+                <PrivateRoute exact path='/user-admin' component={UserAdmin} />
+                <PrivateRoute
+                  exact
+                  path='/user-create'
+                  component={UserCreate}
+                />
+                <PrivateRoute
+                  exact
+                  path='/user-edit/:id'
+                  component={UserEditAdmin}
+                />
+                <PrivateRoute
+                  exact
+                  path='/user-detail'
+                  component={UserEditDetail}
+                />
               </Switch>
             </Suspense>
           </Container>

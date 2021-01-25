@@ -21,6 +21,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   // if (req.cookies.token) {
   //   token = req.cookies.token;
   // }
+  // console.log(token);
 
   //Make sure token exists
   if (!token) {
@@ -31,7 +32,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
     //Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decoded.id);
+    req.user = decoded.id;
 
     next();
   } catch (err) {

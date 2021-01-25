@@ -8,15 +8,15 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }));
 
-const UserEdit = () => {
+const UserEditAdmin = () => {
   const classes = useStyles();
   return (
     <Grid container className={classes.root}>
       <Grid item>
-        <Typography variant='h1'>UserEdit</Typography>
+        <Typography variant='h1'>UserEditAdmin</Typography>
       </Grid>
     </Grid>
   );
 };
 
-export default UserEdit;
+export default UserEditAdmin;

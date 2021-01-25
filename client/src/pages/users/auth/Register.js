@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { setNameOfPage } from '../../../store/actions/nameOfPage';
+import { register } from '../../../store/actions/user/auth/auth';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
@@ -16,24 +16,19 @@ import logo from '../../../images/LogotipDS.PNG';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // padding: '3em',
-    border: '1px solid #f00',
+    padding: '1em',
     maxWidth: theme.breakpoints.width('sm'),
     margin: 'auto',
   },
-  avatar: {
+  imgLogo: {
     width: 130,
-    height: 70,
-    objectFit: 'cover',
   },
   item: {
-    border: '1px solid #0f0',
     width: '100%',
     marginBottom: '2em',
   },
   form: {},
   itemSub: {
-    border: '1px solid #00f',
     marginBottom: '1em',
   },
 }));
@@ -55,7 +50,7 @@ const Register = ({ setNameOfPage, register, isAuthenticated }) => {
   const { name, email, password, password2 } = formData;
 
   useEffect(() => {
-    setNameOfPage('О нас');
+    setNameOfPage('Регистрация');
   }, [setNameOfPage]);
 
   const onChange = (e) => {
@@ -64,7 +59,7 @@ const Register = ({ setNameOfPage, register, isAuthenticated }) => {
 
     switch (e.target.id) {
       case 'name':
-        valid = e.target.value.length > 2;
+        valid = e.target.value.length >= 2;
         if (!valid) {
           setNameHelper('Слишком короткое Имя');
         } else {
@@ -83,7 +78,7 @@ const Register = ({ setNameOfPage, register, isAuthenticated }) => {
         break;
 
       case 'password':
-        valid = e.target.value.length > 6;
+        valid = e.target.value.length >= 6;
         if (!valid) {
           setPasswordHelper('Минимальная длинна пароля 6 знаков');
         } else {
@@ -107,8 +102,9 @@ const Register = ({ setNameOfPage, register, isAuthenticated }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    let emailLowercase = email.toLowerCase();
 
-    register({ name, email, password });
+    register(name, emailLowercase, password);
   };
 
   if (isAuthenticated) {
@@ -123,17 +119,12 @@ const Register = ({ setNameOfPage, register, isAuthenticated }) => {
       justify='flex-start'
       alignItems='center'
     >
-      <Grid item className={classes.item}>
-        <Avatar
-          variant='square'
-          src={logo}
-          className={classes.avatar}
-          align='center'
-        />
+      <Grid item className={classes.item} container justify='center'>
+        <img src={logo} alt='logo' className={classes.imgLogo} />
       </Grid>
       <Grid item className={classes.item}>
         <Typography variant='h3' align='center'>
-          Register
+          Регистрация
         </Typography>
       </Grid>
       <Grid item className={classes.item}>
@@ -225,13 +216,25 @@ const Register = ({ setNameOfPage, register, isAuthenticated }) => {
                 ЗАРЕГЕСТРИРОВАТСЯ
               </Button>
             </Grid>
-            <Grid item className={classes.itemSub}>
-              <Typography variant='body1' color='primary'>
-                Уже зарегестрированы?{'   '}
-                <Link href='/login' variant='body2'>
+            <Grid
+              item
+              className={classes.itemSub}
+              container
+              justify='space-around'
+              alignItems='center'
+            >
+              <Grid item>
+                <Typography variant='body1'>Уже зарегестрированы?</Typography>
+              </Grid>
+              <Grid item>
+                <Link
+                  href='/login'
+                  variant='body2'
+                  style={{ fontSize: '1.5rem' }}
+                >
                   Войти
                 </Link>
-              </Typography>
+              </Grid>
             </Grid>
           </Grid>
         </form>
@@ -250,4 +253,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { setNameOfPage })(Register);
+export default connect(mapStateToProps, { setNameOfPage, register })(Register);

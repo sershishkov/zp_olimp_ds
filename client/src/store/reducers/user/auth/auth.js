@@ -24,14 +24,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload,
+        user: payload, //userInfo
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token);
       return {
         ...state,
-        ...payload,
+        token: payload.token,
         isAuthenticated: true,
         loading: false,
       };

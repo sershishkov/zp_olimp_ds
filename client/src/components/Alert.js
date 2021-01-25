@@ -7,7 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    zIndex: 99999,
+    margin: 'auto',
+    width: 400,
   },
 }));
 

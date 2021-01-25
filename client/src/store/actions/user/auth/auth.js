@@ -18,12 +18,18 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get('/api/v1/auth/me');
+    const { data } = await axios.get('/api/auth/me');
+    console.log(data.user);
     dispatch({
       type: USER_LOADED,
-      payload: res.data.data,
+      payload: data.user, //{ success: true,user: user,}
     });
   } catch (err) {
+    const error = err.response.data.error;
+    if (error) {
+      dispatch(setAlert(error, 'error')); //(error, colorOfalert)
+    }
+
     dispatch({
       type: AUTH_ERROR,
     });
@@ -31,7 +37,7 @@ export const loadUser = () => async (dispatch) => {
 };
 
 //Register user
-export const register = ({ name, email, password }) => async (dispatch) => {
+export const register = (name, email, password) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -40,18 +46,27 @@ export const register = ({ name, email, password }) => async (dispatch) => {
   const body = JSON.stringify({ name, email, password });
 
   try {
-    const res = await axios.post('/api/auth/register', body, config);
+    const { data } = await axios.post('/api/auth/register', body, config);
+    console.log(data);
 
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data,
+      payload: data, //{ success: true, token }
     });
 
     dispatch(loadUser());
+    dispatch(setAlert('Регистрация прошла успешно', 'success')); //(error, colorOfalert)
   } catch (err) {
     const error = err.response.data.error;
-    if (error) {
-      dispatch(setAlert(error, 'error', 2500));
+    // console.log(err);
+    // console.log(err.response);
+    // console.log(err.response.data);
+    // console.log(error);
+
+    if (error === 'Duplicate field value entered') {
+      dispatch(setAlert('Такой пользователь уже зарегистрирован', 'error')); //(error, colorOfalert)
+    } else if (error) {
+      dispatch(setAlert(error, 'error')); //(error, colorOfalert)
     }
     dispatch({
       type: REGISTER_FAIL,
@@ -69,17 +84,22 @@ export const login = (email, password) => async (dispatch) => {
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post('/api/auth/login', body, config);
-    // console.log(res.data);
+    const { data } = await axios.post('/api/auth/login', body, config);
+    console.log(data);
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data,
+      payload: data, //{ success: true, token }
     });
     dispatch(loadUser());
+    dispatch(setAlert('Вход успешый', 'success')); //(error, colorOfalert)
   } catch (err) {
     const error = err.response.data.error;
+    // console.log(err);
+    // console.log(err.response);
+    // console.log(err.response.data);
+    // console.log(error);
     if (error) {
-      dispatch(setAlert(error, 'error', 2500));
+      dispatch(setAlert(error, 'error')); //(error, colorOfalert)
     }
     dispatch({
       type: LOGIN_FAIL,
@@ -90,12 +110,13 @@ export const login = (email, password) => async (dispatch) => {
 //LOGout
 export const logout = () => async (dispatch) => {
   try {
-    await axios.get('/api/auth/logout');
+    await axios.get('/api/auth/logout'); //{success: true, data: {},}
     dispatch({ type: LOGOUT });
+    dispatch(setAlert('Выход успешый', 'success')); //(error, colorOfalert)
   } catch (err) {
     const error = err.response.data.error;
     if (error) {
-      dispatch(setAlert(error, 'error', 2500));
+      dispatch(setAlert(error, 'error')); //(error, colorOfalert)
     }
   }
 };
@@ -111,12 +132,13 @@ export const updatedetails = (name, email) => async (dispatch) => {
   const body = JSON.stringify({ name, email });
 
   try {
-    await axios.put('/api/auth/updatedetails', body, config);
+    await axios.put('/api/auth/updatedetails', body, config); //{success: true, data: user,}
     dispatch({ type: LOGOUT });
+    dispatch(setAlert('Обновление данных успешо', 'success')); //(error, colorOfalert)
   } catch (err) {
     const error = err.response.data.error;
     if (error) {
-      dispatch(setAlert(error, 'error', 2500));
+      dispatch(setAlert(error, 'error')); //(error, colorOfalert)
     }
   }
 };
@@ -133,35 +155,13 @@ export const updatepassword = (currentPassword, newPassword) => async (
   const body = JSON.stringify({ currentPassword, newPassword });
 
   try {
-    await axios.put('/api/auth/updatepassword', body, config);
+    await axios.put('/api/auth/updatepassword', body, config); //{ success: true, token }
     dispatch({ type: LOGOUT });
+    dispatch(setAlert('Пароль обнавлен успешо', 'success')); //(error, colorOfalert)
   } catch (err) {
     const error = err.response.data.error;
     if (error) {
-      dispatch(setAlert(error, 'error', 2500));
-    }
-  }
-};
-
-//changeAvatar
-export const changeAvatar = (file) => async (dispatch) => {
-  const photoFormData = new FormData();
-  photoFormData.append('myAvatar', file);
-  // console.log(file);
-  const config = {
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'multipart/form-data',
-    },
-  };
-
-  try {
-    await axios.put('/api/auth/updateavatar', photoFormData, config);
-    dispatch(loadUser());
-  } catch (err) {
-    const error = err.response.data.error;
-    if (error) {
-      dispatch(setAlert(error, 'error', 2500));
+      dispatch(setAlert(error, 'error')); //(error, colorOfalert)
     }
   }
 };

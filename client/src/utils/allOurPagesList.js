@@ -1,0 +1,97 @@
+export const allOurPagesList = [
+  {
+    pageName: 'Асфальтные работы',
+    linkToPage: '/asfalt',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Електро работы работы',
+    linkToPage: '/electro',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Цоколь и ливневки',
+    linkToPage: '/ground-floor-storm-water',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Высотные работы',
+    linkToPage: '/high-altitude-work',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Сантехнические работы',
+    linkToPage: '/plumbing-work',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Крыльцо и Козырьки',
+    linkToPage: '/porch-and-visors',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Ремонт подъездов',
+    linkToPage: '/repair-of-entrance',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Кровельные работы',
+    linkToPage: '/roofing-work',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Металлоконструкции',
+    linkToPage: '/steel-structures',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Окна Двери Пластиковые',
+    linkToPage: '/windows-door-plastic',
+    allowedRoles: ['any'],
+    group: 'ourWorks',
+  },
+  {
+    pageName: 'Админка пользователей',
+    linkToPage: '/user-admin',
+    allowedRoles: ['admin'],
+    group: 'user',
+  },
+  {
+    pageName: 'Создать пользователя',
+    linkToPage: '/user-create',
+    allowedRoles: ['admin'],
+    group: 'user',
+  },
+  {
+    pageName: 'Редактировать пользователя',
+    linkToPage: '/user-create',
+    allowedRoles: ['admin'],
+    group: 'user',
+  },
+];
+
+export const freePageTitles = [
+  'Вход',
+  'Регистрация',
+  'О нас',
+  'Асфальт',
+  'Главная',
+  'Электро',
+  'Цоколь, ливневки',
+  'Высотные',
+  'Сантехнические',
+  'Крыльцо,Козырьки',
+  'Подъезды',
+  'Кровля',
+  'Металл...',
+  'Окна и Двери',
+];
