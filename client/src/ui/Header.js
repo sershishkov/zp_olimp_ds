@@ -26,6 +26,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import WorkIcon from '@material-ui/icons/Work';
 import InfoIcon from '@material-ui/icons/Info';
 import Hidden from '@material-ui/core/Hidden';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -113,75 +114,87 @@ const Header = ({ state_nameOfPage, state_auth, logout }) => {
   const tabsOurFace = (
     <Grid container justify='flex-end' alignItems='center'>
       <Grid item>
-        <IconButton aria-label='home' component={Link} to='/'>
-          <HomeIcon />
-        </IconButton>
+        <Tooltip title='Домой'>
+          <IconButton aria-label='home' component={Link} to='/'>
+            <HomeIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
       <Grid item>
         <IconButton
           aria-label='works'
           component={Link}
           to='/asfalt'
-          aria-owns={anchorEl ? 'menu-our-works-option' : undefined}
-          aria-haspopup={anchorEl ? true : undefined}
+          aria-owns='menu-our-works-option'
+          aria-haspopup={true}
           onMouseOver={(event) => handleClick(event)}
         >
           <WorkIcon />
         </IconButton>
       </Grid>
       <Grid item>
-        <IconButton aria-label='works' component={Link} to='/about'>
-          <InfoIcon />
-        </IconButton>
+        <Tooltip title='О нас'>
+          <IconButton aria-label='works' component={Link} to='/about'>
+            <InfoIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
       <Grid item>
-        <IconButton
-          aria-label='login'
-          component={Link}
-          to='/login'
-          style={{
-            display: state_auth.isAuthenticated ? 'none' : undefined,
-          }}
-        >
-          <ExitToAppIcon />
-        </IconButton>
+        <Tooltip title='Вход'>
+          <IconButton
+            aria-label='login'
+            component={Link}
+            to='/login'
+            style={{
+              display: state_auth.isAuthenticated ? 'none' : undefined,
+            }}
+          >
+            <ExitToAppIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
       <Grid item>
-        <IconButton
-          aria-label='register'
-          component={Link}
-          to='/register'
-          style={{
-            display: state_auth.isAuthenticated ? 'none' : undefined,
-          }}
-        >
-          <PersonAddIcon />
-        </IconButton>
+        <Tooltip title='Регистрация'>
+          <IconButton
+            aria-label='register'
+            component={Link}
+            to='/register'
+            style={{
+              display: state_auth.isAuthenticated ? 'none' : undefined,
+            }}
+          >
+            <PersonAddIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
 
       <Grid item>
-        <Button
-          component={Link}
-          to='/user-detail'
-          style={{
-            display: state_auth.isAuthenticated ? undefined : 'none',
-          }}
-        >
-          {state_auth.isAuthenticated && state_auth.user
-            ? state_auth.user.name
-            : 'моя страница'}
-        </Button>
+        <Tooltip title='Моя страница'>
+          <Button
+            component={Link}
+            to='/user-detail'
+            style={{
+              display: state_auth.isAuthenticated ? undefined : 'none',
+            }}
+          >
+            {state_auth.isAuthenticated && state_auth.user
+              ? state_auth.user.name
+              : 'моя страница'}
+          </Button>
+        </Tooltip>
       </Grid>
       <Grid item>
-        <IconButton
-          aria-label='logout'
-          onClick={logoutHandler}
-          style={{
-            display: state_auth.isAuthenticated ? undefined : 'none',
-          }}
-        >
-          <DirectionsRunIcon />
-        </IconButton>
+        <Tooltip title='Выход'>
+          <IconButton
+            aria-label='logout'
+            onClick={logoutHandler}
+            style={{
+              display: state_auth.isAuthenticated ? undefined : 'none',
+            }}
+          >
+            <DirectionsRunIcon color='error' />
+          </IconButton>
+        </Tooltip>
       </Grid>
 
       <Menu
@@ -379,13 +392,15 @@ const Header = ({ state_nameOfPage, state_auth, logout }) => {
               ))}
         </List>
       </SwipeableDrawer>
-      <IconButton
-        className={classes.drawerIconContainer}
-        onClick={() => setOpenDrawer(!openDrawer)}
-        disableRipple
-      >
-        <MenuIcon className={classes.drawerIcon} />
-      </IconButton>
+      <Tooltip title='Меню'>
+        <IconButton
+          className={classes.drawerIconContainer}
+          onClick={() => setOpenDrawer(!openDrawer)}
+          disableRipple
+        >
+          <MenuIcon className={classes.drawerIcon} />
+        </IconButton>
+      </Tooltip>
     </React.Fragment>
   );
 
@@ -398,18 +413,20 @@ const Header = ({ state_nameOfPage, state_auth, logout }) => {
               <Grid item>
                 <Grid container justify='flex-start'>
                   <Grid item>
-                    <Button
-                      className={classes.logoContainer}
-                      component={Link}
-                      to='/'
-                      disableRipple
-                    >
-                      <img
-                        src={logo}
-                        alt='company logo'
-                        className={classes.logoImage}
-                      />
-                    </Button>
+                    <Tooltip title='Домой'>
+                      <Button
+                        className={classes.logoContainer}
+                        component={Link}
+                        to='/'
+                        disableRipple
+                      >
+                        <img
+                          src={logo}
+                          alt='company logo'
+                          className={classes.logoImage}
+                        />
+                      </Button>
+                    </Tooltip>
                   </Grid>
                   <Grid item className={classes.wrapPageNameTitle}>
                     <Grid
@@ -426,9 +443,9 @@ const Header = ({ state_nameOfPage, state_auth, logout }) => {
                           )}
                         </Typography>
                       </Grid>
-                      <Hidden lgUp>
-                        <Grid item>{drawer}</Grid>
-                      </Hidden>
+                      {/* <Hidden lgUp> */}
+                      <Grid item>{drawer}</Grid>
+                      {/* </Hidden> */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -437,8 +454,6 @@ const Header = ({ state_nameOfPage, state_auth, logout }) => {
                 <Hidden mdDown>{tabsOurFace}</Hidden>
               </Grid>
             </Grid>
-
-            {/* {matches ? drawer : tabs} */}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
