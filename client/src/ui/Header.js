@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../store/actions/user/auth/auth';
+import { getAll__MENU_LINK } from '../store/actions/menuLink/menuLink';
+import { getAll__GROUP_OF_MENU_LINK } from '../store/actions/menuLink/group_of__menuLink';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -13,8 +15,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
 import List from '@material-ui/core/List';
@@ -22,19 +23,25 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import InboxIcon from '@material-ui/icons/Inbox';
-import HomeIcon from '@material-ui/icons/Home';
+
 import WorkIcon from '@material-ui/icons/Work';
 import InfoIcon from '@material-ui/icons/Info';
-import Hidden from '@material-ui/core/Hidden';
+// import Hidden from '@material-ui/core/Hidden';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 
+import ExpandMore from '@material-ui/icons/ExpandMore';
+
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+
 import logo from '../images/LogotipDS.PNG';
 import { Grid } from '@material-ui/core';
-import { allOurPagesList } from '../utils/allOurPagesList';
+import { landingLinksList } from '../utils/allOurPagesList';
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -80,153 +87,42 @@ const useStyles = makeStyles((theme) => ({
   nameOfPageTitle: {
     margin: 'auto',
   },
+  drawerItem: {},
+  drawerItem_level2: {
+    // marginLeft: '1rem',
+  },
 }));
 
-const Header = ({ state_nameOfPage, state_auth, logout }) => {
+const Header = ({
+  state_nameOfPage,
+  state_auth,
+  state_menuLink,
+  state_group_of__menuLink,
+  logout,
+  getAll__MENU_LINK,
+  getAll__GROUP_OF_MENU_LINK,
+}) => {
   const classes = useStyles();
   const history = useHistory();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const [openDrawer, setOpenDrawer] = useState(false);
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [openMenu, setOpenMenu] = useState(false);
-
-  const handleMenuItemClick = () => {
-    setAnchorEl(null);
-    setOpenMenu(false);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setOpenMenu(false);
-  };
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpenMenu(true);
-  };
 
   const logoutHandler = () => {
     logout();
     history.push('/');
   };
 
-  const tabsOurFace = (
-    <Grid container justify='flex-end' alignItems='center'>
-      <Grid item>
-        <Tooltip title='Домой'>
-          <IconButton aria-label='home' component={Link} to='/'>
-            <HomeIcon />
-          </IconButton>
-        </Tooltip>
-      </Grid>
-      <Grid item>
-        <IconButton
-          aria-label='works'
-          component={Link}
-          to='/asfalt'
-          aria-owns='menu-our-works-option'
-          aria-haspopup={true}
-          onMouseOver={(event) => handleClick(event)}
-        >
-          <WorkIcon />
-        </IconButton>
-      </Grid>
-      <Grid item>
-        <Tooltip title='О нас'>
-          <IconButton aria-label='works' component={Link} to='/about'>
-            <InfoIcon />
-          </IconButton>
-        </Tooltip>
-      </Grid>
-      <Grid item>
-        <Tooltip title='Вход'>
-          <IconButton
-            aria-label='login'
-            component={Link}
-            to='/login'
-            style={{
-              display: state_auth.isAuthenticated ? 'none' : undefined,
-            }}
-          >
-            <ExitToAppIcon />
-          </IconButton>
-        </Tooltip>
-      </Grid>
-      <Grid item>
-        <Tooltip title='Регистрация'>
-          <IconButton
-            aria-label='register'
-            component={Link}
-            to='/register'
-            style={{
-              display: state_auth.isAuthenticated ? 'none' : undefined,
-            }}
-          >
-            <PersonAddIcon />
-          </IconButton>
-        </Tooltip>
-      </Grid>
+  useEffect(() => {
+    if (state_auth.isAuthenticated) {
+      getAll__MENU_LINK();
+      getAll__GROUP_OF_MENU_LINK();
+    }
+  }, [
+    state_auth.isAuthenticated,
+    getAll__MENU_LINK,
+    getAll__GROUP_OF_MENU_LINK,
+  ]);
 
-      <Grid item>
-        <Tooltip title='Моя страница'>
-          <Button
-            component={Link}
-            to='/user-detail'
-            style={{
-              display: state_auth.isAuthenticated ? undefined : 'none',
-            }}
-          >
-            {state_auth.isAuthenticated && state_auth.user
-              ? state_auth.user.name
-              : 'моя страница'}
-          </Button>
-        </Tooltip>
-      </Grid>
-      <Grid item>
-        <Tooltip title='Выход'>
-          <IconButton
-            aria-label='logout'
-            onClick={logoutHandler}
-            style={{
-              display: state_auth.isAuthenticated ? undefined : 'none',
-            }}
-          >
-            <DirectionsRunIcon color='error' />
-          </IconButton>
-        </Tooltip>
-      </Grid>
-
-      <Menu
-        id='menu-our-works-option'
-        anchorEl={anchorEl}
-        open={openMenu}
-        onClose={handleClose}
-        MenuListProps={{ onMouseLeave: handleClose }}
-        classes={{ paper: classes.menu }}
-        elevation={0}
-        style={{ zIndex: 1302 }}
-        keepMounted
-      >
-        {allOurPagesList
-          .filter((page) => page.group === 'ourWorks')
-          .map((option) => (
-            <MenuItem
-              key={option.pageName}
-              onClick={() => {
-                handleClose();
-                handleMenuItemClick();
-              }}
-              component={Link}
-              to={option.linkToPage}
-              classes={{ root: classes.menuItem }}
-            >
-              {option.pageName}
-            </MenuItem>
-          ))}
-      </Menu>
-    </Grid>
-  );
   const drawer = (
     <React.Fragment>
       <SwipeableDrawer
@@ -333,64 +229,102 @@ const Header = ({ state_nameOfPage, state_auth, logout }) => {
             }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <InfoIcon />
             </ListItemIcon>
             <ListItemText disableTypography className={classes.drawerItem}>
               О нас
             </ListItemText>
           </ListItem>
-
-          {allOurPagesList
-            .filter((page) => page.group === 'ourWorks')
-            .map((page) => (
-              <ListItem
-                key={page.pageName}
-                component={Link}
-                to={page.linkToPage}
-                divider
-                button
-                onClick={() => {
-                  setOpenDrawer(false);
-                }}
-              >
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText disableTypography className={classes.drawerItem}>
-                  {page.pageName}
-                </ListItemText>
-              </ListItem>
-            ))}
-
-          {state_auth.isAuthenticated &&
-            state_auth.user &&
-            allOurPagesList
-              .filter((page) =>
-                page.allowedRoles.includes(state_auth.user.role)
-              )
-              .map((page) => (
-                <ListItem
-                  key={page.pageName}
-                  component={Link}
-                  to={page.linkToPage}
-                  divider
-                  button
-                  onClick={() => {
-                    setOpenDrawer(false);
-                  }}
-                >
-                  <ListItemIcon>
-                    <InboxIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    disableTypography
-                    className={classes.drawerItem}
-                  >
-                    {page.pageName}
-                  </ListItemText>
-                </ListItem>
-              ))}
         </List>
+
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls={`panel-free-content`}
+            id={`panel-free-header`}
+            className={classes.accordionSummary}
+          >
+            <Typography className={classes.accordionSummaryHeading}>
+              Наши работы
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails className={classes.accordionSummaryDetails}>
+            <List disablePadding className={classes.listAccoprdion}>
+              {landingLinksList &&
+                landingLinksList.map((option) => (
+                  <ListItem
+                    key={option.name__MenuLink}
+                    component={Link}
+                    to={option.linkToPage}
+                    divider
+                    button
+                    onClick={() => {
+                      setOpenDrawer(false);
+                    }}
+                  >
+                    <ListItemIcon style={{ marginLeft: '1rem' }}>
+                      <WorkIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      disableTypography
+                      className={classes.drawerItem_level2}
+                    >
+                      {option.name__MenuLink}
+                    </ListItemText>
+                  </ListItem>
+                ))}
+            </List>
+          </AccordionDetails>
+        </Accordion>
+
+        {state_auth.isAuthenticated &&
+          // state_auth.user &&
+          state_group_of__menuLink.array__GROUP_OF_MENU_LINK &&
+          state_group_of__menuLink.array__GROUP_OF_MENU_LINK.map((group) => (
+            <Accordion key={group._id} className={classes.accordion}>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls={`panel${group._id}-content`}
+                id={`panel${group._id}-header`}
+                className={classes.accordionSummary}
+              >
+                <Typography className={classes.accordionSummaryHeading}>
+                  {group.name__Group_MenuLink}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.accordionSummaryDetails}>
+                <List disablePadding className={classes.listAccoprdion}>
+                  {state_menuLink.array__MENU_LINK &&
+                    state_menuLink.array__MENU_LINK
+                      .filter(
+                        (menuLink) => menuLink.group_Of_Page === group._id
+                      )
+                      .map((option) => (
+                        <ListItem
+                          key={option.name__MenuLink}
+                          component={Link}
+                          to={option.linkToPage}
+                          divider
+                          button
+                          onClick={() => {
+                            setOpenDrawer(false);
+                          }}
+                        >
+                          <ListItemIcon style={{ marginLeft: '1rem' }}>
+                            <InboxIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            disableTypography
+                            className={classes.drawerItem_level2}
+                          >
+                            {option.name__MenuLink}
+                          </ListItemText>
+                        </ListItem>
+                      ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          ))}
       </SwipeableDrawer>
       <Tooltip title='Меню'>
         <IconButton
@@ -411,47 +345,32 @@ const Header = ({ state_nameOfPage, state_auth, logout }) => {
           <Toolbar disableGutters>
             <Grid container justify='space-between' alignItems='center'>
               <Grid item>
-                <Grid container justify='flex-start'>
-                  <Grid item>
-                    <Tooltip title='Домой'>
-                      <Button
-                        className={classes.logoContainer}
-                        component={Link}
-                        to='/'
-                        disableRipple
-                      >
-                        <img
-                          src={logo}
-                          alt='company logo'
-                          className={classes.logoImage}
-                        />
-                      </Button>
-                    </Tooltip>
-                  </Grid>
-                  <Grid item className={classes.wrapPageNameTitle}>
-                    <Grid
-                      container
-                      justify='flex-start'
-                      className={classes.wrapPageName1}
-                    >
-                      <Grid item className={classes.nameOfPageTitle}>
-                        <Typography variant='h6' align='center'>
-                          {state_nameOfPage.loading ? (
-                            <CircularProgress />
-                          ) : (
-                            state_nameOfPage.pageName
-                          )}
-                        </Typography>
-                      </Grid>
-                      {/* <Hidden lgUp> */}
-                      <Grid item>{drawer}</Grid>
-                      {/* </Hidden> */}
-                    </Grid>
-                  </Grid>
-                </Grid>
+                <Tooltip title='Домой'>
+                  <Button
+                    className={classes.logoContainer}
+                    component={Link}
+                    to='/'
+                    disableRipple
+                  >
+                    <img
+                      src={logo}
+                      alt='company logo'
+                      className={classes.logoImage}
+                    />
+                  </Button>
+                </Tooltip>
               </Grid>
               <Grid item>
-                <Hidden mdDown>{tabsOurFace}</Hidden>
+                <Typography variant='h6' align='center'>
+                  {state_nameOfPage.loading ? (
+                    <CircularProgress />
+                  ) : (
+                    state_nameOfPage.pageName
+                  )}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Grid item>{drawer}</Grid>
               </Grid>
             </Grid>
           </Toolbar>
@@ -463,13 +382,24 @@ const Header = ({ state_nameOfPage, state_auth, logout }) => {
 
 Header.propTypes = {
   state_auth: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired,
   state_nameOfPage: PropTypes.object.isRequired,
+  state_menuLink: PropTypes.object.isRequired,
+  state_group_of__menuLink: PropTypes.object.isRequired,
+
+  logout: PropTypes.func.isRequired,
+  getAll__MENU_LINK: PropTypes.func.isRequired,
+  getAll__GROUP_OF_MENU_LINK: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   state_nameOfPage: state.nameOfPage,
   state_auth: state.auth,
+  state_menuLink: state.menuLink,
+  state_group_of__menuLink: state.group_of__menuLink,
 });
 
-export default connect(mapStateToProps, { logout })(Header);
+export default connect(mapStateToProps, {
+  logout,
+  getAll__MENU_LINK,
+  getAll__GROUP_OF_MENU_LINK,
+})(Header);

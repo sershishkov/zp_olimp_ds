@@ -6,7 +6,6 @@ import theme from './ui/Theme';
 import { loadUser } from './store/actions/user/auth/auth';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './utils/PrivateRoute';
-import { freePageTitles } from './utils/allOurPagesList';
 
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from '@material-ui/styles';
@@ -37,6 +36,11 @@ const UserCreate = lazy(() => import('./pages/users/admin/UserCreate'));
 const UserEditAdmin = lazy(() => import('./pages/users/admin/UserEditAdmin'));
 const UserEditDetail = lazy(() => import('./pages/users/auth/UserEditDetail'));
 
+const MenuLink = lazy(() => import('./pages/menuLinks/MenuLink'));
+const GroupOf_MenuLinks = lazy(() =>
+  import('./pages/menuLinks/GroupOf_MenuLinks')
+);
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 70,
@@ -54,8 +58,7 @@ function App() {
   const classes = useStyles();
 
   useEffect(() => {
-    let activePage = store.getState().nameOfPage.pageName;
-    if (!freePageTitles.includes(activePage)) {
+    if (localStorage.token) {
       store.dispatch(loadUser());
     }
   }, []);
@@ -124,6 +127,12 @@ function App() {
                   exact
                   path='/user-detail'
                   component={UserEditDetail}
+                />
+                <PrivateRoute exact path='/menu-links' component={MenuLink} />
+                <PrivateRoute
+                  exact
+                  path='/group-menu-links'
+                  component={GroupOf_MenuLinks}
                 />
               </Switch>
             </Suspense>

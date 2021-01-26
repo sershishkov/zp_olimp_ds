@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
+import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ourLogo from '../images/LogotipDS.PNG';
@@ -45,7 +46,12 @@ const Footer = () => {
       </Grid>
       <Hidden smDown>
         <Grid item className={classes.logo}>
-          <Button color='inherit' href='/' className={classes.logoButton}>
+          <Button
+            color='inherit'
+            component={Link}
+            href='/'
+            className={classes.logoButton}
+          >
             <img src={ourLogo} className={classes.logoImage} alt='Logo' />
           </Button>
         </Grid>

@@ -66,7 +66,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
 //@route  GET /api/auth/me
 //@access Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user);
+  const user = await User.findById(req.user.id);
 
   res.status(200).json({
     success: true,
@@ -83,7 +83,7 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
     email: req.body.email.toLowerCase(),
   };
 
-  const user = await User.findByIdAndUpdate(req.user, fieldsToUpdate, {
+  const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
     new: true,
     runValidators: true,
   });
@@ -98,7 +98,7 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 //@route  PUT /api/auth/updatepassword
 //@access Private
 exports.updatePassword = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user).select('+password');
+  const user = await User.findById(req.user.id).select('+password');
 
   //Check current password
   if (!(await user.matchPassword(req.body.currentPassword))) {
