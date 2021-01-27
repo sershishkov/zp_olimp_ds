@@ -11,7 +11,6 @@ import {
 
 export const add__GROUP_OF_MENU_LINK = (
   name__Group_MenuLink,
-
   allowedRoles
 ) => async (dispatch) => {
   const config = {

@@ -19,13 +19,14 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: [
-      'any',
       'user',
+      'worker',
       'client',
       'partner',
       'seller',
       'engineer',
       'accountant',
+      'manager',
       'boss',
       'admin',
     ],

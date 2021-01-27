@@ -60,7 +60,7 @@ exports.update__Group_of__MenuLink = asyncHandler(async (req, res, next) => {
 //@access Private
 exports.getAll__Group_of__MenuLinks = asyncHandler(async (req, res, next) => {
   const all__Group_of__MenuLinks = await Model__Group_of__MenuLink.find({
-    allowedRoles: [req.user.role],
+    allowedRoles: req.user.role,
   }).sort({
     name__Group_of__MenuLink: 1,
   });

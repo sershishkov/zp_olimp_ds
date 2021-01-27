@@ -40,6 +40,12 @@ const MenuLink = lazy(() => import('./pages/menuLinks/MenuLink'));
 const GroupOf_MenuLinks = lazy(() =>
   import('./pages/menuLinks/GroupOf_MenuLinks')
 );
+const GroupOf_MenuLinksAdd = lazy(() =>
+  import('./pages/menuLinks/GroupOf_MenuLinksAdd')
+);
+const GroupOf_MenuLinksEdit = lazy(() =>
+  import('./pages/menuLinks/GroupOf_MenuLinksEdit')
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -133,6 +139,16 @@ function App() {
                   exact
                   path='/group-menu-links'
                   component={GroupOf_MenuLinks}
+                />
+                <PrivateRoute
+                  exact
+                  path='/group-menu-links/add'
+                  component={GroupOf_MenuLinksAdd}
+                />
+                <PrivateRoute
+                  exact
+                  path='/group-menu-links/:id'
+                  component={GroupOf_MenuLinksEdit}
                 />
               </Switch>
             </Suspense>

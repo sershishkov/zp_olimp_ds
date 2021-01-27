@@ -107,6 +107,7 @@ const Login = ({ setNameOfPage, login, isAuthenticated }) => {
           Вход
         </Typography>
       </Grid>
+
       <Grid item className={classes.item}>
         <form className={classes.form} noValidate onSubmit={(e) => onSubmit(e)}>
           <Grid container direction='column' className={classes.wrapTextFields}>

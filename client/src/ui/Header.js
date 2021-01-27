@@ -26,7 +26,7 @@ import InboxIcon from '@material-ui/icons/Inbox';
 
 import WorkIcon from '@material-ui/icons/Work';
 import InfoIcon from '@material-ui/icons/Info';
-// import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@material-ui/core/Hidden';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -360,15 +360,19 @@ const Header = ({
                   </Button>
                 </Tooltip>
               </Grid>
-              <Grid item>
-                <Typography variant='h6' align='center'>
-                  {state_nameOfPage.loading ? (
-                    <CircularProgress />
-                  ) : (
-                    state_nameOfPage.pageName
-                  )}
-                </Typography>
-              </Grid>
+
+              <Hidden mdDown>
+                <Grid item>
+                  <Typography variant='h6' align='center'>
+                    {state_nameOfPage.loading ? (
+                      <CircularProgress />
+                    ) : (
+                      state_nameOfPage.pageName
+                    )}
+                  </Typography>
+                </Grid>
+              </Hidden>
+
               <Grid item>
                 <Grid item>{drawer}</Grid>
               </Grid>
