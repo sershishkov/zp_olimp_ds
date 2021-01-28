@@ -114,7 +114,7 @@ export const delete__GROUP_OF_MENU_LINK = (id__GROUP_OF_MENU_LINK) => async (
   dispatch
 ) => {
   try {
-    await axios.delete(`/api/menu-link/${id__GROUP_OF_MENU_LINK}`);
+    await axios.delete(`/api/group-of-menu-link/${id__GROUP_OF_MENU_LINK}`);
     dispatch({
       type: DELETE__GROUP_OF_MENU_LINK,
       payload: id__GROUP_OF_MENU_LINK,

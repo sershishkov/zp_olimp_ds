@@ -72,7 +72,7 @@ const GroupOf_MenuLinksAdd = ({ setNameOfPage, add__GROUP_OF_MENU_LINK }) => {
 
   const onChange = (e) => {
     let valid;
-    console.log(e.target.name, e.target.value);
+    // console.log(e.target.name, e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
     switch (e.target.id) {
@@ -92,13 +92,13 @@ const GroupOf_MenuLinksAdd = ({ setNameOfPage, add__GROUP_OF_MENU_LINK }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    let newAllowedRoles = allowedRoles;
+    let newAllowedRoles = [...allowedRoles];
 
     if (!allowedRoles.includes('admin')) {
       newAllowedRoles = [...allowedRoles, 'admin'];
     }
 
-    console.log(allowedRoles);
+    // console.log(allowedRoles);
     add__GROUP_OF_MENU_LINK(name__Group_MenuLink, newAllowedRoles);
     history.goBack();
   };
@@ -117,7 +117,6 @@ const GroupOf_MenuLinksAdd = ({ setNameOfPage, add__GROUP_OF_MENU_LINK }) => {
         </Typography>
       </Grid>
       <Grid item className={classes.item}>
-        {/* <FormControl className={classes.formControl}> */}
         <form className={classes.form} noValidate onSubmit={(e) => onSubmit(e)}>
           <Grid container direction='column' className={classes.wrapTextFields}>
             <Grid item className={classes.itemSub}>
@@ -152,12 +151,7 @@ const GroupOf_MenuLinksAdd = ({ setNameOfPage, add__GROUP_OF_MENU_LINK }) => {
                 className={classes.select}
               >
                 {roles.map((role) => (
-                  <MenuItem
-                    key={role}
-                    value={role}
-                    // selected={role === 'admin'}
-                    // disabled={role === 'admin'}
-                  >
+                  <MenuItem key={role} value={role}>
                     <Checkbox checked={allowedRoles.indexOf(role) > -1} />
                     {role}
                   </MenuItem>
@@ -203,7 +197,6 @@ const GroupOf_MenuLinksAdd = ({ setNameOfPage, add__GROUP_OF_MENU_LINK }) => {
             </Grid>
           </Grid>
         </form>
-        {/* </FormControl> */}
       </Grid>
     </Grid>
   );
