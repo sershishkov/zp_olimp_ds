@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { setNameOfPage } from '../../store/actions/nameOfPage';
-import {
-  getOne__GROUP_OF_MENU_LINK,
-  update__GROUP_OF_MENU_LINK,
-} from '../../store/actions/menuLink/group_of__menuLink';
+import { add__MENU_LINK } from '../../store/actions/menuLink/menuLink';
+import { getAll__GROUP_OF_MENU_LINK } from '../../store/actions/menuLink/group_of__menuLink';
 import { roles } from '../../utils/allOurPagesList';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -42,55 +40,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GroupOf_MenuLinksEdit = ({
+const MenuLinkAdd = ({
   setNameOfPage,
-  getOne__GROUP_OF_MENU_LINK,
-  update__GROUP_OF_MENU_LINK,
+  add__MENU_LINK,
+  getAll__GROUP_OF_MENU_LINK,
+
   state_group_of__menuLink,
 }) => {
   const classes = useStyles();
   const history = useHistory();
-  const { id } = useParams();
 
   const [formData, setFormData] = useState({
-    name__Group_MenuLink: '',
+    name__MenuLink: '',
+    linkToPage: '',
     allowedRoles: [],
+    group_Of_Page: '',
   });
 
-  const [name__Group_MenuLinkHelper, setName__Group_MenuLinkHelper] = useState(
-    ''
-  );
+  const [name__MenuLinkHelper, setName__MenuLinkHelper] = useState('');
+  const [linkToPageHelper, setLinkToPageHelper] = useState('');
 
-  const { name__Group_MenuLink, allowedRoles } = formData;
+  const { name__MenuLink, linkToPage, allowedRoles, group_Of_Page } = formData;
 
   useEffect(() => {
-    setNameOfPage('Редактировать группу');
-    getOne__GROUP_OF_MENU_LINK(id);
-    // if (state_group_of__menuLink.one__GROUP_OF_MENU_LINK) {
-    //   setFormData({
-    //     name__Group_MenuLink:
-    //       state_group_of__menuLink.one__GROUP_OF_MENU_LINK.name__Group_MenuLink,
-    //     allowedRoles:
-    //       state_group_of__menuLink.one__GROUP_OF_MENU_LINK.allowedRoles,
-    //   });
-    // }
-  }, [
-    setNameOfPage,
-    getOne__GROUP_OF_MENU_LINK,
-    id,
-    // state_group_of__menuLink.one__GROUP_OF_MENU_LINK,
-  ]);
-
-  useLayoutEffect(() => {
-    if (state_group_of__menuLink.one__GROUP_OF_MENU_LINK) {
-      setFormData({
-        name__Group_MenuLink:
-          state_group_of__menuLink.one__GROUP_OF_MENU_LINK.name__Group_MenuLink,
-        allowedRoles:
-          state_group_of__menuLink.one__GROUP_OF_MENU_LINK.allowedRoles,
-      });
-    }
-  }, [state_group_of__menuLink.one__GROUP_OF_MENU_LINK]);
+    setNameOfPage('Добавить страницу');
+    getAll__GROUP_OF_MENU_LINK();
+  }, [setNameOfPage, getAll__GROUP_OF_MENU_LINK]);
 
   const onChange = (e) => {
     let valid;
@@ -98,12 +73,21 @@ const GroupOf_MenuLinksEdit = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
     switch (e.target.id) {
-      case 'name__Group_MenuLink':
+      case 'name__MenuLink':
         valid = e.target.value.length >= 3;
         if (!valid) {
-          setName__Group_MenuLinkHelper('Минимальная длина 3 знака');
+          setName__MenuLinkHelper('Минимальная длина 3 знака');
         } else {
-          setName__Group_MenuLinkHelper('');
+          setName__MenuLinkHelper('');
+        }
+        break;
+
+      case 'linkToPage':
+        valid = e.target.value.length >= 3;
+        if (!valid) {
+          setLinkToPageHelper('Минимальная длина 3 знака');
+        } else {
+          setLinkToPageHelper('');
         }
         break;
 
@@ -120,8 +104,8 @@ const GroupOf_MenuLinksEdit = ({
       newAllowedRoles = [...allowedRoles, 'admin'];
     }
 
-    console.log(id);
-    update__GROUP_OF_MENU_LINK(id, name__Group_MenuLink, newAllowedRoles);
+    // console.log(allowedRoles);
+    add__MENU_LINK(name__MenuLink, linkToPage, newAllowedRoles, group_Of_Page);
     history.goBack();
   };
 
@@ -135,7 +119,7 @@ const GroupOf_MenuLinksEdit = ({
     >
       <Grid item className={classes.item}>
         <Typography variant='h3' align='center'>
-          Редактировать группу
+          Добавить страницу
         </Typography>
       </Grid>
       <Grid item className={classes.item}>
@@ -143,20 +127,38 @@ const GroupOf_MenuLinksEdit = ({
           <Grid container direction='column' className={classes.wrapTextFields}>
             <Grid item className={classes.itemSub}>
               <TextField
-                error={name__Group_MenuLinkHelper.length !== 0}
-                helperText={name__Group_MenuLinkHelper}
+                error={name__MenuLinkHelper.length !== 0}
+                helperText={name__MenuLinkHelper}
                 variant='outlined'
                 type='text'
                 required
                 fullWidth
-                id='name__Group_MenuLink'
-                label='группа страниц'
-                name='name__Group_MenuLink'
+                id='name__MenuLink'
+                label='Cтраница'
+                name='name__MenuLink'
                 autoComplete='text'
-                value={name__Group_MenuLink ? name__Group_MenuLink : ''}
+                value={name__MenuLink}
                 onChange={(e) => onChange(e)}
               />
             </Grid>
+
+            <Grid item className={classes.itemSub}>
+              <TextField
+                error={linkToPageHelper.length !== 0}
+                helperText={linkToPageHelper}
+                variant='outlined'
+                type='text'
+                required
+                fullWidth
+                id='linkToPage'
+                label='Ссылка'
+                name='linkToPage'
+                autoComplete='text'
+                value={linkToPage}
+                onChange={(e) => onChange(e)}
+              />
+            </Grid>
+
             <Grid item className={classes.itemSub}>
               <InputLabel id='allowed-roles-label'>Роли</InputLabel>
               <Select
@@ -166,7 +168,7 @@ const GroupOf_MenuLinksEdit = ({
                 multiple
                 required
                 fullWidth
-                value={allowedRoles ? allowedRoles : []}
+                value={allowedRoles}
                 onChange={onChange}
                 input={<Input />}
                 renderValue={(selected) => selected.join(', ')}
@@ -174,9 +176,7 @@ const GroupOf_MenuLinksEdit = ({
               >
                 {roles.map((role) => (
                   <MenuItem key={role} value={role}>
-                    <Checkbox
-                      checked={allowedRoles && allowedRoles.indexOf(role) > -1}
-                    />
+                    <Checkbox checked={allowedRoles.indexOf(role) > -1} />
                     {role}
                   </MenuItem>
                 ))}
@@ -184,11 +184,43 @@ const GroupOf_MenuLinksEdit = ({
             </Grid>
 
             <Grid item className={classes.itemSub}>
+              <InputLabel id='group-menu-label'>Группы</InputLabel>
+              <Select
+                labelId='group-menu-label'
+                id='group_Of_Page'
+                name='group_Of_Page'
+                // multiple
+                required
+                fullWidth
+                value={group_Of_Page}
+                onChange={onChange}
+                input={<Input />}
+                // renderValue={(selected) => selected.join(', ')}
+                className={classes.select}
+              >
+                {state_group_of__menuLink.array__GROUP_OF_MENU_LINK &&
+                  state_group_of__menuLink.array__GROUP_OF_MENU_LINK.map(
+                    (item) => (
+                      <MenuItem key={item._id} value={item._id}>
+                        <Checkbox
+                          checked={group_Of_Page.indexOf(item._id) > -1}
+                        />
+                        {item.name__Group_MenuLink}
+                      </MenuItem>
+                    )
+                  )}
+              </Select>
+            </Grid>
+
+            <Grid item className={classes.itemSub}>
               <Button
                 disabled={
-                  (name__Group_MenuLink && name__Group_MenuLink.length === 0) ||
-                  (allowedRoles && allowedRoles.length === 0) ||
-                  name__Group_MenuLinkHelper.length !== 0
+                  name__MenuLink.length === 0 ||
+                  linkToPage.length === 0 ||
+                  allowedRoles.length === 0 ||
+                  group_Of_Page.length === 0 ||
+                  name__MenuLinkHelper.length !== 0 ||
+                  linkToPageHelper.length !== 0
                 }
                 type='submit'
                 fullWidth
@@ -196,7 +228,7 @@ const GroupOf_MenuLinksEdit = ({
                 color='primary'
                 className={classes.submit}
               >
-                Редактировать группу
+                Добавить страницу
               </Button>
             </Grid>
             <Grid
@@ -207,11 +239,11 @@ const GroupOf_MenuLinksEdit = ({
               alignItems='center'
             >
               <Grid item>
-                <Typography variant='body1'>Нечего редактировать?</Typography>
+                <Typography variant='body1'>Нечего добавить?</Typography>
               </Grid>
               <Grid item>
                 <Link
-                  href='/group-menu-links'
+                  href='/menu-links'
                   variant='body2'
                   style={{ fontSize: '1.5rem' }}
                 >
@@ -225,20 +257,19 @@ const GroupOf_MenuLinksEdit = ({
     </Grid>
   );
 };
-GroupOf_MenuLinksEdit.propTypes = {
+MenuLinkAdd.propTypes = {
   setNameOfPage: PropTypes.func.isRequired,
-  getOne__GROUP_OF_MENU_LINK: PropTypes.func.isRequired,
-  update__GROUP_OF_MENU_LINK: PropTypes.func.isRequired,
-
-  state_group_of__menuLink: PropTypes.object.isRequired,
+  add__MENU_LINK: PropTypes.func.isRequired,
+  getAll__GROUP_OF_MENU_LINK: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  // state_auth: state.auth,
   state_group_of__menuLink: state.group_of__menuLink,
 });
 
 export default connect(mapStateToProps, {
   setNameOfPage,
-  getOne__GROUP_OF_MENU_LINK,
-  update__GROUP_OF_MENU_LINK,
-})(GroupOf_MenuLinksEdit);
+  add__MENU_LINK,
+  getAll__GROUP_OF_MENU_LINK,
+})(MenuLinkAdd);

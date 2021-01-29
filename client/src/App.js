@@ -36,7 +36,6 @@ const UserCreate = lazy(() => import('./pages/users/admin/UserCreate'));
 const UserEditAdmin = lazy(() => import('./pages/users/admin/UserEditAdmin'));
 const UserEditDetail = lazy(() => import('./pages/users/auth/UserEditDetail'));
 
-const MenuLink = lazy(() => import('./pages/menuLinks/MenuLink'));
 const GroupOf_MenuLinks = lazy(() =>
   import('./pages/menuLinks/GroupOf_MenuLinks')
 );
@@ -46,6 +45,10 @@ const GroupOf_MenuLinksAdd = lazy(() =>
 const GroupOf_MenuLinksEdit = lazy(() =>
   import('./pages/menuLinks/GroupOf_MenuLinksEdit')
 );
+
+const MenuLink = lazy(() => import('./pages/menuLinks/MenuLink'));
+const MenuLinkAdd = lazy(() => import('./pages/menuLinks/MenuLinkAdd'));
+const MenuLinkEdit = lazy(() => import('./pages/menuLinks/MenuLinkEdit'));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -134,7 +137,7 @@ function App() {
                   path='/user-detail'
                   component={UserEditDetail}
                 />
-                <PrivateRoute exact path='/menu-links' component={MenuLink} />
+
                 <PrivateRoute
                   exact
                   path='/group-menu-links'
@@ -149,6 +152,17 @@ function App() {
                   exact
                   path='/group-menu-links/:id'
                   component={GroupOf_MenuLinksEdit}
+                />
+                <PrivateRoute exact path='/menu-links' component={MenuLink} />
+                <PrivateRoute
+                  exact
+                  path='/menu-links/add'
+                  component={MenuLinkAdd}
+                />
+                <PrivateRoute
+                  exact
+                  path='/menu-links/:id'
+                  component={MenuLinkEdit}
                 />
               </Switch>
             </Suspense>

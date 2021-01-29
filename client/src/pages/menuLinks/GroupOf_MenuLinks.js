@@ -153,12 +153,12 @@ GroupOf_MenuLinks.propTypes = {
   getAll__GROUP_OF_MENU_LINK: PropTypes.func.isRequired,
   delete__GROUP_OF_MENU_LINK: PropTypes.func.isRequired,
 
-  state_auth: PropTypes.object.isRequired,
+  // state_auth: PropTypes.object.isRequired,
   state_group_of__menuLink: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  state_auth: state.auth,
+  // state_auth: state.auth,
   state_group_of__menuLink: state.group_of__menuLink,
 });
 

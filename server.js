@@ -51,12 +51,12 @@ app.use(hpp());
 
 // Enable CORS
 app.use(
-  // cors()
-  cors({
-    credentials: true,
-    origin: ['http://localhost:3000'],
-    optionsSuccessStatus: 200,
-  })
+  cors()
+  // cors({
+  //   credentials: true,
+  //   origin: ['http://localhost:3000'],
+  //   optionsSuccessStatus: 200,
+  // })
 );
 // const optionsProxy = {
 //   target: 'http://localhost:3000', // target host
@@ -72,15 +72,16 @@ app.use(
 //     'dev.localhost:3000': 'http://localhost:8000',
 //   },
 // };
-// const exampleProxy = createProxyMiddleware(optionsProxy);
-// app.use('/api', exampleProxy);
 
 //or
-createProxyMiddleware('http://localhost:5000');
+// createProxyMiddleware('http://localhost:3000/api/**');
 //or
 // app.use(
 //   '/api',
-//   createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true })
+//   createProxyMiddleware({
+//     target: 'http://localhost:3000',
+//     changeOrigin: true,
+//   })
 // );
 
 /////////////////////////////////////////////////////////

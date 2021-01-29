@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { setNameOfPage } from '../../store/actions/nameOfPage';
 import { add__GROUP_OF_MENU_LINK } from '../../store/actions/menuLink/group_of__menuLink';
+import { roles } from '../../utils/allOurPagesList';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -38,19 +39,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const roles = [
-  'user',
-  'worker',
-  'client',
-  'partner',
-  'seller',
-  'engineer',
-  'accountant',
-  'manager',
-  'boss',
-  'admin',
-];
-
 const GroupOf_MenuLinksAdd = ({ setNameOfPage, add__GROUP_OF_MENU_LINK }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -67,7 +55,7 @@ const GroupOf_MenuLinksAdd = ({ setNameOfPage, add__GROUP_OF_MENU_LINK }) => {
   const { name__Group_MenuLink, allowedRoles } = formData;
 
   useEffect(() => {
-    setNameOfPage('Редактировать группу');
+    setNameOfPage('Добавить группу');
   }, [setNameOfPage]);
 
   const onChange = (e) => {

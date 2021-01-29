@@ -63,9 +63,11 @@ exports.update__MenuLink = asyncHandler(async (req, res, next) => {
 exports.getAll__MenuLinks = asyncHandler(async (req, res, next) => {
   const all__MenuLinks = await Model__MenuLink.find({
     allowedRoles: req.user.role,
-  }).sort({
-    name__MenuLink: 1,
-  });
+  })
+    .populate({ path: 'group_Of_Page', select: 'name__Group_MenuLink' })
+    .sort({
+      name__MenuLink: 1,
+    });
   //Check if  exists response
   if (!all__MenuLinks) {
     return next(new ErrorResponse('На данный момент ничего в базе нет ', 400));

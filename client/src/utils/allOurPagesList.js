@@ -60,3 +60,16 @@ export const landingLinksList = [
     group: 'ourWorks',
   },
 ];
+
+export const roles = [
+  'user',
+  'worker',
+  'client',
+  'partner',
+  'seller',
+  'engineer',
+  'accountant',
+  'manager',
+  'boss',
+  'admin',
+];
