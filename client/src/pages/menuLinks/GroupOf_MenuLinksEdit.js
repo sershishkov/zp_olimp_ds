@@ -66,20 +66,7 @@ const GroupOf_MenuLinksEdit = ({
   useEffect(() => {
     setNameOfPage('Редактировать группу');
     getOne__GROUP_OF_MENU_LINK(id);
-    // if (state_group_of__menuLink.one__GROUP_OF_MENU_LINK) {
-    //   setFormData({
-    //     name__Group_MenuLink:
-    //       state_group_of__menuLink.one__GROUP_OF_MENU_LINK.name__Group_MenuLink,
-    //     allowedRoles:
-    //       state_group_of__menuLink.one__GROUP_OF_MENU_LINK.allowedRoles,
-    //   });
-    // }
-  }, [
-    setNameOfPage,
-    getOne__GROUP_OF_MENU_LINK,
-    id,
-    // state_group_of__menuLink.one__GROUP_OF_MENU_LINK,
-  ]);
+  }, [setNameOfPage, getOne__GROUP_OF_MENU_LINK, id]);
 
   useLayoutEffect(() => {
     if (state_group_of__menuLink.one__GROUP_OF_MENU_LINK) {

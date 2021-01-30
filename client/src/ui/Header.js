@@ -106,6 +106,8 @@ const Header = ({
   const history = useHistory();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const [openDrawer, setOpenDrawer] = useState(false);
+  // console.log(state_group_of__menuLink.array__GROUP_OF_MENU_LINK);
+  // console.log(state_menuLink.array__MENU_LINK);
 
   const logoutHandler = () => {
     logout();
@@ -284,8 +286,8 @@ const Header = ({
             <Accordion key={group._id} className={classes.accordion}>
               <AccordionSummary
                 expandIcon={<ExpandMore />}
-                aria-controls={`panel${group._id}-content`}
-                id={`panel${group._id}-header`}
+                aria-controls={`panel-${group._id}-content`}
+                id={`panel-${group._id}-header`}
                 className={classes.accordionSummary}
               >
                 <Typography className={classes.accordionSummaryHeading}>
@@ -298,7 +300,7 @@ const Header = ({
                   {state_menuLink.array__MENU_LINK &&
                     state_menuLink.array__MENU_LINK
                       .filter(
-                        (menuLink) => menuLink.group_Of_Page === group._id
+                        (menuLink) => menuLink.group_Of_Page._id === group._id
                       )
                       .map((option) => (
                         <ListItem
