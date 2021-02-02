@@ -32,8 +32,8 @@ import Login from './pages/users/auth/Login';
 import Register from './pages/users/auth/Register';
 
 const UserAdmin = lazy(() => import('./pages/users/admin/UserAdmin'));
-const UserCreate = lazy(() => import('./pages/users/admin/UserCreate'));
-const UserEditAdmin = lazy(() => import('./pages/users/admin/UserEditAdmin'));
+const UserAdminAdd = lazy(() => import('./pages/users/admin/UserAdminAdd'));
+const UserAdminEdit = lazy(() => import('./pages/users/admin/UserAdminEdit'));
 const UserEditDetail = lazy(() => import('./pages/users/auth/UserEditDetail'));
 
 const GroupOf_MenuLinks = lazy(() =>
@@ -124,13 +124,13 @@ function App() {
                 <PrivateRoute exact path='/user-admin' component={UserAdmin} />
                 <PrivateRoute
                   exact
-                  path='/user-create'
-                  component={UserCreate}
+                  path='/user-admin/add'
+                  component={UserAdminAdd}
                 />
                 <PrivateRoute
                   exact
-                  path='/user-edit/:id'
-                  component={UserEditAdmin}
+                  path='/user-admin/:id'
+                  component={UserAdminEdit}
                 />
                 <PrivateRoute
                   exact

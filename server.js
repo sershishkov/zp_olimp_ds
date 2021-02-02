@@ -88,6 +88,8 @@ app.use(
 //Route file
 ////////User////////
 const auth = require('./routes/user/auth/auth');
+const adminUsers = require('./routes/user/admin/adminUsers');
+////////User////////
 const menuLink = require('./routes/menuLink/menuLink');
 const group_of_menuLink = require('./routes/menuLink/group_of__menuLink');
 
@@ -96,6 +98,8 @@ const group_of_menuLink = require('./routes/menuLink/group_of__menuLink');
 //Mount routes
 /////USER/////
 app.use('/api/auth', auth);
+app.use('/api/user-admin', adminUsers);
+////////User////////
 app.use('/api/menu-link', menuLink);
 app.use('/api/group-of-menu-link', group_of_menuLink);
 
