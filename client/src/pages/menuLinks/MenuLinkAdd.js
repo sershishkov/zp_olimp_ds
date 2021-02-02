@@ -22,22 +22,25 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '1em',
+    padding: '5em 1em',
     maxWidth: theme.breakpoints.width('sm'),
     margin: 'auto',
     // border: '1px solid #ff0000',
-    paddingBottom: '5em',
+    // paddingBottom: '5em',
   },
   item: {
     width: '100%',
     marginBottom: '2em',
   },
   itemSub: {
-    marginBottom: '5em',
+    marginBottom: '2em',
   },
   select: {
-    height: '4rem',
+    height: '2em',
   },
+  // selectItem: {
+  //   zIndex: 9999999,
+  // },
 }));
 
 const MenuLinkAdd = ({
@@ -175,7 +178,11 @@ const MenuLinkAdd = ({
                 className={classes.select}
               >
                 {roles.map((role) => (
-                  <MenuItem key={role} value={role}>
+                  <MenuItem
+                    key={role}
+                    value={role}
+                    className={classes.selectItem}
+                  >
                     <Checkbox checked={allowedRoles.indexOf(role) > -1} />
                     {role}
                   </MenuItem>

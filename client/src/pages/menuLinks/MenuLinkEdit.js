@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '2em',
   },
   itemSub: {
-    marginBottom: '5em',
+    marginBottom: '2em',
   },
   select: {
-    height: '4rem',
+    height: '2em',
   },
 }));
 
