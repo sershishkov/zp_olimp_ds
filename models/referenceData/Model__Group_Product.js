@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Group_Product__Schema = new mongoose.Schema({
+const Model__Group_Product = new mongoose.Schema({
   name__Group_Product: {
     type: String,
     required: [true, 'Введите группу товара'],
@@ -8,4 +8,4 @@ const Group_Product__Schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Group_Product', Group_Product__Schema);
+module.exports = mongoose.model('Group_Product', Model__Group_Product);

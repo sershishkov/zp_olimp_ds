@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Equipment__Schema = new mongoose.Schema({
+const Model__Equipment = new mongoose.Schema({
   name__Equipment: {
     type: String,
     required: [true, 'Введите название Инструмента'],
@@ -8,4 +8,4 @@ const Equipment__Schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Equipment', Equipment__Schema);
+module.exports = mongoose.model('Equipment', Model__Equipment);

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Expense__Schema = new mongoose.Schema({
+const Model__Expense = new mongoose.Schema({
   name__Expense: {
     type: String,
     required: [true, 'Введите расход'],
@@ -12,4 +12,4 @@ const Expense__Schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Expense', Expense__Schema);
+module.exports = mongoose.model('Expense', Model__Expense);

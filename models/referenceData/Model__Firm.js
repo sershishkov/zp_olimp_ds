@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Firm__Schema = new mongoose.Schema({
+const Model__Firm = new mongoose.Schema({
   name__Firm: {
     type: String,
     required: [true, 'Введите  название фирмы'],
@@ -9,6 +9,7 @@ const Firm__Schema = new mongoose.Schema({
   short_name__Firm: {
     type: String,
   },
+
   type_Firm: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Type_Firm',
@@ -31,64 +32,44 @@ const Firm__Schema = new mongoose.Schema({
   },
   ibanOwn: {
     type: String,
-    required: [true, 'Введите корректный IBAN '],
-    match: [/\b\d{27}\b/, 'Пожалуйста введите 27 цифр'],
+    required: [true, 'Введите  IBAN '],
   },
-
   ibanGazBank: {
     type: String,
-    match: [/\b\d{27}\b/, 'Пожалуйста введите 27 цифр'],
   },
 
-  firstPersonPosition: {
+  firstPerson__Position: {
     type: String,
   },
-  firstPersonPositionRoditelPadej: {
+  firstPerson__Position_RoditelPadej: {
     type: String,
-  },
-  firstPersonSurname: {
-    type: String,
-    required: [true, 'Фамилия? '],
-  },
-  firstPersonName: {
-    type: String,
-    required: [true, 'Имя? '],
-  },
-  firstPersonMiddleName: {
-    type: String,
-    required: [true, 'Отчество? '],
   },
 
-  firstPersonSurnameRoditelPadej: {
+  firstPerson__Full_Name: {
     type: String,
-    required: [true, 'Впишите фамилию в родительном падеже '],
+    required: [true, 'Фамилия Имя Отчество? '],
   },
-  firstPersonNameRoditelPadej: {
+  firstPerson__Full_Name_RoditelPadej: {
     type: String,
-    required: [true, 'Впишите имя в родительном падеже '],
-  },
-  firstPersonMiddleNameRoditelPadej: {
-    type: String,
-    required: [true, 'Впишите отчество в родительном падеже '],
+    required: [true, 'Фамилия Имя Отчество? в родительном падеже '],
   },
 
-  shortName: {
+  firstPerson__Short_Name: {
     type: String,
     required: [true, 'Введите Сокращенное ФИО '],
   },
-  actsOnBasisOf: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'TypeOf_ActsOnBasisOf',
-  },
-  actsOnBasisOf_Number: {
+  whichActsOnTheBasis: {
     type: String,
   },
+
   issuedBy: {
     type: String,
   },
   taxPayerOn: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'TypeOf_TaxPayerOn',
+    type: String,
+  },
+  certificate_PDV: {
+    type: String,
   },
   email: {
     type: String,
@@ -114,4 +95,4 @@ const Firm__Schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Firm', Firm__Schema);
+module.exports = mongoose.model('Firm', Model__Firm);

@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
 
 const Worker__Schema = new mongoose.Schema({
-  name: {
+  name__Worker: {
     type: String,
-    required: [true, 'Имя? '],
   },
   middleName: {
     type: String,
-    // required: [true, 'Отчество? '],
   },
   surname: {
     type: String,
-    required: [true, 'Фамилия? '],
   },
   dateOf_Birth: {
     type: Date,

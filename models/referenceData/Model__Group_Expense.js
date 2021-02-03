@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Group_Expense__Schema = new mongoose.Schema({
+const Model__Group_Expense = new mongoose.Schema({
   name__Group_Expense: {
     type: String,
     required: [true, 'Введите группу расходов'],
@@ -8,4 +8,4 @@ const Group_Expense__Schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Group_Expense', Group_Expense__Schema);
+module.exports = mongoose.model('Group_Expense', Model__Group_Expense);
