@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Instrument = require('../../models/referenceData/Model__Instrument');
+const Model__ServiceJob = require('../../models/referenceData/Model__ServiceJob');
 
 //@desc   Add a __Instrument
 //@route  POST /api/reference-data/instrument
@@ -10,9 +11,10 @@ exports.add__Instrument = asyncHandler(async (req, res, next) => {
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Instrument } = req.body;
+  const { name__Instrument, unit } = req.body;
   const new__Instrument = new Model__Instrument({
     name__Instrument,
+    unit,
   });
 
   await new__Instrument.save();
@@ -31,9 +33,10 @@ exports.update__Instrument = asyncHandler(async (req, res, next) => {
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Instrument } = req.body;
+  const { name__Instrument, unit } = req.body;
   const new__Instrument = {
     name__Instrument,
+    unit,
   };
 
   const updated__Instrument = await Model__Instrument.findByIdAndUpdate(
@@ -92,14 +95,26 @@ exports.delete__Instrument = asyncHandler(async (req, res, next) => {
   const one__Instrument = await Model__Instrument.findByIdAndDelete(
     req.params.id
   );
-
-  //Check if  exists response
-  if (!one__Instrument) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    data: {},
+  const related__ServiceJob = await Model__ServiceJob.findOne({
+    instruments: req.params.id,
   });
+
+  if (related__ServiceJob) {
+    return next(
+      new ErrorResponse(
+        'не возможно удалить этот елемент, есть связанные элементы',
+        403
+      )
+    );
+  } else {
+    //Check if  exists response
+    if (!one__Instrument) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  }
 });

@@ -6,6 +6,11 @@ const Model__Instrument = new mongoose.Schema({
     required: [true, 'Введите название Инструмента'],
     unique: true,
   },
+  unit: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Unit',
+    required: [true, 'Введите единицы измерения'],
+  },
 });
 
 module.exports = mongoose.model('Instrument', Model__Instrument);

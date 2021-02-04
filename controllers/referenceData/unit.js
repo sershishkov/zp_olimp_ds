@@ -1,6 +1,11 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Unit = require('../../models/referenceData/Model__Unit');
+const Model__ServiceJob = require('../../models/referenceData/Model__ServiceJob');
+const Model__Product = require('../../models/referenceData/Model__Product');
+const Model__Inventar = require('../../models/referenceData/Model__Inventar');
+const Model__Instrument = require('../../models/referenceData/Model__Instrument');
+const Model__Equipment = require('../../models/referenceData/Model__Equipment');
 
 //@desc   Add a __Unit
 //@route  POST /api/reference-data/unit
@@ -89,15 +94,47 @@ exports.getOne__Unit = asyncHandler(async (req, res, next) => {
 //@route  DELETE /api/reference-data/unit/:id
 //@access Private
 exports.delete__Unit = asyncHandler(async (req, res, next) => {
-  const one__Unit = await Model__Unit.findByIdAndDelete(req.params.id);
-
-  //Check if  exists response
-  if (!one__Unit) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    data: {},
+  const related__ServiceJob = await Model__ServiceJob.findOne({
+    unit: req.params.id,
   });
+  const related__Product = await Model__Product.findOne({
+    unit: req.params.id,
+  });
+  const related__Inventar = await Model__Inventar.findOne({
+    unit: req.params.id,
+  });
+  const related__Instrument = await Model__Instrument.findOne({
+    unit: req.params.id,
+  });
+  const related__Equipment = await Model__Equipment.findOne({
+    unit: req.params.id,
+  });
+
+  const forbiddenToDelete =
+    related__ServiceJob ||
+    related__Product ||
+    related__Inventar ||
+    related__Instrument ||
+    related__Equipment;
+
+  if (forbiddenToDelete) {
+    return next(
+      new ErrorResponse(
+        'не возможно удалить этот елемент, есть связанные элементы',
+        403
+      )
+    );
+  } else {
+    const one__Unit = await Model__Unit.findByIdAndDelete(req.params.id);
+
+    //Check if  exists response
+    if (!one__Unit) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  }
 });

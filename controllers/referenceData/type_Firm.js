@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Type_Firm = require('../../models/referenceData/Model__Type_Firm');
+const Model__Firm = require('../../models/referenceData/Model__Firm');
 
 //@desc   Add a __Type_Firm
 //@route  POST /api/reference-data/type-firm
@@ -96,14 +97,26 @@ exports.delete__Type_Firm = asyncHandler(async (req, res, next) => {
   const one__Type_Firm = await Model__Type_Firm.findByIdAndDelete(
     req.params.id
   );
-
-  //Check if  exists response
-  if (!one__Type_Firm) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    data: {},
+  const related__Firm = await Model__Firm.findOne({
+    type_Firm: req.params.id,
   });
+
+  if (related__Firm) {
+    return next(
+      new ErrorResponse(
+        'не возможно удалить этот елемент, есть связанные элементы',
+        403
+      )
+    );
+  } else {
+    //Check if  exists response
+    if (!one__Type_Firm) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  }
 });

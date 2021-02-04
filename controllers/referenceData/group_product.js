@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Group_Product = require('../../models/referenceData/Model__Group_Product');
+const Model__Product = require('../../models/referenceData/Model__Product');
 
 //@desc   Add a __Group_Product
 //@route  POST /api/reference-data/group-product
@@ -55,8 +56,7 @@ exports.update__Group_Product = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/group-product
 //@access Private
 exports.getAll__Group_Products = asyncHandler(async (req, res, next) => {
-  const all__Group_Products = await Model__Group_Product.find()
-  .sort({
+  const all__Group_Products = await Model__Group_Product.find().sort({
     name__Group_Product: 1,
   });
   //Check if  exists response
@@ -93,14 +93,26 @@ exports.delete__Group_Product = asyncHandler(async (req, res, next) => {
   const one__Group_Product = await Model__Group_Product.findByIdAndDelete(
     req.params.id
   );
-
-  //Check if  exists response
-  if (!one__Group_Product) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    data: {},
+  const related__Product = await Model__Product.findOne({
+    group_Product: req.params.id,
   });
+
+  if (related__Product) {
+    return next(
+      new ErrorResponse(
+        'не возможно удалить этот елемент, есть связанные элементы',
+        403
+      )
+    );
+  } else {
+    //Check if  exists response
+    if (!one__Group_Product) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  }
 });

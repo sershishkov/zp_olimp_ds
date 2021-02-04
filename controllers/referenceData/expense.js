@@ -10,12 +10,10 @@ exports.add__Expense = asyncHandler(async (req, res, next) => {
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Expense, linkToPage, allowedRoles, group_Of_Page } = req.body;
+  const { name__Expense, group_Expense } = req.body;
   const new__Expense = new Model__Expense({
     name__Expense,
-    linkToPage,
-    allowedRoles,
-    group_Of_Page,
+    group_Expense,
   });
 
   await new__Expense.save();
@@ -34,12 +32,10 @@ exports.update__Expense = asyncHandler(async (req, res, next) => {
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Expense, linkToPage, allowedRoles, group_Of_Page } = req.body;
+  const { name__Expense, group_Expense } = req.body;
   const new__Expense = {
     name__Expense,
-    linkToPage,
-    allowedRoles,
-    group_Of_Page,
+    group_Expense,
   };
 
   const updated__Expense = await Model__Expense.findByIdAndUpdate(

@@ -30,7 +30,7 @@ exports.add__Firm = asyncHandler(async (req, res, next) => {
     certificate_PDV,
     email,
     phoneNumber,
-    creator,
+    who_is,
   } = req.body;
   const new__Firm = new Model__Firm({
     name__Firm,
@@ -52,7 +52,7 @@ exports.add__Firm = asyncHandler(async (req, res, next) => {
     certificate_PDV,
     email,
     phoneNumber,
-    creator,
+    who_is,
   });
 
   await new__Firm.save();
@@ -91,7 +91,7 @@ exports.update__Firm = asyncHandler(async (req, res, next) => {
     certificate_PDV,
     email,
     phoneNumber,
-    creator,
+    who_is,
   } = req.body;
   const new__Firm = {
     name__Firm,
@@ -113,7 +113,7 @@ exports.update__Firm = asyncHandler(async (req, res, next) => {
     certificate_PDV,
     email,
     phoneNumber,
-    creator,
+    who_is,
   };
 
   const updated__Firm = await Model__Firm.findByIdAndUpdate(

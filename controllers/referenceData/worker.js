@@ -77,6 +77,7 @@ exports.update__Worker = asyncHandler(async (req, res, next) => {
       runValidators: true,
     }
   );
+  // console.log(updated__Worker);
 
   res.status(200).json({
     success: true,

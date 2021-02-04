@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Group_Expense = require('../../models/referenceData/Model__Group_Expense');
+const Model__Expense = require('../../models/referenceData/Model__Expense');
 
 //@desc   Add a __Group_Expense
 //@route  POST /api/reference-data/group-expense
@@ -93,13 +94,26 @@ exports.delete__Group_Expense = asyncHandler(async (req, res, next) => {
     req.params.id
   );
 
-  //Check if  exists response
-  if (!one__Group_Expense) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    data: {},
+  const related__Expense = await Model__Expense.findOne({
+    group_Expense: req.params.id,
   });
+
+  if (related__Expense) {
+    return next(
+      new ErrorResponse(
+        'не возможно удалить этот елемент, есть связанные элементы',
+        403
+      )
+    );
+  } else {
+    //Check if  exists response
+    if (!one__Group_Expense) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  }
 });

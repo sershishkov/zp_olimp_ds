@@ -84,10 +84,9 @@ const Model__Firm = new mongoose.Schema({
     type: String,
     required: [true, 'Введите номер телефона'],
   },
-  creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+  who_is: {
+    type: [String],
+    enum: ['наша фирма', 'клиент', 'поставщик', 'партнер'],
   },
   createdAt: {
     type: Date,

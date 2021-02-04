@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Group_ServiceJob = require('../../models/referenceData/Model__Group_ServiceJob');
+const Model__ServiceJob = require('../../models/referenceData/Model__ServiceJob');
 
 //@desc   Add a __Group_ServiceJob
 //@route  POST /api/reference-data/group-service-job
@@ -91,17 +92,30 @@ exports.getOne__Group_ServiceJob = asyncHandler(async (req, res, next) => {
 //@route  DELETE /api/reference-data/group-service-job/:id
 //@access Private
 exports.delete__Group_ServiceJob = asyncHandler(async (req, res, next) => {
-  const one__Group_ServiceJob = await Model__Group_ServiceJob.findByIdAndDelete(
-    req.params.id
-  );
-
-  //Check if  exists response
-  if (!one__Group_ServiceJob) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    data: {},
+  const related__ServiceJob = await Model__ServiceJob.findOne({
+    unit: req.params.id,
   });
+
+  if (related__ServiceJob) {
+    return next(
+      new ErrorResponse(
+        'не возможно удалить этот елемент, есть связанные элементы',
+        403
+      )
+    );
+  } else {
+    const one__Group_ServiceJob = await Model__Group_ServiceJob.findByIdAndDelete(
+      req.params.id
+    );
+
+    //Check if  exists response
+    if (!one__Group_ServiceJob) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  }
 });

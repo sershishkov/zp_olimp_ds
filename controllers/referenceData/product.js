@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Product = require('../../models/referenceData/Model__Product');
+const Model__ServiceJob = require('../../models/referenceData/Model__ServiceJob');
 
 //@desc   Add a __Product
 //@route  POST /api/reference-data/product
@@ -10,12 +11,27 @@ exports.add__Product = asyncHandler(async (req, res, next) => {
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Product, linkToPage, allowedRoles, group_Of_Page } = req.body;
+  const {
+    name__Product,
+    unit,
+    group_Product,
+    amountInPackage,
+    expenseFor,
+    length,
+    width,
+    height,
+    weight,
+  } = req.body;
   const new__Product = new Model__Product({
     name__Product,
-    linkToPage,
-    allowedRoles,
-    group_Of_Page,
+    unit,
+    group_Product,
+    amountInPackage,
+    expenseFor,
+    length,
+    width,
+    height,
+    weight,
   });
 
   await new__Product.save();
@@ -34,12 +50,27 @@ exports.update__Product = asyncHandler(async (req, res, next) => {
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Product, linkToPage, allowedRoles, group_Of_Page } = req.body;
+  const {
+    name__Product,
+    unit,
+    group_Product,
+    amountInPackage,
+    expenseFor,
+    length,
+    width,
+    height,
+    weight,
+  } = req.body;
   const new__Product = {
     name__Product,
-    linkToPage,
-    allowedRoles,
-    group_Of_Page,
+    unit,
+    group_Product,
+    amountInPackage,
+    expenseFor,
+    length,
+    width,
+    height,
+    weight,
   };
 
   const updated__Product = await Model__Product.findByIdAndUpdate(
@@ -99,14 +130,26 @@ exports.getOne__Product = asyncHandler(async (req, res, next) => {
 //@access Private
 exports.delete__Product = asyncHandler(async (req, res, next) => {
   const one__Product = await Model__Product.findByIdAndDelete(req.params.id);
-
-  //Check if  exists response
-  if (!one__MenuLink) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    data: {},
+  const related__ServiceJob = await Model__ServiceJob.findOne({
+    products: req.params.id,
   });
+
+  if (related__ServiceJob) {
+    return next(
+      new ErrorResponse(
+        'не возможно удалить этот елемент, есть связанные элементы',
+        403
+      )
+    );
+  } else {
+    //Check if  exists response
+    if (!one__Product) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  }
 });

@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Equipment = require('../../models/referenceData/Model__Equipment');
+const Model__ServiceJob = require('../../models/referenceData/Model__ServiceJob');
 
 //@desc   Add a __Equipment
 //@route  POST /api/reference-data/equipment
@@ -10,12 +11,10 @@ exports.add__Equipment = asyncHandler(async (req, res, next) => {
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Equipment, linkToPage, allowedRoles, group_Of_Page } = req.body;
+  const { name__Equipment, unit } = req.body;
   const new__Equipment = new Model__Equipment({
     name__Equipment,
-    linkToPage,
-    allowedRoles,
-    group_Of_Page,
+    unit,
   });
 
   await new__Equipment.save();
@@ -34,12 +33,10 @@ exports.update__Equipment = asyncHandler(async (req, res, next) => {
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Equipment, linkToPage, allowedRoles, group_Of_Page } = req.body;
+  const { name__Equipment, unit } = req.body;
   const new__Equipment = {
     name__Equipment,
-    linkToPage,
-    allowedRoles,
-    group_Of_Page,
+    unit,
   };
 
   const updated__Equipment = await Model__Equipment.findByIdAndUpdate(
@@ -61,8 +58,7 @@ exports.update__Equipment = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/equipment
 //@access Private
 exports.getAll__Equipments = asyncHandler(async (req, res, next) => {
-  const all__Equipments = await Model__Equipment.find()
-  .sort({
+  const all__Equipments = await Model__Equipment.find().sort({
     name__Equipment: 1,
   });
   //Check if  exists response
@@ -99,14 +95,26 @@ exports.delete__Equipment = asyncHandler(async (req, res, next) => {
   const one__Equipment = await Model__Equipment.findByIdAndDelete(
     req.params.id
   );
-
-  //Check if  exists response
-  if (!one__Equipment) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    data: {},
+  const related__ServiceJob = await Model__ServiceJob.findOne({
+    equipments: req.params.id,
   });
+
+  if (related__ServiceJob) {
+    return next(
+      new ErrorResponse(
+        'не возможно удалить этот елемент, есть связанные элементы',
+        403
+      )
+    );
+  } else {
+    //Check if  exists response
+    if (!one__Equipment) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  }
 });
