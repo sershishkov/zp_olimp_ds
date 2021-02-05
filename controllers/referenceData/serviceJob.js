@@ -14,15 +14,20 @@ exports.add__ServiceJob = asyncHandler(async (req, res, next) => {
     name__ServiceJob,
     unit,
     group_ServiceJob,
+    employeePrice,
+    sellingPrice,
     products,
     inventars,
     instruments,
     equipments,
   } = req.body;
+  // console.log(req.body);
   const new__ServiceJob = new Model__ServiceJob({
     name__ServiceJob,
     unit,
     group_ServiceJob,
+    employeePrice,
+    sellingPrice,
     products,
     inventars,
     instruments,
@@ -49,6 +54,8 @@ exports.update__ServiceJob = asyncHandler(async (req, res, next) => {
     name__ServiceJob,
     unit,
     group_ServiceJob,
+    employeePrice,
+    sellingPrice,
     products,
     inventars,
     instruments,
@@ -58,6 +65,8 @@ exports.update__ServiceJob = asyncHandler(async (req, res, next) => {
     name__ServiceJob,
     unit,
     group_ServiceJob,
+    employeePrice,
+    sellingPrice,
     products,
     inventars,
     instruments,
@@ -85,10 +94,11 @@ exports.update__ServiceJob = asyncHandler(async (req, res, next) => {
 exports.getAll__ServiceJobs = asyncHandler(async (req, res, next) => {
   const all__ServiceJobs = await Model__ServiceJob.find()
     .populate({ path: 'unit', select: 'name__Unit' })
-    .populate({ path: 'products', select: 'name__Product' })
-    .populate({ path: 'inventars', select: 'name__Inventar' })
-    .populate({ path: 'instruments', select: 'name__Instrument' })
-    .populate({ path: 'equipments', select: 'name__Equipment' })
+    .populate({ path: 'group_ServiceJob', select: 'name__Group_ServiceJob' })
+    .populate({ path: 'products.product', select: 'name__Product' })
+    .populate({ path: 'inventars.inventar', select: 'name__Inventar' })
+    .populate({ path: 'instruments.instrument', select: 'name__Instrument' })
+    .populate({ path: 'equipments.equipment', select: 'name__Equipment' })
     .sort({
       name__ServiceJob: 1,
     });
@@ -107,7 +117,13 @@ exports.getAll__ServiceJobs = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/service-job/:id
 //@access Private
 exports.getOne__ServiceJob = asyncHandler(async (req, res, next) => {
-  const one__ServiceJob = await Model__ServiceJob.findById(req.params.id);
+  const one__ServiceJob = await Model__ServiceJob.findById(req.params.id)
+    .populate({ path: 'unit', select: 'name__Unit' })
+    .populate({ path: 'group_ServiceJob', select: 'name__Group_ServiceJob' })
+    .populate({ path: 'products.product', select: 'name__Product' })
+    .populate({ path: 'inventars.inventar', select: 'name__Inventar' })
+    .populate({ path: 'instruments.instrument', select: 'name__Instrument' })
+    .populate({ path: 'equipments.equipment', select: 'name__Equipment' });
   //Check if  exists response
   if (!one__ServiceJob) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));

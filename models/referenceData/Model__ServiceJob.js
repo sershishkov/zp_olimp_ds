@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Model__ServiceJob = new mongoose.Schema({
-  name__serviceJob: {
+  name__ServiceJob: {
     type: String,
     required: [true, 'Введите название '],
     unique: true,
@@ -14,22 +14,48 @@ const Model__ServiceJob = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Group_ServiceJob',
   },
-  products: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Product',
+
+  employeePrice: {
+    type: Number,
+    required: [true, 'Введите цену'],
   },
-  inventars: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Inventar',
+  sellingPrice: {
+    type: Number,
   },
-  instruments: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Instrument',
-  },
-  equipments: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Equipment',
-  },
+
+  products: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+      },
+    },
+  ],
+
+  inventars: [
+    {
+      inventar: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Inventar',
+      },
+    },
+  ],
+  instruments: [
+    {
+      instrument: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Instrument',
+      },
+    },
+  ],
+  equipments: [
+    {
+      equipment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Equipment',
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model('ServiceJob', Model__ServiceJob);

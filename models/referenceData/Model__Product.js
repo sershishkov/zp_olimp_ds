@@ -11,6 +11,7 @@ const Model__Product = new mongoose.Schema({
     ref: 'Unit',
     required: [true, 'Введите единицы измерения'],
   },
+
   group_Product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Group_Product',

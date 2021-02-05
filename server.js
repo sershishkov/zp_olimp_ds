@@ -108,6 +108,8 @@ const group_expense = require('./routes/referenceData/group_expense');
 const firm = require('./routes/referenceData/firm');
 const expense = require('./routes/referenceData/expense');
 const equipment = require('./routes/referenceData/equipment');
+const product_price = require('./routes/referenceData/product_price');
+const serviceJob_price = require('./routes/referenceData/serviceJob_price');
 
 /////////////////////////////////////////////////////
 //Mount routes
@@ -133,6 +135,8 @@ app.use('/api/reference-data/group-expense', group_expense);
 app.use('/api/reference-data/firm', firm);
 app.use('/api/reference-data/expense', expense);
 app.use('/api/reference-data/equipment', equipment);
+app.use('/api/reference-data/product-price', product_price);
+app.use('/api/reference-data/service-job-price', serviceJob_price);
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {

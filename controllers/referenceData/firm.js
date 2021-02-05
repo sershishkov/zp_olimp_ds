@@ -136,7 +136,10 @@ exports.update__Firm = asyncHandler(async (req, res, next) => {
 //@access Private
 exports.getAll__Firms = asyncHandler(async (req, res, next) => {
   const all__Firms = await Model__Firm.find()
-    .populate({ path: 'Type_Firm', select: 'name__Type_Firm' })
+    .populate({
+      path: 'type_Firm',
+      select: 'name__Type_Firm short_name__Type_Firm',
+    })
     .sort({
       name__Firm: 1,
     });
@@ -155,7 +158,10 @@ exports.getAll__Firms = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/firm/:id
 //@access Private
 exports.getOne__Firm = asyncHandler(async (req, res, next) => {
-  const one__Firm = await Model__Firm.findById(req.params.id);
+  const one__Firm = await Model__Firm.findById(req.params.id).populate({
+    path: 'type_Firm',
+    select: 'name__Type_Firm short_name__Type_Firm',
+  });
   //Check if  exists response
   if (!one__Firm) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));

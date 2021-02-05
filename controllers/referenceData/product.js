@@ -2,6 +2,7 @@ const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Product = require('../../models/referenceData/Model__Product');
 const Model__ServiceJob = require('../../models/referenceData/Model__ServiceJob');
+const Model__Product_Price = require('../../models/referenceData/Model__Product_Price');
 
 //@desc   Add a __Product
 //@route  POST /api/reference-data/product
@@ -15,6 +16,8 @@ exports.add__Product = asyncHandler(async (req, res, next) => {
     name__Product,
     unit,
     group_Product,
+    enteredPrice,
+    sellingPrice,
     amountInPackage,
     expenseFor,
     length,
@@ -26,6 +29,8 @@ exports.add__Product = asyncHandler(async (req, res, next) => {
     name__Product,
     unit,
     group_Product,
+    enteredPrice,
+    sellingPrice,
     amountInPackage,
     expenseFor,
     length,
@@ -54,6 +59,8 @@ exports.update__Product = asyncHandler(async (req, res, next) => {
     name__Product,
     unit,
     group_Product,
+    enteredPrice,
+    sellingPrice,
     amountInPackage,
     expenseFor,
     length,
@@ -65,6 +72,8 @@ exports.update__Product = asyncHandler(async (req, res, next) => {
     name__Product,
     unit,
     group_Product,
+    enteredPrice,
+    sellingPrice,
     amountInPackage,
     expenseFor,
     length,
@@ -133,8 +142,11 @@ exports.delete__Product = asyncHandler(async (req, res, next) => {
   const related__ServiceJob = await Model__ServiceJob.findOne({
     products: req.params.id,
   });
+  const related__Product_Price = await Model__Product_Price.findOne({
+    product: req.params.id,
+  });
 
-  if (related__ServiceJob) {
+  if (related__ServiceJob || related__Product_Price) {
     return next(
       new ErrorResponse(
         'не возможно удалить этот елемент, есть связанные элементы',
