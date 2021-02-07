@@ -50,12 +50,16 @@ const MenuLink = lazy(() => import('./pages/menuLinks/MenuLink'));
 const MenuLinkAdd = lazy(() => import('./pages/menuLinks/MenuLinkAdd'));
 const MenuLinkEdit = lazy(() => import('./pages/menuLinks/MenuLinkEdit'));
 
+const ReferDataDashboard = lazy(() =>
+  import('./pages/referenceData/ReferDataDashboard')
+);
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 70,
     padding: 0,
     paddingTop: '1em',
-    // border: '1px solid blue'
+    // border: '1px solid blue',
   },
 }));
 
@@ -163,6 +167,11 @@ function App() {
                   exact
                   path='/menu-links/:id'
                   component={MenuLinkEdit}
+                />
+                <PrivateRoute
+                  exact
+                  path='/reference-data'
+                  component={ReferDataDashboard}
                 />
               </Switch>
             </Suspense>
