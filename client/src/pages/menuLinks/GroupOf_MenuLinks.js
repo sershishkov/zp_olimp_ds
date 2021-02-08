@@ -52,24 +52,29 @@ const GroupOf_MenuLinks = ({
   };
   // console.log(state_group_of__menuLink.array__GROUP_OF_MENU_LINK);
 
-  const rows = state_group_of__menuLink.array__GROUP_OF_MENU_LINK
-    ? state_group_of__menuLink.array__GROUP_OF_MENU_LINK.map((item) => {
-        return {
-          name__Group_MenuLink: item.name__Group_MenuLink,
-          allowedRoles: item.allowedRoles.join(', '),
-          edit: (
-            <IconButton component={Link} href={`/group-menu-links/${item._id}`}>
-              <EditIcon color='primary' />
-            </IconButton>
-          ),
-          delete: (
-            <IconButton onClick={() => deleteHanler(item._id)}>
-              <DeleteForeverIcon color='error' />
-            </IconButton>
-          ),
-        };
-      })
-    : [];
+  const rows =
+    state_group_of__menuLink.array__GROUP_OF_MENU_LINK &&
+    state_group_of__menuLink.array__GROUP_OF_MENU_LINK.length > 0
+      ? state_group_of__menuLink.array__GROUP_OF_MENU_LINK.map((item) => {
+          return {
+            name__Group_MenuLink: item.name__Group_MenuLink,
+            allowedRoles: item.allowedRoles.join(', '),
+            edit: (
+              <IconButton
+                component={Link}
+                href={`/group-menu-links/${item._id}`}
+              >
+                <EditIcon color='primary' />
+              </IconButton>
+            ),
+            delete: (
+              <IconButton onClick={() => deleteHanler(item._id)}>
+                <DeleteForeverIcon color='error' />
+              </IconButton>
+            ),
+          };
+        })
+      : [];
 
   //
 

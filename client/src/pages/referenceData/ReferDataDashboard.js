@@ -34,15 +34,17 @@ const useStyles = makeStyles((theme) => ({
     // padding: '1em',
     maxWidth: theme.breakpoints.width('lg'),
     margin: 'auto',
-    border: '1px solid #ff0000',
+    // border: '1px solid #ff0000',
   },
   itemMenu: {
     width: 300,
-    border: '1px solid #ffff00',
+    // border: '1px solid #000000',
   },
   itemMainData: {
-    maxWidth: '100%',
-    border: '1px solid #00ff00',
+    // width: 'calc(100% - 300px)',
+    minWidth: 900,
+    margin: 'auto',
+    // border: '1px solid #00ff00',
   },
 }));
 
@@ -122,8 +124,14 @@ const ReferDataDashboard = ({ setNameOfPage, state_auth }) => {
       </Grid>
 
       <Grid item className={classes.itemMainData}>
-        {/* <Typography variant='h4'>справочник</Typography> */}
-        {myPage && currentPage()}
+        <Grid
+          container
+          direction='column'
+          justify='flex-start'
+          alignItems='center'
+        >
+          <Grid item>{myPage && currentPage()}</Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

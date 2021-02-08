@@ -52,27 +52,29 @@ const MenuLink = ({
   };
   // console.log(state_menuLink.array__MENU_LINK);
 
-  const rows = state_menuLink.array__MENU_LINK
-    ? state_menuLink.array__MENU_LINK.map((item) => {
-        // console.log(item.group_Of_Page.name__Group_MenuLink);
-        return {
-          name__MenuLink: item.name__MenuLink,
-          linkToPage: item.linkToPage,
-          allowedRoles: item.allowedRoles.join(', '),
-          group_Of_Page: item.group_Of_Page.name__Group_MenuLink,
-          edit: (
-            <IconButton component={Link} href={`/menu-links/${item._id}`}>
-              <EditIcon color='primary' />
-            </IconButton>
-          ),
-          delete: (
-            <IconButton onClick={() => deleteHanler(item._id)}>
-              <DeleteForeverIcon color='error' />
-            </IconButton>
-          ),
-        };
-      })
-    : [];
+  const rows =
+    state_menuLink.array__MENU_LINK &&
+    state_menuLink.array__MENU_LINK.length > 0
+      ? state_menuLink.array__MENU_LINK.map((item) => {
+          // console.log(item.group_Of_Page.name__Group_MenuLink);
+          return {
+            name__MenuLink: item.name__MenuLink,
+            linkToPage: item.linkToPage,
+            allowedRoles: item.allowedRoles.join(', '),
+            group_Of_Page: item.group_Of_Page.name__Group_MenuLink,
+            edit: (
+              <IconButton component={Link} href={`/menu-links/${item._id}`}>
+                <EditIcon color='primary' />
+              </IconButton>
+            ),
+            delete: (
+              <IconButton onClick={() => deleteHanler(item._id)}>
+                <DeleteForeverIcon color='error' />
+              </IconButton>
+            ),
+          };
+        })
+      : [];
 
   //
 

@@ -52,26 +52,28 @@ const UserAdmin = ({
   };
   // console.log(state_adminUsers.array__OUR_USER);
 
-  const rows = state_adminUsers.array__OUR_USER
-    ? state_adminUsers.array__OUR_USER.map((item) => {
-        return {
-          name: item.name,
-          email: item.email,
-          role: item.role,
+  const rows =
+    state_adminUsers.array__OUR_USER &&
+    state_adminUsers.array__OUR_USER.length > 0
+      ? state_adminUsers.array__OUR_USER.map((item) => {
+          return {
+            name: item.name,
+            email: item.email,
+            role: item.role,
 
-          edit: (
-            <IconButton component={Link} href={`/user-admin/${item._id}`}>
-              <EditIcon color='primary' />
-            </IconButton>
-          ),
-          delete: (
-            <IconButton onClick={() => deleteHanler(item._id)}>
-              <DeleteForeverIcon color='error' />
-            </IconButton>
-          ),
-        };
-      })
-    : [];
+            edit: (
+              <IconButton component={Link} href={`/user-admin/${item._id}`}>
+                <EditIcon color='primary' />
+              </IconButton>
+            ),
+            delete: (
+              <IconButton onClick={() => deleteHanler(item._id)}>
+                <DeleteForeverIcon color='error' />
+              </IconButton>
+            ),
+          };
+        })
+      : [];
 
   //
 

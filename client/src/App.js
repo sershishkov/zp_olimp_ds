@@ -1,6 +1,10 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import ruLocale from 'date-fns/locale/ru';
+// import enLocale from 'date-fns/locale/en-US';
 import store from './store/store';
 import theme from './ui/Theme';
 import { loadUser } from './store/actions/user/auth/auth';
@@ -67,8 +71,14 @@ if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
+// const localeMap = {
+//   en: enLocale,
+//   ru: ruLocale,
+// };
+
 function App() {
   const classes = useStyles();
+  // const [locale, setLocale] = useState('ru');
 
   useEffect(() => {
     if (localStorage.token) {
@@ -77,109 +87,119 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Header />
-          <Container maxWidth='lg' className={classes.root}>
-            <Alert />
-            <Suspense fallback={<CircularProgress />}>
-              <Switch>
-                <Route exact path='/' component={Landing} />
-                <Route exact path='/about' component={About} />
-                <Route exact path='/register' component={Register} />
-                <Route exact path='/login' component={Login} />
+    <MuiPickersUtilsProvider
+      utils={DateFnsUtils}
+      // locale={localeMap[locale]}
+      locale={ruLocale}
+    >
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Header />
+            <Container maxWidth='lg' className={classes.root}>
+              <Alert />
+              <Suspense fallback={<CircularProgress />}>
+                <Switch>
+                  <Route exact path='/' component={Landing} />
+                  <Route exact path='/about' component={About} />
+                  <Route exact path='/register' component={Register} />
+                  <Route exact path='/login' component={Login} />
 
-                <Route exact path='/asfalt' component={Asfalt} />
-                <Route exact path='/electro' component={Electro} />
-                <Route
-                  exact
-                  path='/ground-floor-storm-water'
-                  component={GroundFloorStormWater}
-                />
-                <Route
-                  exact
-                  path='/high-altitude-work'
-                  component={HighAltitudeWork}
-                />
-                <Route exact path='/plumbing-work' component={PlumbingWork} />
-                <Route
-                  exact
-                  path='/porch-and-visors'
-                  component={PorchAndVisors}
-                />
-                <Route
-                  exact
-                  path='/repair-of-entrance'
-                  component={RepairOfEntrance}
-                />
-                <Route exact path='/roofing-work' component={RoofingWork} />
-                <Route
-                  exact
-                  path='/steel-structures'
-                  component={SteelStructures}
-                />
-                <Route
-                  exact
-                  path='/windows-door-plastic'
-                  component={WindowsDoorPlastic}
-                />
+                  <Route exact path='/asfalt' component={Asfalt} />
+                  <Route exact path='/electro' component={Electro} />
+                  <Route
+                    exact
+                    path='/ground-floor-storm-water'
+                    component={GroundFloorStormWater}
+                  />
+                  <Route
+                    exact
+                    path='/high-altitude-work'
+                    component={HighAltitudeWork}
+                  />
+                  <Route exact path='/plumbing-work' component={PlumbingWork} />
+                  <Route
+                    exact
+                    path='/porch-and-visors'
+                    component={PorchAndVisors}
+                  />
+                  <Route
+                    exact
+                    path='/repair-of-entrance'
+                    component={RepairOfEntrance}
+                  />
+                  <Route exact path='/roofing-work' component={RoofingWork} />
+                  <Route
+                    exact
+                    path='/steel-structures'
+                    component={SteelStructures}
+                  />
+                  <Route
+                    exact
+                    path='/windows-door-plastic'
+                    component={WindowsDoorPlastic}
+                  />
 
-                <PrivateRoute exact path='/user-admin' component={UserAdmin} />
-                <PrivateRoute
-                  exact
-                  path='/user-admin/add'
-                  component={UserAdminAdd}
-                />
-                <PrivateRoute
-                  exact
-                  path='/user-admin/:id'
-                  component={UserAdminEdit}
-                />
-                <PrivateRoute
-                  exact
-                  path='/user-detail'
-                  component={UserEditDetail}
-                />
+                  <PrivateRoute
+                    exact
+                    path='/user-admin'
+                    component={UserAdmin}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/user-admin/add'
+                    component={UserAdminAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/user-admin/:id'
+                    component={UserAdminEdit}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/user-detail'
+                    component={UserEditDetail}
+                  />
 
-                <PrivateRoute
-                  exact
-                  path='/group-menu-links'
-                  component={GroupOf_MenuLinks}
-                />
-                <PrivateRoute
-                  exact
-                  path='/group-menu-links/add'
-                  component={GroupOf_MenuLinksAdd}
-                />
-                <PrivateRoute
-                  exact
-                  path='/group-menu-links/:id'
-                  component={GroupOf_MenuLinksEdit}
-                />
-                <PrivateRoute exact path='/menu-links' component={MenuLink} />
-                <PrivateRoute
-                  exact
-                  path='/menu-links/add'
-                  component={MenuLinkAdd}
-                />
-                <PrivateRoute
-                  exact
-                  path='/menu-links/:id'
-                  component={MenuLinkEdit}
-                />
-                <PrivateRoute
-                  exact
-                  path='/reference-data'
-                  component={ReferDataDashboard}
-                />
-              </Switch>
-            </Suspense>
-          </Container>
-          <Footer />
-        </Router>
-      </ThemeProvider>
-    </Provider>
+                  <PrivateRoute
+                    exact
+                    path='/group-menu-links'
+                    component={GroupOf_MenuLinks}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/group-menu-links/add'
+                    component={GroupOf_MenuLinksAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/group-menu-links/:id'
+                    component={GroupOf_MenuLinksEdit}
+                  />
+                  <PrivateRoute exact path='/menu-links' component={MenuLink} />
+                  <PrivateRoute
+                    exact
+                    path='/menu-links/add'
+                    component={MenuLinkAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/menu-links/:id'
+                    component={MenuLinkEdit}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data'
+                    component={ReferDataDashboard}
+                  />
+                </Switch>
+              </Suspense>
+            </Container>
+            <Footer />
+          </Router>
+        </ThemeProvider>
+      </Provider>
+    </MuiPickersUtilsProvider>
   );
 }
 

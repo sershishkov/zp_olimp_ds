@@ -15,7 +15,6 @@ import {
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-// import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
@@ -32,10 +31,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '2em',
-    maxWidth: theme.breakpoints.width('md'),
+    width: '100%',
     margin: 'auto',
-    // border: '1px solid #ff0000',
   },
   item: {
     width: '100%',
@@ -50,7 +47,7 @@ const Unit = ({
   update__UNIT,
   delete__UNIT,
 
-  state_unit,
+  state__UNIT,
 }) => {
   const classes = useStyles();
   const [openDialog, setOpenDialog] = useState(false);
@@ -64,10 +61,10 @@ const Unit = ({
   }, [getAll__UNIT]);
 
   useLayoutEffect(() => {
-    if (state_unit.one__UNIT) {
-      setName__Unit(state_unit.one__UNIT.name__Unit);
+    if (state__UNIT.one__UNIT) {
+      setName__Unit(state__UNIT.one__UNIT.name__Unit);
     }
-  }, [state_unit.one__UNIT]);
+  }, [state__UNIT.one__UNIT]);
 
   const onDeleteItem = (id) => {
     delete__UNIT(id);
@@ -118,23 +115,24 @@ const Unit = ({
     }
   };
 
-  const rows = state_unit.array__UNIT
-    ? state_unit.array__UNIT.map((item) => {
-        return {
-          name__Unit: item.name__Unit,
-          edit: (
-            <IconButton onClick={() => buttonEditHandler(item._id)}>
-              <EditIcon color='primary' />
-            </IconButton>
-          ),
-          delete: (
-            <IconButton onClick={() => onDeleteItem(item._id)}>
-              <DeleteForeverIcon color='error' />
-            </IconButton>
-          ),
-        };
-      })
-    : [];
+  const rows =
+    state__UNIT.array__UNIT && state__UNIT.array__UNIT.length > 0
+      ? state__UNIT.array__UNIT.map((item) => {
+          return {
+            name__Unit: item.name__Unit,
+            edit: (
+              <IconButton onClick={() => buttonEditHandler(item._id)}>
+                <EditIcon color='primary' />
+              </IconButton>
+            ),
+            delete: (
+              <IconButton onClick={() => onDeleteItem(item._id)}>
+                <DeleteForeverIcon color='error' />
+              </IconButton>
+            ),
+          };
+        })
+      : [];
 
   //
 
@@ -275,12 +273,12 @@ Unit.propTypes = {
   delete__UNIT: PropTypes.func.isRequired,
 
   // state_auth: PropTypes.object.isRequired,
-  state_unit: PropTypes.object.isRequired,
+  state__UNIT: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   // state_auth: state.auth,
-  state_unit: state.unit,
+  state__UNIT: state.unit,
 });
 
 export default connect(mapStateToProps, {

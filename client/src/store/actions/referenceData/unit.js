@@ -30,8 +30,9 @@ export const add__UNIT = (name__Unit) => async (dispatch) => {
 
     dispatch(getAll__UNIT());
   } catch (err) {
-    const error = err.response.data.error;
-    if (error) {
+    console.log(err);
+    if (err.response.data && err.response.data.error) {
+      const error = err.response.data.error;
       dispatch(setAlert(error, 'error', 2500));
     }
   }
