@@ -58,6 +58,9 @@ const Unit = ({
 
   useEffect(() => {
     getAll__UNIT();
+    return () => {
+      setName__Unit('');
+    };
   }, [getAll__UNIT]);
 
   useLayoutEffect(() => {

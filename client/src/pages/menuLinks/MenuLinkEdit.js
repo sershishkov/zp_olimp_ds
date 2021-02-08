@@ -219,7 +219,7 @@ const MenuLinkEdit = ({
                 fullWidth
                 value={group_Of_Page ? group_Of_Page : ''}
                 onChange={onChange}
-                input={<Input />}
+                // input={<Input />}
                 // renderValue={(selected) => selected.join(', ')}
                 className={classes.select}
               >
@@ -227,12 +227,12 @@ const MenuLinkEdit = ({
                   state_group_of__menuLink.array__GROUP_OF_MENU_LINK.map(
                     (item) => (
                       <MenuItem key={item._id} value={item._id}>
-                        <Checkbox
+                        {/* <Checkbox
                           checked={
                             group_Of_Page &&
                             group_Of_Page.indexOf(item._id) > -1
                           }
-                        />
+                        /> */}
                         {item.name__Group_MenuLink}
                       </MenuItem>
                     )

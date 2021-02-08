@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { format } from 'date-fns';
-
 import { DatePicker } from '@material-ui/pickers';
-
 import IMask from 'imask';
 
 import {
@@ -65,7 +62,6 @@ const Worker = ({
     name__Worker: '',
     middleName: '',
     surname: '',
-    // dateOf_Birth:new Date(),
     postCode: '',
     address: '',
     individualTaxNumber: '',
@@ -77,14 +73,11 @@ const Worker = ({
     name__Worker,
     middleName,
     surname,
-    // dateOf_Birth,
     postCode,
     address,
     individualTaxNumber,
     phoneNumber,
   } = formData;
-  // console.log(phoneNumber);
-  // console.log(phoneNumber.length);
 
   const [editId, setEditId] = useState('');
   const [buttonText, setButtonText] = useState('');
@@ -111,11 +104,15 @@ const Worker = ({
       phoneNumber: '',
     });
     set_dateOf_Birth(new Date());
+    setEditId('');
   };
 
   useEffect(() => {
     getAll__WORKER();
     clearFormData();
+    return () => {
+      clearFormData();
+    };
   }, [getAll__WORKER]);
 
   useLayoutEffect(() => {
@@ -182,7 +179,7 @@ const Worker = ({
     setOpenDialog(true);
   };
 
-  const onChangehandler = (event) => {
+  const onChangeHandler = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
 
     let valid;
@@ -290,7 +287,6 @@ const Worker = ({
       ? state__WORKER.array__WORKER.map((item) => {
           return {
             name__Worker: item.name__Worker,
-
             surname: item.surname,
 
             edit: (
@@ -406,133 +402,117 @@ const Worker = ({
                 autoFocus
                 id='name__Worker'
                 name='name__Worker'
-                value={name__Worker ? name__Worker : ''}
                 label='Имя'
-                onChange={(e) => onChangehandler(e)}
+                type='text'
+                value={name__Worker ? name__Worker : ''}
                 error={name_Worker_Helper.length !== 0}
                 helperText={name_Worker_Helper}
-                type='text'
                 fullWidth
                 autoComplete='text'
-                // variant='outlined'
+                onChange={(e) => onChangeHandler(e)}
               />
             </Grid>
             <Grid item className={classes.dialogItem}>
               <TextField
-                // autoFocus
-
                 id='middleName'
                 name='middleName'
-                value={middleName ? middleName : ''}
                 label='Отчество'
-                onChange={(e) => onChangehandler(e)}
+                type='text'
+                value={middleName ? middleName : ''}
                 error={middleName_Helper.length !== 0}
                 helperText={middleName_Helper}
-                type='text'
                 fullWidth
                 autoComplete='text'
-                // variant='outlined'
+                onChange={(e) => onChangeHandler(e)}
               />
             </Grid>
             <Grid item className={classes.dialogItem}>
               <TextField
-                // autoFocus
-
                 id='surname'
                 name='surname'
-                value={surname ? surname : ''}
                 label='Фамилия'
-                onChange={(e) => onChangehandler(e)}
+                type='text'
+                value={surname ? surname : ''}
                 error={surname_Helper.length !== 0}
                 helperText={surname_Helper}
-                type='text'
                 fullWidth
                 autoComplete='text'
-                // variant='outlined'
+                onChange={(e) => onChangeHandler(e)}
               />
             </Grid>
             <Grid item className={classes.dialogItem}>
               <DatePicker
-                autoOk
-                format='dd-MM-yyyy'
                 id='dateOf_Birth'
                 name='dateOf_Birth'
                 label='Дата рождения'
+                format='dd-MM-yyyy'
                 value={dateOf_Birth ? dateOf_Birth : ''}
-                onChange={(newDate) => {
-                  set_dateOf_Birth(newDate);
-                }}
                 fullWidth
+                autoOk
                 animateYearScrolling
                 disableFuture
                 openTo='year'
+                onChange={(newDate) => {
+                  set_dateOf_Birth(newDate);
+                }}
               />
             </Grid>
             <Grid item className={classes.dialogItem}>
               <TextField
-                // autoFocus
-
                 id='postCode'
                 name='postCode'
-                value={postCode ? postCode : ''}
                 label='Почтовый индекс'
-                onChange={(e) => onChangehandler(e)}
+                type='number'
+                value={postCode ? postCode : ''}
                 error={postCode_Helper.length !== 0}
                 helperText={postCode_Helper}
-                type='number'
                 fullWidth
                 autoComplete='text'
-                maxLength={5}
-                // variant='outlined'
+                onChange={(e) => onChangeHandler(e)}
                 onInput={(e) => onInputHandler(e)}
               />
             </Grid>
             <Grid item className={classes.dialogItem}>
               <TextField
-                // autoFocus
-
                 id='address'
                 name='address'
-                value={address ? address : ''}
                 label='Адрес'
-                onChange={(e) => onChangehandler(e)}
+                type='text'
+                value={address ? address : ''}
                 error={address_Helper.length !== 0}
                 helperText={address_Helper}
-                type='text'
                 fullWidth
                 autoComplete='text'
-                // variant='outlined'
+                onChange={(e) => onChangeHandler(e)}
               />
             </Grid>
             <Grid item className={classes.dialogItem}>
               <TextField
-                // autoFocus
                 id='individualTaxNumber'
                 name='individualTaxNumber'
-                value={individualTaxNumber ? individualTaxNumber : ''}
                 label='ИНН'
-                onChange={(e) => onChangehandler(e)}
+                type='number'
+                value={individualTaxNumber ? individualTaxNumber : ''}
                 error={individualTaxNumber_Helper.length !== 0}
                 helperText={individualTaxNumber_Helper}
-                type='number'
                 fullWidth
                 // autoComplete='text'
+                onChange={(e) => onChangeHandler(e)}
                 onInput={(e) => onInputHandler(e)}
               />
             </Grid>
             <Grid item className={classes.dialogItem}>
               <TextField
-                // autoFocus
                 id='phoneNumber'
                 name='phoneNumber'
-                value={phoneNumber ? phoneNumber : ''}
                 label='Телефон'
-                onChange={(e) => onChangehandler(e)}
+                type='tel'
+                value={phoneNumber ? phoneNumber : ''}
                 error={phoneNumber_Helper.length !== 0}
                 helperText={phoneNumber_Helper}
-                type='tel'
                 fullWidth
                 autoComplete='text'
+                onChange={(e) => onChangeHandler(e)}
                 onInput={(e) => onInputHandler(e)}
               />
             </Grid>

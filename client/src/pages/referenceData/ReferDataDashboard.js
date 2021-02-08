@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     // border: '1px solid #ff0000',
   },
   itemMenu: {
-    width: 300,
+    width: 250,
     // border: '1px solid #000000',
   },
   itemMainData: {
