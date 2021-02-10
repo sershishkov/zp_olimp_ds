@@ -58,9 +58,11 @@ exports.update__Instrument = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/instrument
 //@access Private
 exports.getAll__Instruments = asyncHandler(async (req, res, next) => {
-  const all__Instruments = await Model__Instrument.find().sort({
-    name__Instrument: 1,
-  });
+  const all__Instruments = await Model__Instrument.find()
+    .populate({ path: 'unit', select: 'name__Unit' })
+    .sort({
+      name__Instrument: 1,
+    });
   //Check if  exists response
   if (!all__Instruments) {
     return next(new ErrorResponse('На данный момент ничего в базе нет ', 400));
@@ -76,7 +78,9 @@ exports.getAll__Instruments = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/instrument/:id
 //@access Private
 exports.getOne__Instrument = asyncHandler(async (req, res, next) => {
-  const one__Instrument = await Model__Instrument.findById(req.params.id);
+  const one__Instrument = await Model__Instrument.findById(
+    req.params.id
+  ).populate({ path: 'unit', select: 'name__Unit' });
   //Check if  exists response
   if (!one__Instrument) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));
@@ -96,7 +100,7 @@ exports.delete__Instrument = asyncHandler(async (req, res, next) => {
     req.params.id
   );
   const related__ServiceJob = await Model__ServiceJob.findOne({
-    instruments: req.params.id,
+    'instruments.instrument': req.params.id,
   });
 
   if (related__ServiceJob) {

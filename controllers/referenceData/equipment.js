@@ -58,9 +58,11 @@ exports.update__Equipment = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/equipment
 //@access Private
 exports.getAll__Equipments = asyncHandler(async (req, res, next) => {
-  const all__Equipments = await Model__Equipment.find().sort({
-    name__Equipment: 1,
-  });
+  const all__Equipments = await Model__Equipment.find()
+    .populate({ path: 'unit', select: 'name__Unit' })
+    .sort({
+      name__Equipment: 1,
+    });
   //Check if  exists response
   if (!all__Equipments) {
     return next(new ErrorResponse('На данный момент ничего в базе нет ', 400));
@@ -76,7 +78,9 @@ exports.getAll__Equipments = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/equipment/:id
 //@access Private
 exports.getOne__Equipment = asyncHandler(async (req, res, next) => {
-  const one__Equipment = await Model__Equipment.findById(req.params.id);
+  const one__Equipment = await Model__Equipment.findById(
+    req.params.id
+  ).populate({ path: 'unit', select: 'name__Unit' });
   //Check if  exists response
   if (!one__Equipment) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));
@@ -96,7 +100,7 @@ exports.delete__Equipment = asyncHandler(async (req, res, next) => {
     req.params.id
   );
   const related__ServiceJob = await Model__ServiceJob.findOne({
-    equipments: req.params.id,
+    'equipments.equipment': req.params.id,
   });
 
   if (related__ServiceJob) {

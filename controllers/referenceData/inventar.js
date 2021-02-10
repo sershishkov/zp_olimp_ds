@@ -58,9 +58,11 @@ exports.update__Inventar = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/inventar
 //@access Private
 exports.getAll__Inventars = asyncHandler(async (req, res, next) => {
-  const all__Inventars = await Model__Inventar.find().sort({
-    name__Inventar: 1,
-  });
+  const all__Inventars = await Model__Inventar.find()
+    .populate({ path: 'unit', select: 'name__Unit' })
+    .sort({
+      name__Inventar: 1,
+    });
   //Check if  exists response
   if (!all__Inventars) {
     return next(new ErrorResponse('На данный момент ничего в базе нет ', 400));
@@ -76,7 +78,10 @@ exports.getAll__Inventars = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/inventar/:id
 //@access Private
 exports.getOne__Inventar = asyncHandler(async (req, res, next) => {
-  const one__Inventar = await Model__Inventar.findById(req.params.id);
+  const one__Inventar = await Model__Inventar.findById(req.params.id).populate({
+    path: 'unit',
+    select: 'name__Unit',
+  });
   //Check if  exists response
   if (!one__Inventar) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));
@@ -94,7 +99,7 @@ exports.getOne__Inventar = asyncHandler(async (req, res, next) => {
 exports.delete__Inventar = asyncHandler(async (req, res, next) => {
   const one__Inventar = await Model__Inventar.findByIdAndDelete(req.params.id);
   const related__ServiceJob = await Model__ServiceJob.findOne({
-    inventars: req.params.id,
+    'inventars.inventar': req.params.id,
   });
 
   if (related__ServiceJob) {
