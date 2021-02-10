@@ -118,13 +118,27 @@ const Worker = ({
   useLayoutEffect(() => {
     if (state__WORKER.one__WORKER) {
       setFormData({
-        name__Worker: state__WORKER.one__WORKER.name__Worker,
-        middleName: state__WORKER.one__WORKER.middleName,
-        surname: state__WORKER.one__WORKER.surname,
-        postCode: state__WORKER.one__WORKER.postCode,
-        address: state__WORKER.one__WORKER.address,
-        individualTaxNumber: state__WORKER.one__WORKER.individualTaxNumber,
-        phoneNumber: state__WORKER.one__WORKER.phoneNumber,
+        name__Worker: state__WORKER.one__WORKER.name__Worker
+          ? state__WORKER.one__WORKER.name__Worker
+          : '',
+        middleName: state__WORKER.one__WORKER.middleName
+          ? state__WORKER.one__WORKER.middleName
+          : '',
+        surname: state__WORKER.one__WORKER.surname
+          ? state__WORKER.one__WORKER.surname
+          : '',
+        postCode: state__WORKER.one__WORKER.postCode
+          ? state__WORKER.one__WORKER.postCode
+          : '',
+        address: state__WORKER.one__WORKER.address
+          ? state__WORKER.one__WORKER.address
+          : '',
+        individualTaxNumber: state__WORKER.one__WORKER.individualTaxNumber
+          ? state__WORKER.one__WORKER.individualTaxNumber
+          : '',
+        phoneNumber: state__WORKER.one__WORKER.phoneNumber
+          ? state__WORKER.one__WORKER.phoneNumber
+          : '',
       });
       set_dateOf_Birth(state__WORKER.one__WORKER.dateOf_Birth);
     }

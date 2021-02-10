@@ -141,7 +141,7 @@ exports.getOne__Product = asyncHandler(async (req, res, next) => {
 exports.delete__Product = asyncHandler(async (req, res, next) => {
   const one__Product = await Model__Product.findByIdAndDelete(req.params.id);
   const related__ServiceJob = await Model__ServiceJob.findOne({
-    products: req.params.id,
+    'products.product': req.params.id,
   });
 
   if (related__ServiceJob) {

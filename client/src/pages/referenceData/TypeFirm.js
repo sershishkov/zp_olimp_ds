@@ -91,9 +91,13 @@ const TypeFirm = ({
   useLayoutEffect(() => {
     if (state__TYPE_FIRM.one__TYPE_FIRM) {
       setFormData({
-        name__Type_Firm: state__TYPE_FIRM.one__TYPE_FIRM.name__Type_Firm,
-        short_name__Type_Firm:
-          state__TYPE_FIRM.one__TYPE_FIRM.short_name__Type_Firm,
+        name__Type_Firm: state__TYPE_FIRM.one__TYPE_FIRM.name__Type_Firm
+          ? state__TYPE_FIRM.one__TYPE_FIRM.name__Type_Firm
+          : '',
+        short_name__Type_Firm: state__TYPE_FIRM.one__TYPE_FIRM
+          .short_name__Type_Firm
+          ? state__TYPE_FIRM.one__TYPE_FIRM.short_name__Type_Firm
+          : '',
       });
     }
   }, [state__TYPE_FIRM.one__TYPE_FIRM]);
