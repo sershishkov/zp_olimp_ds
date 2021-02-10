@@ -121,7 +121,9 @@ exports.getAll__Products = asyncHandler(async (req, res, next) => {
 //@route  GET /api/reference-data/product/:id
 //@access Private
 exports.getOne__Product = asyncHandler(async (req, res, next) => {
-  const one__Product = await Model__Product.findById(req.params.id);
+  const one__Product = await Model__Product.findById(req.params.id)
+    .populate({ path: 'unit', select: 'name__Unit' })
+    .populate({ path: 'group_Product', select: 'name__Group_Product' });
   //Check if  exists response
   if (!one__Product) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));

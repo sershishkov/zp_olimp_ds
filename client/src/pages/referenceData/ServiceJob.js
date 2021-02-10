@@ -163,6 +163,7 @@ const ServiceJob = ({
     let newEquipments = [];
 
     if (state__SERVICE_JOB.one__SERVICE_JOB) {
+      // console.log(state__SERVICE_JOB.one__SERVICE_JOB);
       if (
         state__SERVICE_JOB.one__SERVICE_JOB.products &&
         state__SERVICE_JOB.one__SERVICE_JOB.products.length > 0
@@ -208,14 +209,11 @@ const ServiceJob = ({
       }
 
       setFormData({
-        name__ServiceJob: state__SERVICE_JOB.one__SERVICE_JOB.name__ServiceJob
-          ? state__SERVICE_JOB.one__SERVICE_JOB.name__ServiceJob
-          : '',
-        unit: state__SERVICE_JOB.one__SERVICE_JOB.unit._id
+        name__ServiceJob: state__SERVICE_JOB.one__SERVICE_JOB.name__ServiceJob,
+        unit: state__SERVICE_JOB.one__SERVICE_JOB.unit
           ? state__SERVICE_JOB.one__SERVICE_JOB.unit._id
           : '',
         group_ServiceJob: state__SERVICE_JOB.one__SERVICE_JOB.group_ServiceJob
-          ._id
           ? state__SERVICE_JOB.one__SERVICE_JOB.group_ServiceJob._id
           : '',
         employeePrice: state__SERVICE_JOB.one__SERVICE_JOB.employeePrice
