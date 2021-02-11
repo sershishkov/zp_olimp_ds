@@ -229,3 +229,5 @@ export const referenceDataLinks = [
     ],
   },
 ];
+
+export const whoIsThisFirm = ['наша фирма', 'клиент', 'поставщик', 'партнер'];

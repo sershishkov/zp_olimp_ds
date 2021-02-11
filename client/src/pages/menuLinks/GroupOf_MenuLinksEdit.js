@@ -107,7 +107,7 @@ const GroupOf_MenuLinksEdit = ({
       newAllowedRoles = [...allowedRoles, 'admin'];
     }
 
-    console.log(id);
+    // console.log(id);
     update__GROUP_OF_MENU_LINK(id, name__Group_MenuLink, newAllowedRoles);
     history.goBack();
   };

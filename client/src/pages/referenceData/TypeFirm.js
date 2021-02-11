@@ -189,22 +189,38 @@ const TypeFirm = ({
       title='список работников'
       columns={[
         { title: 'Полное название', field: 'name__Type_Firm' },
-        { title: 'Сокращенное название', field: 'short_name__Type_Firm' },
+        {
+          title: 'Сокращенное название',
+          field: 'short_name__Type_Firm',
+          // cellStyle: {
+          //   width: 40,
+          //   textAlign: 'center',
+          // },
+
+          // headerStyle: {
+          //   width: 40,
+          //   textAlign: 'center',
+          // },
+          columnStyle: {
+            width: 40,
+            textAlign: 'center',
+          },
+        },
 
         {
           title: 'Редактировать',
           field: 'edit',
           sorting: false,
           filtering: false,
-          cellStyle: {
-            width: 40,
-            textAlign: 'center',
-          },
+          // cellStyle: {
+          //   width: 40,
+          //   textAlign: 'center',
+          // },
 
-          headerStyle: {
-            width: 40,
-            textAlign: 'center',
-          },
+          // headerStyle: {
+          //   width: 40,
+          //   textAlign: 'center',
+          // },
           columnStyle: {
             width: 40,
             textAlign: 'center',

@@ -51,7 +51,6 @@ const Model__Firm = new mongoose.Schema({
   },
   firstPerson__Full_Name_RoditelPadej: {
     type: String,
-    required: [true, 'Фамилия Имя Отчество? в родительном падеже '],
   },
 
   firstPerson__Short_Name: {

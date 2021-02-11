@@ -29,8 +29,8 @@ const MyEditableTable = (props) => {
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
-              console.log(oldData);
-              console.log(newData);
+              // console.log(oldData);
+              // console.log(newData);
               resolve();
             }, 1000);
           }),

@@ -42,9 +42,14 @@ const useStyles = makeStyles((theme) => ({
   },
   itemMainData: {
     // width: 'calc(100% - 300px)',
-    minWidth: 900,
+    // minWidth: 900,
+    maxWidth: 800,
     margin: 'auto',
     // border: '1px solid #00ff00',
+  },
+  item: {
+    width: '100%',
+    // border: '1px solid #03ff30',
   },
 }));
 
@@ -129,6 +134,7 @@ const ReferDataDashboard = ({ setNameOfPage, state_auth }) => {
           direction='column'
           justify='flex-start'
           alignItems='center'
+          wrap='nowrap'
         >
           <Grid item>{myPage && currentPage()}</Grid>
         </Grid>
