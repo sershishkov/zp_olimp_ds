@@ -131,7 +131,7 @@ const Product = ({
 
   useLayoutEffect(() => {
     if (state__PRODUCT.one__PRODUCT) {
-      console.log(state__PRODUCT.one__PRODUCT);
+      // console.log(state__PRODUCT.one__PRODUCT);
       setFormData({
         name__Product: state__PRODUCT.one__PRODUCT.name__Product
           ? state__PRODUCT.one__PRODUCT.name__Product
@@ -408,7 +408,7 @@ const Product = ({
                 autoFocus
                 id='name__Product'
                 name='name__Product'
-                label='Работа'
+                label='Товар'
                 type='text'
                 value={name__Product ? name__Product : ''}
                 error={name__PRODUCT_Helper.length !== 0}
@@ -586,12 +586,12 @@ const Product = ({
               !name__Product ||
               !unit ||
               !group_Product ||
-              !amountInPackage ||
-              !expenseFor ||
-              !length ||
-              !width ||
-              !height ||
-              !weight ||
+              // !amountInPackage ||
+              // !expenseFor ||
+              // !length ||
+              // !width ||
+              // !height ||
+              // !weight ||
               name__PRODUCT_Helper.length !== 0 ||
               amountInPackage_Helper.length !== 0 ||
               expenseFor_Helper.length !== 0 ||

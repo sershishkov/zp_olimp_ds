@@ -76,7 +76,7 @@ export const roles = [
 
 export const referenceDataLinks = [
   {
-    name__MenuLink: 'Список работ',
+    name__MenuLink: 'Работы',
     linkToPage: 'ServiceJob',
     allowedRoles: [
       'seller',
@@ -88,7 +88,7 @@ export const referenceDataLinks = [
     ],
   },
   {
-    name__MenuLink: 'Список групп работ',
+    name__MenuLink: 'Группы работ',
     linkToPage: 'GroupServiceJob',
     allowedRoles: [
       'seller',
@@ -100,7 +100,7 @@ export const referenceDataLinks = [
     ],
   },
   {
-    name__MenuLink: 'Список товаров',
+    name__MenuLink: 'Товары',
     linkToPage: 'Product',
     allowedRoles: [
       'seller',
@@ -112,7 +112,7 @@ export const referenceDataLinks = [
     ],
   },
   {
-    name__MenuLink: 'Список групп товаров',
+    name__MenuLink: 'Группы товаров',
     linkToPage: 'GroupProduct',
     allowedRoles: [
       'seller',
@@ -124,7 +124,7 @@ export const referenceDataLinks = [
     ],
   },
   {
-    name__MenuLink: 'Список оборудования',
+    name__MenuLink: 'Оборудование',
     linkToPage: 'Equipment',
     allowedRoles: [
       'seller',
@@ -136,7 +136,7 @@ export const referenceDataLinks = [
     ],
   },
   {
-    name__MenuLink: 'Список инвентаря',
+    name__MenuLink: 'Инвентарь',
     linkToPage: 'Inventar',
     allowedRoles: [
       'seller',
@@ -148,7 +148,7 @@ export const referenceDataLinks = [
     ],
   },
   {
-    name__MenuLink: 'Список инструмента',
+    name__MenuLink: 'Инструмент',
     linkToPage: 'Instrument',
     allowedRoles: [
       'seller',
@@ -160,13 +160,13 @@ export const referenceDataLinks = [
     ],
   },
   {
-    name__MenuLink: 'Список Работников',
+    name__MenuLink: 'Работники',
     linkToPage: 'Worker',
     allowedRoles: ['engineer', 'accountant', 'manager', 'boss', 'admin'],
   },
 
   {
-    name__MenuLink: 'Список Единиц измерения',
+    name__MenuLink: 'Единицы измерения',
     linkToPage: 'Unit',
     allowedRoles: [
       'seller',
@@ -179,7 +179,7 @@ export const referenceDataLinks = [
   },
 
   {
-    name__MenuLink: 'Список форм собственности',
+    name__MenuLink: 'Формы собственности',
     linkToPage: 'TypeFirm',
     allowedRoles: [
       'seller',
@@ -192,7 +192,7 @@ export const referenceDataLinks = [
   },
 
   {
-    name__MenuLink: 'Список фирм',
+    name__MenuLink: 'Фирмы',
     linkToPage: 'Firm',
     allowedRoles: [
       'seller',
@@ -205,7 +205,7 @@ export const referenceDataLinks = [
   },
 
   {
-    name__MenuLink: 'Список расходов',
+    name__MenuLink: 'Расходы',
     linkToPage: 'Expense',
     allowedRoles: [
       'seller',
@@ -217,7 +217,7 @@ export const referenceDataLinks = [
     ],
   },
   {
-    name__MenuLink: 'Список групп расходов',
+    name__MenuLink: 'Группы расходов',
     linkToPage: 'GroupExpense',
     allowedRoles: [
       'seller',
