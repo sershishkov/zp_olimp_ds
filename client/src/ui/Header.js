@@ -3,8 +3,6 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../store/actions/user/auth/auth';
-import { getAll__MENU_LINK } from '../store/actions/menuLink/menuLink';
-import { getAll__GROUP_OF_MENU_LINK } from '../store/actions/menuLink/group_of__menuLink';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -41,7 +39,11 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 
 import logo from '../images/LogotipDS.PNG';
 import { Grid } from '@material-ui/core';
-import { landingLinksList } from '../utils/allOurPagesList';
+import {
+  landingLinksList,
+  adminLinks,
+  accountantLinks,
+} from '../utils/allOurPagesList';
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -96,34 +98,20 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({
   state_nameOfPage,
   state_auth,
-  state_menuLink,
-  state_group_of__menuLink,
+
   logout,
-  getAll__MENU_LINK,
-  getAll__GROUP_OF_MENU_LINK,
 }) => {
   const classes = useStyles();
   const history = useHistory();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const [openDrawer, setOpenDrawer] = useState(false);
-  // console.log(state_group_of__menuLink.array__GROUP_OF_MENU_LINK);
-  // console.log(state_menuLink.array__MENU_LINK);
 
   const logoutHandler = () => {
     logout();
     history.push('/');
   };
 
-  useEffect(() => {
-    if (state_auth.isAuthenticated) {
-      getAll__MENU_LINK();
-      getAll__GROUP_OF_MENU_LINK();
-    }
-  }, [
-    state_auth.isAuthenticated,
-    getAll__MENU_LINK,
-    getAll__GROUP_OF_MENU_LINK,
-  ]);
+  useEffect(() => {}, []);
 
   const drawer = (
     <React.Fragment>
@@ -279,56 +267,132 @@ const Header = ({
           </AccordionDetails>
         </Accordion>
 
-        {state_auth.isAuthenticated &&
+        {state_auth.isAuthenticated && (
           // state_auth.user &&
-          state_group_of__menuLink.array__GROUP_OF_MENU_LINK &&
-          state_group_of__menuLink.array__GROUP_OF_MENU_LINK.map((group) => (
-            <Accordion key={group._id} className={classes.accordion}>
-              <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls={`panel-${group._id}-content`}
-                id={`panel-${group._id}-header`}
-                className={classes.accordionSummary}
-              >
-                <Typography className={classes.accordionSummaryHeading}>
-                  {group.name__Group_MenuLink}
-                </Typography>
-              </AccordionSummary>
+          <Accordion className={classes.accordion}>
+            <AccordionSummary
+              expandIcon={<ExpandMore />}
+              aria-controls={`panel-admin-content`}
+              id={`panel-admin-header`}
+              className={classes.accordionSummary}
+            >
+              <Typography className={classes.accordionSummaryHeading}>
+                Админка
+              </Typography>
+            </AccordionSummary>
 
-              <AccordionDetails className={classes.accordionSummaryDetails}>
-                <List disablePadding className={classes.listAccoprdion}>
-                  {state_menuLink.array__MENU_LINK &&
-                    state_menuLink.array__MENU_LINK
-                      .filter(
-                        (menuLink) => menuLink.group_Of_Page._id === group._id
-                      )
-                      .map((option) => (
-                        <ListItem
-                          key={option.name__MenuLink}
-                          component={Link}
-                          to={option.linkToPage}
-                          divider
-                          button
-                          onClick={() => {
-                            setOpenDrawer(false);
-                          }}
-                        >
-                          <ListItemIcon style={{ marginLeft: '1rem' }}>
-                            <InboxIcon />
-                          </ListItemIcon>
-                          <ListItemText
-                            disableTypography
-                            className={classes.drawerItem_level2}
+            <AccordionDetails className={classes.accordionSummaryDetails}>
+              <List disablePadding className={classes.listAccoprdion}>
+                {adminLinks &&
+                  adminLinks.map((option) => (
+                    <ListItem
+                      key={option.name__MenuLink}
+                      component={Link}
+                      to={option.linkToPage}
+                      divider
+                      button
+                      onClick={() => {
+                        setOpenDrawer(false);
+                      }}
+                    >
+                      <ListItemIcon style={{ marginLeft: '1rem' }}>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        disableTypography
+                        className={classes.drawerItem_level2}
+                      >
+                        {option.name__MenuLink}
+                      </ListItemText>
+                    </ListItem>
+                  ))}
+              </List>
+            </AccordionDetails>
+          </Accordion>
+        )}
+
+        {state_auth.isAuthenticated && (
+          <Accordion className={classes.accordion}>
+            <AccordionSummary
+              expandIcon={<ExpandMore />}
+              aria-controls={`panel-accountant-content`}
+              id={`panel-accountant-header`}
+              className={classes.accordionSummary}
+            >
+              <Typography className={classes.accordionSummaryHeading}>
+                Бухгалтерия
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.accordionSummaryDetails}>
+              <List disablePadding className={classes.listAccoprdion}>
+                {accountantLinks &&
+                  accountantLinks.map((group) => (
+                    <ListItem key={group.groupName} divider>
+                      <ListItemIcon style={{ marginLeft: '1rem' }}>
+                        <WorkIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        disableTypography
+                        className={classes.drawerItem_level2}
+                      >
+                        <Accordion className={classes.accordion}>
+                          <AccordionSummary
+                            expandIcon={<ExpandMore />}
+                            aria-controls={`panel-${group.groupName}-content`}
+                            id={`panel-${group.groupName}-header`}
+                            className={classes.accordionSummary}
                           >
-                            {option.name__MenuLink}
-                          </ListItemText>
-                        </ListItem>
-                      ))}
-                </List>
-              </AccordionDetails>
-            </Accordion>
-          ))}
+                            <Typography
+                              className={classes.accordionSummaryHeading}
+                            >
+                              {group.groupName}
+                            </Typography>
+                          </AccordionSummary>
+
+                          <AccordionDetails
+                            className={classes.accordionSummaryDetails}
+                          >
+                            <List
+                              disablePadding
+                              className={classes.listAccoprdion}
+                            >
+                              {group.links &&
+                                group.links.map((option) => (
+                                  <ListItem
+                                    key={option.name__MenuLink}
+                                    component={Link}
+                                    to={option.linkToPage}
+                                    divider
+                                    button
+                                    onClick={() => {
+                                      setOpenDrawer(false);
+                                    }}
+                                  >
+                                    <ListItemIcon
+                                      style={{ marginLeft: '1rem' }}
+                                    >
+                                      <InboxIcon />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                      disableTypography
+                                      className={classes.drawerItem_level3}
+                                    >
+                                      {option.name__MenuLink}
+                                    </ListItemText>
+                                  </ListItem>
+                                ))}
+                            </List>
+                          </AccordionDetails>
+                        </Accordion>
+                      </ListItemText>
+                    </ListItem>
+                  ))}
+              </List>
+            </AccordionDetails>
+          </Accordion>
+        )}
       </SwipeableDrawer>
+
       <Tooltip title='Меню'>
         <IconButton
           className={classes.drawerIconContainer}
@@ -390,23 +454,15 @@ const Header = ({
 Header.propTypes = {
   state_auth: PropTypes.object.isRequired,
   state_nameOfPage: PropTypes.object.isRequired,
-  state_menuLink: PropTypes.object.isRequired,
-  state_group_of__menuLink: PropTypes.object.isRequired,
 
   logout: PropTypes.func.isRequired,
-  getAll__MENU_LINK: PropTypes.func.isRequired,
-  getAll__GROUP_OF_MENU_LINK: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   state_nameOfPage: state.nameOfPage,
   state_auth: state.auth,
-  state_menuLink: state.menuLink,
-  state_group_of__menuLink: state.group_of__menuLink,
 });
 
 export default connect(mapStateToProps, {
   logout,
-  getAll__MENU_LINK,
-  getAll__GROUP_OF_MENU_LINK,
 })(Header);

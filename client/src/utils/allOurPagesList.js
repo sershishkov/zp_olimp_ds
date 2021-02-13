@@ -2,62 +2,42 @@ export const landingLinksList = [
   {
     name__MenuLink: 'Асфальтные работы',
     linkToPage: '/asfalt',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Электро работы',
     linkToPage: '/electro',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Цоколь и ливневки',
     linkToPage: '/ground-floor-storm-water',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Высотные работы',
     linkToPage: '/high-altitude-work',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Сантехнические работы',
     linkToPage: '/plumbing-work',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Крыльцо и Козырьки',
     linkToPage: '/porch-and-visors',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Ремонт подъездов',
     linkToPage: '/repair-of-entrance',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Кровельные работы',
     linkToPage: '/roofing-work',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Металлоконструкции',
     linkToPage: '/steel-structures',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
   {
     name__MenuLink: 'Окна Двери Пластиковые',
     linkToPage: '/windows-door-plastic',
-    allowedRoles: ['any'],
-    group: 'ourWorks',
   },
 ];
 
@@ -74,158 +54,155 @@ export const roles = [
   'admin',
 ];
 
-export const referenceDataLinks = [
+export const adminLinks = [
   {
-    name__MenuLink: 'Работы',
-    linkToPage: 'ServiceJob',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
+    name__MenuLink: 'Пользователи',
+    linkToPage: '/user-admin',
+    allowedRoles: ['admin'],
   },
-  {
-    name__MenuLink: 'Группы работ',
-    linkToPage: 'GroupServiceJob',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
-  {
-    name__MenuLink: 'Товары',
-    linkToPage: 'Product',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
-  {
-    name__MenuLink: 'Группы товаров',
-    linkToPage: 'GroupProduct',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
-  {
-    name__MenuLink: 'Оборудование',
-    linkToPage: 'Equipment',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
-  {
-    name__MenuLink: 'Инвентарь',
-    linkToPage: 'Inventar',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
-  {
-    name__MenuLink: 'Инструмент',
-    linkToPage: 'Instrument',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
-  {
-    name__MenuLink: 'Работники',
-    linkToPage: 'Worker',
-    allowedRoles: ['engineer', 'accountant', 'manager', 'boss', 'admin'],
-  },
+];
 
+export const accountantLinks = [
   {
-    name__MenuLink: 'Единицы измерения',
-    linkToPage: 'Unit',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
+    groupName: 'Поступления',
+    links: [],
+  },
+  {
+    groupName: 'Реализация',
+    links: [],
+  },
+  {
+    groupName: 'Расходы',
+    links: [
+      {
+        name__MenuLink: 'Расходы',
+        linkToPage: '/accountant/expenses/expense',
+        allowedRoles: ['accountant', 'boss', 'admin'],
+      },
     ],
   },
+  {
+    groupName: 'Платежи',
+    links: [],
+  },
+  {
+    groupName: 'Приходы (банк)',
+    links: [],
+  },
+  {
+    groupName: 'Отчеты',
+    links: [],
+  },
+  {
+    groupName: 'Справочники',
 
-  {
-    name__MenuLink: 'Формы собственности',
-    linkToPage: 'TypeFirm',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
+    links: [
+      {
+        name__MenuLink: 'Работы',
+        linkToPage: '/reference-data/service-job',
+        allowedRoles: [
+          'seller',
+          'engineer',
+          'accountant',
+          'manager',
+          'boss',
+          'admin',
+        ],
+      },
+      {
+        name__MenuLink: 'Группы работ',
+        linkToPage: '/reference-data/group-service-job',
+        allowedRoles: [
+          'seller',
+          'engineer',
+          'accountant',
+          'manager',
+          'boss',
+          'admin',
+        ],
+      },
+      {
+        name__MenuLink: 'Товары',
+        linkToPage: '/reference-data/product',
+        allowedRoles: [
+          'seller',
+          'engineer',
+          'accountant',
+          'manager',
+          'boss',
+          'admin',
+        ],
+      },
+      {
+        name__MenuLink: 'Группы товаров',
+        linkToPage: '/reference-data/group-product',
+        allowedRoles: [
+          'seller',
+          'engineer',
+          'accountant',
+          'manager',
+          'boss',
+          'admin',
+        ],
+      },
 
-  {
-    name__MenuLink: 'Фирмы',
-    linkToPage: 'Firm',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
+      {
+        name__MenuLink: 'Работники',
+        linkToPage: '/reference-data/worker',
+        allowedRoles: ['engineer', 'accountant', 'manager', 'boss', 'admin'],
+      },
 
-  {
-    name__MenuLink: 'Расходы',
-    linkToPage: 'Expense',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
-    ],
-  },
-  {
-    name__MenuLink: 'Группы расходов',
-    linkToPage: 'GroupExpense',
-    allowedRoles: [
-      'seller',
-      'engineer',
-      'accountant',
-      'manager',
-      'boss',
-      'admin',
+      {
+        name__MenuLink: 'Единицы измерения',
+        linkToPage: '/reference-data/unit',
+        allowedRoles: [
+          'seller',
+          'engineer',
+          'accountant',
+          'manager',
+          'boss',
+          'admin',
+        ],
+      },
+
+      {
+        name__MenuLink: 'Формы собственности',
+        linkToPage: '/reference-data/type-firm',
+        allowedRoles: [
+          'seller',
+          'engineer',
+          'accountant',
+          'manager',
+          'boss',
+          'admin',
+        ],
+      },
+
+      {
+        name__MenuLink: 'Фирмы',
+        linkToPage: '/reference-data/firm',
+        allowedRoles: [
+          'seller',
+          'engineer',
+          'accountant',
+          'manager',
+          'boss',
+          'admin',
+        ],
+      },
+
+      {
+        name__MenuLink: 'Группы расходов',
+        linkToPage: '/reference-data/group-expense',
+        allowedRoles: [
+          'seller',
+          'engineer',
+          'accountant',
+          'manager',
+          'boss',
+          'admin',
+        ],
+      },
     ],
   },
 ];

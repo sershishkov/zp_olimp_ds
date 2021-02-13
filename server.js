@@ -50,39 +50,9 @@ app.use(limiter);
 app.use(hpp());
 
 // Enable CORS
-app.use(
-  cors()
-  // cors({
-  //   credentials: true,
-  //   origin: ['http://localhost:3000'],
-  //   optionsSuccessStatus: 200,
-  // })
-);
-// const optionsProxy = {
-//   target: 'http://localhost:3000', // target host
-//   changeOrigin: true, // needed for virtual hosted sites
-//   ws: true, // proxy websockets
-//   pathRewrite: {
-//     '^/api/old-path': '/api/new-path', // rewrite path
-//     '^/api/remove/path': '/path', // remove base path
-//   },
-//   router: {
-//     // when request.headers.host == 'dev.localhost:3000',
-//     // override target 'http://www.example.org' to 'http://localhost:8000'
-//     'dev.localhost:3000': 'http://localhost:8000',
-//   },
-// };
+app.use(cors());
 
-//or
 createProxyMiddleware('http://localhost:3000/api/**');
-//or
-// app.use(
-//   '/api',
-//   createProxyMiddleware({
-//     target: 'http://localhost:3000',
-//     changeOrigin: true,
-//   })
-// );
 
 /////////////////////////////////////////////////////////
 //Route file
@@ -91,8 +61,6 @@ const auth = require('./routes/user/auth/auth');
 
 ////////Admin////////
 const adminUsers = require('./routes/user/admin/adminUsers');
-const menuLink = require('./routes/menuLink/menuLink');
-const group_of_menuLink = require('./routes/menuLink/group_of__menuLink');
 
 //////////////////reference data///////////////////////////////////
 const worker = require('./routes/referenceData/worker');
@@ -100,14 +68,13 @@ const unit = require('./routes/referenceData/unit');
 const type_Firm = require('./routes/referenceData/type_Firm');
 const serviceJob = require('./routes/referenceData/serviceJob');
 const product = require('./routes/referenceData/product');
-const inventar = require('./routes/referenceData/inventar');
-const instrument = require('./routes/referenceData/instrument');
 const group_serviceJob = require('./routes/referenceData/group_serviceJob');
 const group_product = require('./routes/referenceData/group_product');
 const group_expense = require('./routes/referenceData/group_expense');
 const firm = require('./routes/referenceData/firm');
-const expense = require('./routes/referenceData/expense');
-const equipment = require('./routes/referenceData/equipment');
+
+/////////////////ACCOUNTANT////////////////////////////
+const expense = require('./routes/accountant/expenses/expense');
 
 /////////////////////////////////////////////////////
 //Mount routes
@@ -116,8 +83,6 @@ app.use('/api/auth', auth);
 
 ////////Admin////////
 app.use('/api/user-admin', adminUsers);
-app.use('/api/menu-link', menuLink);
-app.use('/api/group-of-menu-link', group_of_menuLink);
 
 //////////////////reference data///////////////////////////////////
 app.use('/api/reference-data/worker', worker);
@@ -125,14 +90,12 @@ app.use('/api/reference-data/unit', unit);
 app.use('/api/reference-data/type-firm', type_Firm);
 app.use('/api/reference-data/service-job', serviceJob);
 app.use('/api/reference-data/product', product);
-app.use('/api/reference-data/inventar', inventar);
-app.use('/api/reference-data/instrument', instrument);
 app.use('/api/reference-data/group-service-job', group_serviceJob);
 app.use('/api/reference-data/group-product', group_product);
 app.use('/api/reference-data/group-expense', group_expense);
 app.use('/api/reference-data/firm', firm);
-app.use('/api/reference-data/expense', expense);
-app.use('/api/reference-data/equipment', equipment);
+
+app.use('/api/accountant/expenses/expense', expense);
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {

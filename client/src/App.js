@@ -40,22 +40,81 @@ const UserAdminAdd = lazy(() => import('./pages/users/admin/UserAdminAdd'));
 const UserAdminEdit = lazy(() => import('./pages/users/admin/UserAdminEdit'));
 const UserEditDetail = lazy(() => import('./pages/users/auth/UserEditDetail'));
 
-const GroupOf_MenuLinks = lazy(() =>
-  import('./pages/menuLinks/GroupOf_MenuLinks')
-);
-const GroupOf_MenuLinksAdd = lazy(() =>
-  import('./pages/menuLinks/GroupOf_MenuLinksAdd')
-);
-const GroupOf_MenuLinksEdit = lazy(() =>
-  import('./pages/menuLinks/GroupOf_MenuLinksEdit')
+const Worker = lazy(() => import('./pages/referenceData/worker/Worker'));
+const WorkerAdd = lazy(() => import('./pages/referenceData/worker/WorkerAdd'));
+
+const WorkerEdit = lazy(() =>
+  import('./pages/referenceData/worker/WorkerEdit')
 );
 
-const MenuLink = lazy(() => import('./pages/menuLinks/MenuLink'));
-const MenuLinkAdd = lazy(() => import('./pages/menuLinks/MenuLinkAdd'));
-const MenuLinkEdit = lazy(() => import('./pages/menuLinks/MenuLinkEdit'));
+const Unit = lazy(() => import('./pages/referenceData/unit/Unit'));
+const UnitAdd = lazy(() => import('./pages/referenceData/unit/UnitAdd'));
+const UnitEdit = lazy(() => import('./pages/referenceData/unit/UnitEdit'));
 
-const ReferDataDashboard = lazy(() =>
-  import('./pages/referenceData/ReferDataDashboard')
+const TypeFirm = lazy(() => import('./pages/referenceData/typeFirm/TypeFirm'));
+const TypeFirmAdd = lazy(() =>
+  import('./pages/referenceData/typeFirm/TypeFirmAdd')
+);
+const TypeFirmEdit = lazy(() =>
+  import('./pages/referenceData/typeFirm/TypeFirmEdit')
+);
+
+const ServiceJob = lazy(() =>
+  import('./pages/referenceData/serviceJob/ServiceJob')
+);
+const ServiceJobAdd = lazy(() =>
+  import('./pages/referenceData/serviceJob/ServiceJobAdd')
+);
+const ServiceJobEdit = lazy(() =>
+  import('./pages/referenceData/serviceJob/ServiceJobEdit')
+);
+
+const Product = lazy(() => import('./pages/referenceData/product/Product'));
+const ProductAdd = lazy(() =>
+  import('./pages/referenceData/product/ProductAdd')
+);
+const ProductEdit = lazy(() =>
+  import('./pages/referenceData/product/ProductEdit')
+);
+
+const GroupServiceJob = lazy(() =>
+  import('./pages/referenceData/groupServiceJob/GroupServiceJob')
+);
+const GroupServiceJobAdd = lazy(() =>
+  import('./pages/referenceData/groupServiceJob/GroupServiceJobAdd')
+);
+const GroupServiceJobEdit = lazy(() =>
+  import('./pages/referenceData/groupServiceJob/GroupServiceJobEdit')
+);
+
+const GroupProduct = lazy(() =>
+  import('./pages/referenceData/groupProduct/GroupProduct')
+);
+const GroupProductAdd = lazy(() =>
+  import('./pages/referenceData/groupProduct/GroupProductAdd')
+);
+const GroupProductEdit = lazy(() =>
+  import('./pages/referenceData/groupProduct/GroupProductEdit')
+);
+
+const GroupExpense = lazy(() =>
+  import('./pages/referenceData/groupExpense/GroupExpense')
+);
+const GroupExpenseAdd = lazy(() =>
+  import('./pages/referenceData/groupExpense/GroupExpenseAdd')
+);
+const GroupExpenseEdit = lazy(() =>
+  import('./pages/referenceData/groupExpense/GroupExpenseEdit')
+);
+
+const Firm = lazy(() => import('./pages/referenceData/firm/Firm'));
+const FirmAdd = lazy(() => import('./pages/referenceData/firm/FirmAdd'));
+const FirmEdit = lazy(() => import('./pages/referenceData/firm/FirmEdit'));
+
+const Expense = lazy(() => import('./pages/accountant/expenses/Expense'));
+const ExpenseAdd = lazy(() => import('./pages/accountant/expenses/ExpenseAdd'));
+const ExpenseEdit = lazy(() =>
+  import('./pages/accountant/expenses/ExpenseEdit')
 );
 
 const useStyles = makeStyles((theme) => ({
@@ -163,34 +222,161 @@ function App() {
 
                   <PrivateRoute
                     exact
-                    path='/group-menu-links'
-                    component={GroupOf_MenuLinks}
+                    path='/reference-data/worker'
+                    component={Worker}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/worker/add'
+                    component={WorkerAdd}
                   />
                   <PrivateRoute
                     exact
-                    path='/group-menu-links/add'
-                    component={GroupOf_MenuLinksAdd}
+                    path='/reference-data/worker/:id'
+                    component={WorkerEdit}
                   />
                   <PrivateRoute
                     exact
-                    path='/group-menu-links/:id'
-                    component={GroupOf_MenuLinksEdit}
-                  />
-                  <PrivateRoute exact path='/menu-links' component={MenuLink} />
-                  <PrivateRoute
-                    exact
-                    path='/menu-links/add'
-                    component={MenuLinkAdd}
+                    path='/reference-data/unit'
+                    component={Unit}
                   />
                   <PrivateRoute
                     exact
-                    path='/menu-links/:id'
-                    component={MenuLinkEdit}
+                    path='/reference-data/unit/add'
+                    component={UnitAdd}
                   />
                   <PrivateRoute
                     exact
-                    path='/reference-data'
-                    component={ReferDataDashboard}
+                    path='/reference-data/unit/:id'
+                    component={UnitEdit}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/type-firm'
+                    component={TypeFirm}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/type-firm/add'
+                    component={TypeFirmAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/type-firm/:id'
+                    component={TypeFirmEdit}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/service-job'
+                    component={ServiceJob}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/service-job/add'
+                    component={ServiceJobAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/service-job/:id'
+                    component={ServiceJobEdit}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/product'
+                    component={Product}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/product/add'
+                    component={ProductAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/product/:id'
+                    component={ProductEdit}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-service-job'
+                    component={GroupServiceJob}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-service-job/add'
+                    component={GroupServiceJobAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-service-job/:id'
+                    component={GroupServiceJobEdit}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-product'
+                    component={GroupProduct}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-product/add'
+                    component={GroupProductAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-product/:id'
+                    component={GroupProductEdit}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-expense'
+                    component={GroupExpense}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-expense/add'
+                    component={GroupExpenseAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/group-expense/:id'
+                    component={GroupExpenseEdit}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/firm'
+                    component={Firm}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/firm/add'
+                    component={FirmAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/reference-data/firm/:id'
+                    component={FirmEdit}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/accountant/expenses/expense'
+                    component={Expense}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/accountant/expenses/expense/add'
+                    component={ExpenseAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/accountant/expenses/expense/:id'
+                    component={ExpenseEdit}
                   />
                 </Switch>
               </Suspense>

@@ -3,9 +3,6 @@ const asyncHandler = require('../../middleware/async');
 const Model__Unit = require('../../models/referenceData/Model__Unit');
 const Model__ServiceJob = require('../../models/referenceData/Model__ServiceJob');
 const Model__Product = require('../../models/referenceData/Model__Product');
-const Model__Inventar = require('../../models/referenceData/Model__Inventar');
-const Model__Instrument = require('../../models/referenceData/Model__Instrument');
-const Model__Equipment = require('../../models/referenceData/Model__Equipment');
 
 //@desc   Add a __Unit
 //@route  POST /api/reference-data/unit
@@ -100,22 +97,8 @@ exports.delete__Unit = asyncHandler(async (req, res, next) => {
   const related__Product = await Model__Product.findOne({
     unit: req.params.id,
   });
-  const related__Inventar = await Model__Inventar.findOne({
-    unit: req.params.id,
-  });
-  const related__Instrument = await Model__Instrument.findOne({
-    unit: req.params.id,
-  });
-  const related__Equipment = await Model__Equipment.findOne({
-    unit: req.params.id,
-  });
 
-  const forbiddenToDelete =
-    related__ServiceJob ||
-    related__Product ||
-    related__Inventar ||
-    related__Instrument ||
-    related__Equipment;
+  const forbiddenToDelete = related__ServiceJob || related__Product;
 
   if (forbiddenToDelete) {
     return next(

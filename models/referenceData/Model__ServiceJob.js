@@ -31,31 +31,6 @@ const Model__ServiceJob = new mongoose.Schema({
       },
     },
   ],
-
-  inventars: [
-    {
-      inventar: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Inventar',
-      },
-    },
-  ],
-  instruments: [
-    {
-      instrument: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Instrument',
-      },
-    },
-  ],
-  equipments: [
-    {
-      equipment: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Equipment',
-      },
-    },
-  ],
 });
 
 module.exports = mongoose.model('ServiceJob', Model__ServiceJob);

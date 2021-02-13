@@ -1,7 +1,7 @@
 const ErrorResponse = require('../../utils/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Model__Group_Expense = require('../../models/referenceData/Model__Group_Expense');
-const Model__Expense = require('../../models/referenceData/Model__Expense');
+const Model__Expense = require('../../models/accountant/expenses/Model__Expense');
 
 //@desc   Add a __Group_Expense
 //@route  POST /api/reference-data/group-expense

@@ -17,9 +17,6 @@ exports.add__ServiceJob = asyncHandler(async (req, res, next) => {
     employeePrice,
     sellingPrice,
     products,
-    inventars,
-    instruments,
-    equipments,
   } = req.body;
   // console.log(req.body);
   const new__ServiceJob = new Model__ServiceJob({
@@ -29,9 +26,6 @@ exports.add__ServiceJob = asyncHandler(async (req, res, next) => {
     employeePrice,
     sellingPrice,
     products,
-    inventars,
-    instruments,
-    equipments,
   });
 
   await new__ServiceJob.save();
@@ -57,9 +51,6 @@ exports.update__ServiceJob = asyncHandler(async (req, res, next) => {
     employeePrice,
     sellingPrice,
     products,
-    inventars,
-    instruments,
-    equipments,
   } = req.body;
   const new__ServiceJob = {
     name__ServiceJob,
@@ -68,9 +59,6 @@ exports.update__ServiceJob = asyncHandler(async (req, res, next) => {
     employeePrice,
     sellingPrice,
     products,
-    inventars,
-    instruments,
-    equipments,
   };
 
   const updated__ServiceJob = await Model__ServiceJob.findByIdAndUpdate(
@@ -96,9 +84,7 @@ exports.getAll__ServiceJobs = asyncHandler(async (req, res, next) => {
     .populate({ path: 'unit', select: 'name__Unit' })
     .populate({ path: 'group_ServiceJob', select: 'name__Group_ServiceJob' })
     .populate({ path: 'products.product', select: 'name__Product' })
-    .populate({ path: 'inventars.inventar', select: 'name__Inventar' })
-    .populate({ path: 'instruments.instrument', select: 'name__Instrument' })
-    .populate({ path: 'equipments.equipment', select: 'name__Equipment' })
+
     .sort({
       name__ServiceJob: 1,
     });
@@ -120,10 +106,8 @@ exports.getOne__ServiceJob = asyncHandler(async (req, res, next) => {
   const one__ServiceJob = await Model__ServiceJob.findById(req.params.id)
     .populate({ path: 'unit', select: 'name__Unit' })
     .populate({ path: 'group_ServiceJob', select: 'name__Group_ServiceJob' })
-    .populate({ path: 'products.product', select: 'name__Product' })
-    .populate({ path: 'inventars.inventar', select: 'name__Inventar' })
-    .populate({ path: 'instruments.instrument', select: 'name__Instrument' })
-    .populate({ path: 'equipments.equipment', select: 'name__Equipment' });
+    .populate({ path: 'products.product', select: 'name__Product' });
+
   //Check if  exists response
   if (!one__ServiceJob) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));

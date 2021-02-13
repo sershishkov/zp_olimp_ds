@@ -15,10 +15,7 @@ export const add__SERVICE_JOB = (
   group_ServiceJob,
   employeePrice,
   sellingPrice,
-  products,
-  inventars,
-  instruments,
-  equipments
+  products
 ) => async (dispatch) => {
   const config = {
     headers: {
@@ -33,9 +30,6 @@ export const add__SERVICE_JOB = (
     employeePrice,
     sellingPrice,
     products,
-    inventars,
-    instruments,
-    equipments,
   });
 
   try {
@@ -66,10 +60,7 @@ export const update__SERVICE_JOB = (
   group_ServiceJob,
   employeePrice,
   sellingPrice,
-  products,
-  inventars,
-  instruments,
-  equipments
+  products
 ) => async (dispatch) => {
   const config = {
     headers: {
@@ -84,9 +75,6 @@ export const update__SERVICE_JOB = (
     employeePrice,
     sellingPrice,
     products,
-    inventars,
-    instruments,
-    equipments,
   });
 
   try {
