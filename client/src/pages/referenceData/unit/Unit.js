@@ -1,15 +1,13 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import MaterialTable from '../../../components/MaterialTable';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+import { setNameOfPage } from '../../../store/actions/nameOfPage';
 import {
-  add__UNIT,
   getAll__UNIT,
-  getOne__UNIT,
-  update__UNIT,
   delete__UNIT,
 } from '../../../store/actions/referenceData/unit';
 
@@ -20,14 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Tooltip from '@material-ui/core/Tooltip';
-
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,81 +32,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Unit = ({
-  add__UNIT,
+  setNameOfPage,
   getAll__UNIT,
-  getOne__UNIT,
-  update__UNIT,
   delete__UNIT,
 
   state__UNIT,
 }) => {
   const classes = useStyles();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [name__Unit, setName__Unit] = useState('');
-  const [editId, setEditId] = useState('');
-  const [buttonText, setButtonText] = useState('');
-  const [name__UnitHelper, setName__UnitHelper] = useState('');
 
   useEffect(() => {
+    setNameOfPage('Единицы измерения');
     getAll__UNIT();
-    return () => {
-      setName__Unit('');
-    };
-  }, [getAll__UNIT]);
-
-  useLayoutEffect(() => {
-    if (state__UNIT.one__UNIT) {
-      setName__Unit(state__UNIT.one__UNIT.name__Unit);
-    }
-  }, [state__UNIT.one__UNIT]);
+  }, [setNameOfPage, getAll__UNIT]);
 
   const onDeleteItem = (id) => {
     delete__UNIT(id);
-    setEditId('');
-  };
-  const onSubmit = () => {
-    if (buttonText === 'Редактировать' && editId && name__Unit) {
-      update__UNIT(editId, name__Unit);
-    } else if (buttonText === 'Добавить' && name__Unit) {
-      add__UNIT(name__Unit);
-    }
-
-    setOpenDialog(false);
-    setName__Unit('');
-    setEditId('');
-  };
-
-  const buttonAddHandler = () => {
-    setOpenDialog(true);
-    setButtonText('Добавить');
-    setEditId('');
-    setName__Unit('');
-  };
-
-  const buttonEditHandler = (id) => {
-    getOne__UNIT(id);
-    setEditId(id);
-    setButtonText('Редактировать');
-    setOpenDialog(true);
-  };
-
-  const onChangehandler = (event) => {
-    setName__Unit(event.target.value);
-
-    let valid;
-    switch (event.target.id) {
-      case 'name__Unit':
-        valid = event.target.value.length >= 3;
-        if (!valid) {
-          setName__UnitHelper('Минимальная длина 3 знака');
-        } else {
-          setName__UnitHelper('');
-        }
-        break;
-
-      default:
-        break;
-    }
   };
 
   const rows =
@@ -124,7 +55,10 @@ const Unit = ({
           return {
             name__Unit: item.name__Unit,
             edit: (
-              <IconButton onClick={() => buttonEditHandler(item._id)}>
+              <IconButton
+                component={Link}
+                href={`/reference-data/unit/${item._id}`}
+              >
                 <EditIcon color='primary' />
               </IconButton>
             ),
@@ -141,7 +75,7 @@ const Unit = ({
 
   const myMaterialTable = (
     <MaterialTable
-      title='список групп страниц'
+      title='Единицы измерения'
       columns={[
         { title: 'Единица измерения', field: 'name__Unit' },
 
@@ -151,17 +85,15 @@ const Unit = ({
           sorting: false,
           filtering: false,
           cellStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
-          },
-          columnStyle: {
-            width: 40,
-            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
         {
@@ -170,17 +102,15 @@ const Unit = ({
           sorting: false,
           filtering: false,
           cellStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
-          },
-          columnStyle: {
-            width: 40,
-            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
       ]}
@@ -194,7 +124,8 @@ const Unit = ({
         <Fab
           color='secondary'
           aria-label='add'
-          onClick={() => buttonAddHandler()}
+          component={Link}
+          href={`/reference-data/unit/add`}
         >
           <AddIcon />
         </Fab>
@@ -209,70 +140,13 @@ const Unit = ({
       <Grid item className={classes.item}>
         {myMaterialTable}
       </Grid>
-      <Dialog
-        open={openDialog}
-        onClose={() => {
-          setOpenDialog(false);
-          setName__Unit('');
-        }}
-        aria-labelledby='form-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle id='form-dialog-title'>Единицы измерения</DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            {buttonText ? buttonText : 'Поехали'}
-          </DialogContentText>
-
-          <TextField
-            autoFocus
-            // margin="dense"
-            id='name__Unit'
-            name='name__Unit'
-            value={name__Unit ? name__Unit : ''}
-            label='Единица измерения'
-            onChange={(e) => onChangehandler(e)}
-            error={name__UnitHelper.length !== 0}
-            helperText={name__UnitHelper}
-            type='text'
-            fullWidth
-            autoComplete='text'
-            // variant='outlined'
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            onClick={() => {
-              setOpenDialog(false);
-              setName__Unit('');
-            }}
-            color='primary'
-          >
-            Выход
-          </Button>
-          <Button
-            disabled={
-              (name__Unit && name__Unit.length === 0) ||
-              name__UnitHelper.length !== 0
-            }
-            variant='contained'
-            onClick={() => onSubmit()}
-            color='primary'
-          >
-            {buttonText ? buttonText : 'Поехали'}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Grid>
   );
 };
 
 Unit.propTypes = {
-  add__UNIT: PropTypes.func.isRequired,
+  setNameOfPage: PropTypes.func.isRequired,
   getAll__UNIT: PropTypes.func.isRequired,
-  getOne__UNIT: PropTypes.func.isRequired,
-  update__UNIT: PropTypes.func.isRequired,
   delete__UNIT: PropTypes.func.isRequired,
 
   // state_auth: PropTypes.object.isRequired,
@@ -285,9 +159,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  add__UNIT,
+  setNameOfPage,
   getAll__UNIT,
-  getOne__UNIT,
-  update__UNIT,
   delete__UNIT,
 })(Unit);

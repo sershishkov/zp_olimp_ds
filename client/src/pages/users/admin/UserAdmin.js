@@ -23,7 +23,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2em',
-    maxWidth: theme.breakpoints.width('md'),
+    width: '100%',
+    // maxWidth: theme.breakpoints.width('md'),
     margin: 'auto',
     // border: '1px solid #ff0000',
   },
@@ -82,7 +83,7 @@ const UserAdmin = ({
       title='Cписок пользователей'
       columns={[
         { title: 'Имя', field: 'name' },
-        { title: 'Почта', field: 'field' },
+        { title: 'Почта', field: 'email' },
         { title: 'Роль', field: 'role' },
 
         {
@@ -91,18 +92,20 @@ const UserAdmin = ({
           sorting: false,
           filtering: false,
           cellStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
-          columnStyle: {
-            width: 40,
-            textAlign: 'center',
-          },
+          // columnStyle: {
+          //   width: 40,
+          //   textAlign: 'center',
+          // },
         },
         {
           title: 'Удалить',
@@ -110,17 +113,15 @@ const UserAdmin = ({
           sorting: false,
           filtering: false,
           cellStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
-          },
-          columnStyle: {
-            width: 40,
-            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
       ]}

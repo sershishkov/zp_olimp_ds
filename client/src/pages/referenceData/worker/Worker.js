@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 const Worker = ({
   setNameOfPage,
   getAll__WORKER,
-
   delete__WORKER,
 
   state__WORKER,
@@ -62,7 +61,10 @@ const Worker = ({
             surname: item.surname,
 
             edit: (
-              <IconButton component={Link} href={`/reference-data/worker/edit`}>
+              <IconButton
+                component={Link}
+                href={`/reference-data/worker/${item._id}`}
+              >
                 <EditIcon color='primary' />
               </IconButton>
             ),
@@ -90,17 +92,15 @@ const Worker = ({
           sorting: false,
           filtering: false,
           cellStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
-          },
-          columnStyle: {
-            width: 40,
-            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
         {
@@ -109,17 +109,15 @@ const Worker = ({
           sorting: false,
           filtering: false,
           cellStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
-          },
-          columnStyle: {
-            width: 40,
-            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
       ]}
@@ -129,7 +127,7 @@ const Worker = ({
 
   return (
     <Grid container className={classes.root} direction='column'>
-      <Tooltip title='Добавить единицу'>
+      <Tooltip title='Добавить работника '>
         <Fab
           color='secondary'
           aria-label='add'

@@ -619,18 +619,16 @@ const Firm = ({
           field: 'edit',
           sorting: false,
           filtering: false,
-          // cellStyle: {
-          //   width: 40,
-          //   textAlign: 'center',
-          // },
-
-          // headerStyle: {
-          //   width: 40,
-          //   textAlign: 'center',
-          // },
-          columnStyle: {
-            width: 40,
+          cellStyle: {
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
+          },
+
+          headerStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
         {
@@ -638,18 +636,16 @@ const Firm = ({
           field: 'delete',
           sorting: false,
           filtering: false,
-          // cellStyle: {
-          //   width: 40,
-          //   textAlign: 'center',
-          // },
-
-          // headerStyle: {
-          //   width: 40,
-          //   textAlign: 'center',
-          // },
-          columnStyle: {
-            width: 40,
+          cellStyle: {
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
+          },
+
+          headerStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
       ]}

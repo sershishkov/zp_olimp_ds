@@ -3,17 +3,20 @@ const asyncHandler = require('../../../middleware/async');
 const Model__Expense = require('../../../models/accountant/expenses/Model__Expense');
 
 //@desc   Add a __Expense
-//@route  POST /api/reference-data/expense
+//@route  POST /api/accountant/expenses/expense
 //@access Private
 exports.add__Expense = asyncHandler(async (req, res, next) => {
   //Check if  exists something in body
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Expense, group_Expense } = req.body;
+  const { name__Expense, group_Expense, sum, recipient, date } = req.body;
   const new__Expense = new Model__Expense({
     name__Expense,
     group_Expense,
+    sum,
+    recipient,
+    date,
   });
 
   await new__Expense.save();
@@ -25,17 +28,20 @@ exports.add__Expense = asyncHandler(async (req, res, next) => {
 });
 
 //@desc   Update a __Expense
-//@route  PUT /api/reference-data/expense/:id
+//@route  PUT /api/accountant/expenses/expense/:id
 //@access Private
 exports.update__Expense = asyncHandler(async (req, res, next) => {
   //Check if  exists something in body
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
-  const { name__Expense, group_Expense } = req.body;
+  const { name__Expense, group_Expense, sum, recipient, date } = req.body;
   const new__Expense = {
     name__Expense,
     group_Expense,
+    sum,
+    recipient,
+    date,
   };
 
   const updated__Expense = await Model__Expense.findByIdAndUpdate(
@@ -54,7 +60,7 @@ exports.update__Expense = asyncHandler(async (req, res, next) => {
 });
 
 //@desc   Get all __Expenses
-//@route  GET /api/reference-data/expense
+//@route  GET /api/accountant/expenses/expense
 //@access Private
 exports.getAll__Expenses = asyncHandler(async (req, res, next) => {
   const all__Expenses = await Model__Expense.find()
@@ -74,10 +80,13 @@ exports.getAll__Expenses = asyncHandler(async (req, res, next) => {
 });
 
 //@desc   Get one __Expense
-//@route  GET /api/reference-data/expense/:id
+//@route  GET /api/accountant/expenses/expense/:id
 //@access Private
 exports.getOne__Expense = asyncHandler(async (req, res, next) => {
-  const one__Expense = await Model__Expense.findById(req.params.id);
+  const one__Expense = await Model__Expense.findById(req.params.id).populate({
+    path: 'group_Expense',
+    select: 'name__Group_Expense',
+  });
   //Check if  exists response
   if (!one__Expense) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));
@@ -90,7 +99,7 @@ exports.getOne__Expense = asyncHandler(async (req, res, next) => {
 });
 
 //@desc   DELETE one __Expense
-//@route  DELETE /api/reference-data/expense/:id
+//@route  DELETE /api/accountant/expenses/expense/:id
 //@access Private
 exports.delete__Expense = asyncHandler(async (req, res, next) => {
   const one__Expense = await Model__Expense.findByIdAndDelete(req.params.id);

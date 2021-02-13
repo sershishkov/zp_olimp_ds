@@ -197,17 +197,15 @@ const Expense = ({
           sorting: false,
           filtering: false,
           cellStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
-          },
-          columnStyle: {
-            width: 40,
-            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
         {
@@ -216,17 +214,15 @@ const Expense = ({
           sorting: false,
           filtering: false,
           cellStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
-            width: 40,
+            width: '10%',
             textAlign: 'center',
-          },
-          columnStyle: {
-            width: 40,
-            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
       ]}
