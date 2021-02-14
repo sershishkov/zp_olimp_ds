@@ -121,6 +121,7 @@ export const accountantLinks = [
           'admin',
         ],
       },
+
       {
         name__MenuLink: 'Товары',
         linkToPage: '/reference-data/product',
