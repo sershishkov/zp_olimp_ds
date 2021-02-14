@@ -109,6 +109,7 @@ export const accountantLinks = [
           'admin',
         ],
       },
+
       {
         name__MenuLink: 'Группы работ',
         linkToPage: '/reference-data/group-service-job',
