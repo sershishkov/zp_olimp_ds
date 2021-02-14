@@ -797,6 +797,7 @@ const FirmAdd = ({
             phoneNumber_Helper.length !== 0 ||
             who_is_Helper.length !== 0
           }
+          fullWidth
           variant='contained'
           onClick={() => onSubmit()}
           color='primary'

@@ -168,6 +168,7 @@ const FirmEdit = ({
 
   useEffect(() => {
     setNameOfPage('Редактировать фирму');
+    getAll__TYPE_FIRM();
     if (id) {
       getOne__FIRM(id);
     }
@@ -175,11 +176,13 @@ const FirmEdit = ({
     return () => {
       clearFormData();
     };
-  }, [setNameOfPage, getOne__FIRM, id]);
+  }, [setNameOfPage, getOne__FIRM, id, getAll__TYPE_FIRM]);
+  // console.log(state__TYPE_FIRM.array__TYPE_FIRM);
 
   useLayoutEffect(() => {
     if (state__FIRM.one__FIRM) {
       // console.log(state__FIRM.one__FIRM);
+      // console.log(state__FIRM.one__FIRM.type_Firm._id);
 
       setFormData({
         name__Firm: state__FIRM.one__FIRM.name__Firm
@@ -891,6 +894,7 @@ const FirmEdit = ({
             phoneNumber_Helper.length !== 0 ||
             who_is_Helper.length !== 0
           }
+          fullWidth
           variant='contained'
           onClick={() => onSubmit()}
           color='primary'
