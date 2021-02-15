@@ -73,7 +73,12 @@ const group_product = require('./routes/referenceData/group_product');
 const group_expense = require('./routes/referenceData/group_expense');
 const firm = require('./routes/referenceData/firm');
 
-/////////////////ACCOUNTANT////////////////////////////
+///////////////ACCOUNTANT/////////////////////////////////
+
+///////////////our Products and Works /////////////////////////////////
+const ourNakl = require('./routes/accountant/ourProductsWorks/ourNakl');
+
+///////////////expenses /////////////////////////////////
 const expense = require('./routes/accountant/expenses/expense');
 
 /////////////////////////////////////////////////////
@@ -94,6 +99,11 @@ app.use('/api/reference-data/group-service-job', group_serviceJob);
 app.use('/api/reference-data/group-product', group_product);
 app.use('/api/reference-data/group-expense', group_expense);
 app.use('/api/reference-data/firm', firm);
+
+///////////////ACCOUNTANT/////////////////////////////////
+
+///////////////our Products and Works /////////////////////////////////
+app.use('/api/accountant/our-products-works/our-nakl', ourNakl);
 
 app.use('/api/accountant/expenses/expense', expense);
 
