@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 import { setNameOfPage } from '../../store/actions/nameOfPage';
 
@@ -25,6 +26,12 @@ const About = ({ setNameOfPage }) => {
 
   return (
     <Grid container className={classes.root} direction='column'>
+      <Helmet>
+        <title>ЗП ОЛИМП ДС</title>
+        <link rel='canonical' href='https://zp-olimp-ds.herokuapp.com/' />
+        <meta name='description' content='Главный ремонтник Запорожья' />
+      </Helmet>
+
       <Grid item>
         <Typography variant='h3' className={classes.header} align='center'>
           Компания Олимп - ДС

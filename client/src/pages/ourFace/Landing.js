@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 import { setNameOfPage } from '../../store/actions/nameOfPage';
 
@@ -80,6 +81,17 @@ const Landing = ({ setNameOfPage }) => {
       justify='flex-start'
       alignItems='center'
     >
+      <Helmet>
+        {/* <html lang='en' /> */}
+        {/* <meta charSet='utf-8' /> */}
+        {/* <body className="dark" /> */}
+        {/* <meta name='theme-color' content='#E6E6FA' /> */}
+        {/* <base target="_blank" href="https://@@@.@@@.com/" /> */}
+        <title>ЗП ОЛИМП ДС</title>
+        <link rel='canonical' href='https://zp-olimp-ds.herokuapp.com/' />
+        <meta name='description' content='Главный строитель Запорожья' />
+      </Helmet>
+
       <Grid item className={classes.item}>
         <Typography variant='h3' align='center'>
           Компания ОЛИМП-ДС предоставляет услуги для ОСББ и физических лиц

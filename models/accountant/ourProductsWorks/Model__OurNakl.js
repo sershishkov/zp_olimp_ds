@@ -11,6 +11,11 @@ const Model__OurNakl = new mongoose.Schema({
     // required: [true, 'Введите дату накладной'],
     default: Date.now,
   },
+  contract: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Contract',
+    required: [true, 'Выберите номер договора'],
+  },
   ourFirm: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Firm',

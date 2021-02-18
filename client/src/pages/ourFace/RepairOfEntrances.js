@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 import { setNameOfPage } from '../../store/actions/nameOfPage';
 
@@ -68,6 +69,15 @@ const RepairOfEntrance = ({ setNameOfPage }) => {
 
   return (
     <Grid container className={classes.root}>
+      <Helmet>
+        <title>Ремонт подъездов</title>
+        <link rel='canonical' href='https://zp-olimp-ds.herokuapp.com/' />
+        <meta
+          name='description'
+          content='Главный ремонтник подъездов Запорожья'
+        />
+      </Helmet>
+
       <Grid item className={classes.item}>
         <Typography variant='h3' align='center'>
           {' '}

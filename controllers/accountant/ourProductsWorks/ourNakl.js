@@ -55,22 +55,22 @@ exports.update__OurNakl = asyncHandler(async (req, res, next) => {
     products,
     formOfPayment,
     active,
-    creator,
+    // creator,
   } = req.body;
-  const new__OurNakl = {
-    naklNumber,
-    naclDate,
-    ourFirm,
-    client,
-    products,
-    formOfPayment,
-    active,
-    creator,
-  };
 
   const updated__OurNakl = await Model__OurNakl.findByIdAndUpdate(
     req.params.id,
-    new__OurNakl,
+    {
+      $set: {
+        naklNumber,
+        naclDate,
+        ourFirm,
+        client,
+        products,
+        formOfPayment,
+        active,
+      },
+    },
     {
       new: true,
       runValidators: true,
