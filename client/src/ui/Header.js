@@ -267,130 +267,141 @@ const Header = ({
           </AccordionDetails>
         </Accordion>
 
-        {state_auth.isAuthenticated && (
-          // state_auth.user &&
-          <Accordion className={classes.accordion}>
-            <AccordionSummary
-              expandIcon={<ExpandMore />}
-              aria-controls={`panel-admin-content`}
-              id={`panel-admin-header`}
-              className={classes.accordionSummary}
-            >
-              <Typography className={classes.accordionSummaryHeading}>
-                Админка
-              </Typography>
-            </AccordionSummary>
+        {state_auth.isAuthenticated &&
+          state_auth.user &&
+          state_auth.user.role &&
+          state_auth.user.role === 'admin' && (
+            // state_auth.user &&
+            <Accordion className={classes.accordion}>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls={`panel-admin-content`}
+                id={`panel-admin-header`}
+                className={classes.accordionSummary}
+              >
+                <Typography className={classes.accordionSummaryHeading}>
+                  Админка
+                </Typography>
+              </AccordionSummary>
 
-            <AccordionDetails className={classes.accordionSummaryDetails}>
-              <List disablePadding className={classes.listAccoprdion}>
-                {adminLinks &&
-                  adminLinks.map((option) => (
-                    <ListItem
-                      key={option.name__MenuLink}
-                      component={Link}
-                      to={option.linkToPage}
-                      divider
-                      button
-                      onClick={() => {
-                        setOpenDrawer(false);
-                      }}
-                    >
-                      <ListItemIcon style={{ marginLeft: '1rem' }}>
-                        <InboxIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        disableTypography
-                        className={classes.drawerItem_level2}
+              <AccordionDetails className={classes.accordionSummaryDetails}>
+                <List disablePadding className={classes.listAccoprdion}>
+                  {adminLinks &&
+                    adminLinks.map((option) => (
+                      <ListItem
+                        key={option.name__MenuLink}
+                        component={Link}
+                        to={option.linkToPage}
+                        divider
+                        button
+                        onClick={() => {
+                          setOpenDrawer(false);
+                        }}
                       >
-                        {option.name__MenuLink}
-                      </ListItemText>
-                    </ListItem>
-                  ))}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        )}
+                        <ListItemIcon style={{ marginLeft: '1rem' }}>
+                          <InboxIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          disableTypography
+                          className={classes.drawerItem_level2}
+                        >
+                          {option.name__MenuLink}
+                        </ListItemText>
+                      </ListItem>
+                    ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          )}
 
-        {state_auth.isAuthenticated && (
-          <Accordion className={classes.accordion}>
-            <AccordionSummary
-              expandIcon={<ExpandMore />}
-              aria-controls={`panel-accountant-content`}
-              id={`panel-accountant-header`}
-              className={classes.accordionSummary}
-            >
-              <Typography className={classes.accordionSummaryHeading}>
-                Бухгалтерия
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className={classes.accordionSummaryDetails}>
-              <List disablePadding className={classes.listAccoprdion}>
-                {accountantLinks &&
-                  accountantLinks.map((group) => (
-                    <ListItem key={group.groupName} divider>
-                      <ListItemIcon style={{ marginLeft: '1rem' }}>
-                        <WorkIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        disableTypography
-                        className={classes.drawerItem_level2}
-                      >
-                        <Accordion className={classes.accordion}>
-                          <AccordionSummary
-                            expandIcon={<ExpandMore />}
-                            aria-controls={`panel-${group.groupName}-content`}
-                            id={`panel-${group.groupName}-header`}
-                            className={classes.accordionSummary}
+        {state_auth.isAuthenticated &&
+          state_auth.user &&
+          state_auth.user.role &&
+          accountantLinks.allowedRoles.includes(state_auth.user.role) && (
+            <Accordion className={classes.accordion}>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls={`panel-accountant-content`}
+                id={`panel-accountant-header`}
+                className={classes.accordionSummary}
+              >
+                <Typography className={classes.accordionSummaryHeading}>
+                  Бухгалтерия
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.accordionSummaryDetails}>
+                <List disablePadding className={classes.listAccoprdion}>
+                  {accountantLinks.groupLinks &&
+                    accountantLinks.groupLinks.length > 0 &&
+                    accountantLinks.groupLinks
+                      .filter((group) =>
+                        group.allowedRoles.includes(state_auth.user.role)
+                      )
+                      .map((group) => (
+                        <ListItem key={group.groupName} divider>
+                          <ListItemIcon style={{ marginLeft: '1rem' }}>
+                            <WorkIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            disableTypography
+                            className={classes.drawerItem_level2}
                           >
-                            <Typography
-                              className={classes.accordionSummaryHeading}
-                            >
-                              {group.groupName}
-                            </Typography>
-                          </AccordionSummary>
+                            <Accordion className={classes.accordion}>
+                              <AccordionSummary
+                                expandIcon={<ExpandMore />}
+                                aria-controls={`panel-${group.groupName}-content`}
+                                id={`panel-${group.groupName}-header`}
+                                className={classes.accordionSummary}
+                              >
+                                <Typography
+                                  className={classes.accordionSummaryHeading}
+                                >
+                                  {group.groupName}
+                                </Typography>
+                              </AccordionSummary>
 
-                          <AccordionDetails
-                            className={classes.accordionSummaryDetails}
-                          >
-                            <List
-                              disablePadding
-                              className={classes.listAccoprdion}
-                            >
-                              {group.links &&
-                                group.links.map((option) => (
-                                  <ListItem
-                                    key={option.name__MenuLink}
-                                    component={Link}
-                                    to={option.linkToPage}
-                                    divider
-                                    button
-                                    onClick={() => {
-                                      setOpenDrawer(false);
-                                    }}
-                                  >
-                                    <ListItemIcon
-                                      style={{ marginLeft: '1rem' }}
-                                    >
-                                      <InboxIcon />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                      disableTypography
-                                      className={classes.drawerItem_level3}
-                                    >
-                                      {option.name__MenuLink}
-                                    </ListItemText>
-                                  </ListItem>
-                                ))}
-                            </List>
-                          </AccordionDetails>
-                        </Accordion>
-                      </ListItemText>
-                    </ListItem>
-                  ))}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        )}
+                              <AccordionDetails
+                                className={classes.accordionSummaryDetails}
+                              >
+                                <List
+                                  disablePadding
+                                  className={classes.listAccoprdion}
+                                >
+                                  {group.links &&
+                                    group.links.map((option) => (
+                                      <ListItem
+                                        key={option.name__MenuLink}
+                                        component={Link}
+                                        to={option.linkToPage}
+                                        divider
+                                        button
+                                        onClick={() => {
+                                          setOpenDrawer(false);
+                                        }}
+                                      >
+                                        <ListItemIcon
+                                          style={{ marginLeft: '1rem' }}
+                                        >
+                                          <InboxIcon />
+                                        </ListItemIcon>
+                                        <ListItemText
+                                          disableTypography
+                                          className={classes.drawerItem_level3}
+                                        >
+                                          {option.name__MenuLink}
+                                        </ListItemText>
+                                      </ListItem>
+                                    ))}
+                                </List>
+                              </AccordionDetails>
+                            </Accordion>
+                          </ListItemText>
+                        </ListItem>
+                      ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          )}
       </SwipeableDrawer>
 
       <Tooltip title='Меню'>
