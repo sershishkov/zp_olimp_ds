@@ -78,6 +78,8 @@ const firm = require('./routes/referenceData/firm');
 ///////////////our Products and Works /////////////////////////////////
 const ourNakl = require('./routes/accountant/ourProductsWorks/ourNakl');
 
+///////////////contract /////////////////////////////////
+const contract = require('./routes/accountant/contract/contract');
 ///////////////expenses /////////////////////////////////
 const expense = require('./routes/accountant/expenses/expense');
 
@@ -104,6 +106,8 @@ app.use('/api/reference-data/firm', firm);
 
 ///////////////our Products and Works /////////////////////////////////
 app.use('/api/accountant/our-products-works/our-nakl', ourNakl);
+///////////////contract /////////////////////////////////
+app.use('/api/accountant/contract', contract);
 
 app.use('/api/accountant/expenses/expense', expense);
 

@@ -14,6 +14,7 @@ exports.add__OurNakl = asyncHandler(async (req, res, next) => {
   const {
     naklNumber,
     naclDate,
+    contract,
     ourFirm,
     client,
     products,
@@ -23,6 +24,7 @@ exports.add__OurNakl = asyncHandler(async (req, res, next) => {
   const new__OurNakl = new Model__OurNakl({
     naklNumber,
     naclDate,
+    contract,
     ourFirm,
     client,
     products,
@@ -50,6 +52,7 @@ exports.update__OurNakl = asyncHandler(async (req, res, next) => {
   const {
     naklNumber,
     naclDate,
+    contract,
     ourFirm,
     client,
     products,
@@ -64,11 +67,12 @@ exports.update__OurNakl = asyncHandler(async (req, res, next) => {
       $set: {
         naklNumber,
         naclDate,
+        contract,
         ourFirm,
         client,
         products,
         formOfPayment,
-        active,
+        active: active ? active : true,
       },
     },
     {

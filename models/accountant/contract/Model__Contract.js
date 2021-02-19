@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Model__Contract = new mongoose.Schema({
   number__Contract: {
     type: String,
+    unique: true,
     required: [true, 'Введите номер договора'],
   },
   date_Contract: {
