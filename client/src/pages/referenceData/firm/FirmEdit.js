@@ -28,6 +28,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +42,17 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogItem: {
     width: '100%',
+  },
+  wrapSelectAndLink: {
+    // border: '1px solid #ff0000',
+  },
+  wrapSelect: {
+    // border: '1px solid #00ff00',
+    width: '300px',
+  },
+  select: {},
+  wrapLink: {
+    // border: '1px solid #0000ff',
   },
 }));
 
@@ -572,35 +585,56 @@ const FirmEdit = ({
           onChange={(e) => onChangeHandler(e)}
         />
       </Grid>
+
       <Grid item className={classes.item}>
-        <InputLabel id='type_Firm-label'>Форма Собств.</InputLabel>
-        <Select
-          labelId='type_Firm-label'
-          id='type_Firm'
-          name='type_Firm'
-          // multiple
-          required
-          fullWidth
-          value={type_Firm ? type_Firm : ''}
-          onChange={(e) => onChangeHandler(e)}
-          // input={<Input />}
-          // renderValue={(selected) => selected.join(', ')}
-          className={classes.select}
+        <Grid
+          container
+          className={classes.wrapSelectAndLink}
+          justify='space-around'
+          alignItems='center'
+          direction='row'
         >
-          {state__TYPE_FIRM.array__TYPE_FIRM &&
-            state__TYPE_FIRM.array__TYPE_FIRM.length > 0 &&
-            state__TYPE_FIRM.array__TYPE_FIRM.map((item) => (
-              <MenuItem
-                key={item._id}
-                value={item._id}
-                className={classes.selectItem}
+          <Grid item className={classes.wrapSelect}>
+            <InputLabel id='type_Firm-label'>Форма Собств.</InputLabel>
+            <Select
+              labelId='type_Firm-label'
+              id='type_Firm'
+              name='type_Firm'
+              // multiple
+              required
+              fullWidth
+              value={type_Firm ? type_Firm : ''}
+              onChange={(e) => onChangeHandler(e)}
+              // input={<Input />}
+              // renderValue={(selected) => selected.join(', ')}
+              className={classes.select}
+            >
+              {state__TYPE_FIRM.array__TYPE_FIRM &&
+                state__TYPE_FIRM.array__TYPE_FIRM.length > 0 &&
+                state__TYPE_FIRM.array__TYPE_FIRM.map((item) => (
+                  <MenuItem
+                    key={item._id}
+                    value={item._id}
+                    className={classes.selectItem}
+                  >
+                    {/* <Checkbox checked={unit && unit.indexOf(item._id) > -1} /> */}
+                    {item.name__Type_Firm}
+                  </MenuItem>
+                ))}
+            </Select>
+          </Grid>
+          <Grid item className={classes.wrapLink}>
+            <Tooltip title='Добавить форму собственности'>
+              <IconButton
+                onClick={() => history.push(`/reference-data/type-firm/add`)}
               >
-                {/* <Checkbox checked={unit && unit.indexOf(item._id) > -1} /> */}
-                {item.name__Type_Firm}
-              </MenuItem>
-            ))}
-        </Select>
+                <Icon color='primary'>add_circle</Icon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </Grid>
+
       <Grid item className={classes.item}>
         <TextField
           id='postCode'

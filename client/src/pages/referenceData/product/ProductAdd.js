@@ -23,6 +23,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -34,6 +37,17 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogItem: {
     width: '100%',
+  },
+  wrapSelectAndLink: {
+    // border: '1px solid #ff0000',
+  },
+  wrapSelect: {
+    // border: '1px solid #00ff00',
+    width: '300px',
+  },
+  select: {},
+  wrapLink: {
+    // border: '1px solid #0000ff',
   },
 }));
 
@@ -256,57 +270,98 @@ const ProductAdd = ({
           onChange={(e) => onChangeHandler(e)}
         />
       </Grid>
+
       <Grid item className={classes.item}>
-        <InputLabel id='unit-label'>Единицы изм.</InputLabel>
-        <Select
-          labelId='unit-label'
-          id='unit'
-          name='unit'
-          // multiple
-          required
-          fullWidth
-          value={unit ? unit : ''}
-          onChange={(e) => onChangeHandler(e)}
-          className={classes.select}
+        <Grid
+          container
+          className={classes.wrapSelectAndLink}
+          justify='space-around'
+          alignItems='center'
+          direction='row'
         >
-          {state__UNIT.array__UNIT &&
-            state__UNIT.array__UNIT.length > 0 &&
-            state__UNIT.array__UNIT.map((item) => (
-              <MenuItem
-                key={item._id}
-                value={item._id}
-                className={classes.selectItem}
+          <Grid item className={classes.wrapSelect}>
+            <InputLabel id='unit-label'>Единицы изм.</InputLabel>
+            <Select
+              labelId='unit-label'
+              id='unit'
+              name='unit'
+              // multiple
+              required
+              fullWidth
+              value={unit ? unit : ''}
+              onChange={(e) => onChangeHandler(e)}
+              className={classes.select}
+            >
+              {state__UNIT.array__UNIT &&
+                state__UNIT.array__UNIT.length > 0 &&
+                state__UNIT.array__UNIT.map((item) => (
+                  <MenuItem
+                    key={item._id}
+                    value={item._id}
+                    className={classes.selectItem}
+                  >
+                    {item.name__Unit}
+                  </MenuItem>
+                ))}
+            </Select>
+          </Grid>
+          <Grid item className={classes.wrapLink}>
+            <Tooltip title='Добавить единицу измерения'>
+              <IconButton
+                onClick={() => history.push(`/reference-data/unit/add`)}
               >
-                {item.name__Unit}
-              </MenuItem>
-            ))}
-        </Select>
+                <Icon color='primary'>add_circle</Icon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item className={classes.item}>
-        <InputLabel id='group_Product-label'>Группа товаров</InputLabel>
-        <Select
-          labelId='group_Product-label'
-          id='group_Product'
-          name='group_Product'
-          // multiple
-          required
-          fullWidth
-          value={group_Product ? group_Product : ''}
-          onChange={(e) => onChangeHandler(e)}
-          className={classes.select}
+        <Grid
+          container
+          className={classes.wrapSelectAndLink}
+          justify='space-around'
+          alignItems='center'
+          direction='row'
         >
-          {state__GROUP_PRODUCT.array__GROUP_PRODUCT &&
-            state__GROUP_PRODUCT.array__GROUP_PRODUCT.length > 0 &&
-            state__GROUP_PRODUCT.array__GROUP_PRODUCT.map((item) => (
-              <MenuItem
-                key={item._id}
-                value={item._id}
-                className={classes.selectItem}
+          <Grid item className={classes.wrapSelect}>
+            <InputLabel id='group_Product-label'>Группа товаров</InputLabel>
+            <Select
+              labelId='group_Product-label'
+              id='group_Product'
+              name='group_Product'
+              // multiple
+              required
+              fullWidth
+              value={group_Product ? group_Product : ''}
+              onChange={(e) => onChangeHandler(e)}
+              className={classes.select}
+            >
+              {state__GROUP_PRODUCT.array__GROUP_PRODUCT &&
+                state__GROUP_PRODUCT.array__GROUP_PRODUCT.length > 0 &&
+                state__GROUP_PRODUCT.array__GROUP_PRODUCT.map((item) => (
+                  <MenuItem
+                    key={item._id}
+                    value={item._id}
+                    className={classes.selectItem}
+                  >
+                    {item.name__Group_Product}
+                  </MenuItem>
+                ))}
+            </Select>
+          </Grid>
+          <Grid item className={classes.wrapLink}>
+            <Tooltip title='Добавить группу товаров'>
+              <IconButton
+                onClick={() =>
+                  history.push(`/reference-data/group-product/add`)
+                }
               >
-                {item.name__Group_Product}
-              </MenuItem>
-            ))}
-        </Select>
+                <Icon color='primary'>add_circle</Icon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </Grid>
 
       <Grid item className={classes.item}>

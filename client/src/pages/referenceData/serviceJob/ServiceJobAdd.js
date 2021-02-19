@@ -28,6 +28,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
 import Chip from '@material-ui/core/Chip';
 
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -39,6 +42,17 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogItem: {
     width: '100%',
+  },
+  wrapSelectAndLink: {
+    // border: '1px solid #ff0000',
+  },
+  wrapSelect: {
+    // border: '1px solid #00ff00',
+    width: '300px',
+  },
+  select: {},
+  wrapLink: {
+    // border: '1px solid #0000ff',
   },
 }));
 
@@ -208,67 +222,131 @@ const ServiceJobAdd = ({
         />
       </Grid>
       <Grid item className={classes.item}>
-        <InputLabel id='unit-label'>Единицы изм.</InputLabel>
-        <Select
-          labelId='unit-label'
-          id='unit'
-          name='unit'
-          // multiple
-          required
-          fullWidth
-          value={unit ? unit : ''}
-          onChange={(e) => onChangeHandler(e)}
-          // input={<Input />}
-          // renderValue={(selected) => selected.join(', ')}
-          className={classes.select}
+        <Grid
+          container
+          className={classes.wrapSelectAndLink}
+          justify='space-around'
+          alignItems='center'
+          direction='row'
         >
-          {state__UNIT.array__UNIT &&
-            state__UNIT.array__UNIT.length > 0 &&
-            state__UNIT.array__UNIT.map((item) => (
-              <MenuItem
-                key={item._id}
-                value={item._id}
-                className={classes.selectItem}
+          <Grid item className={classes.wrapSelect}>
+            <InputLabel id='unit-label'>Единицы изм.</InputLabel>
+            <Select
+              labelId='unit-label'
+              id='unit'
+              name='unit'
+              // multiple
+              required
+              fullWidth
+              value={unit ? unit : ''}
+              onChange={(e) => onChangeHandler(e)}
+              // input={<Input />}
+              // renderValue={(selected) => selected.join(', ')}
+              className={classes.select}
+            >
+              {state__UNIT.array__UNIT &&
+                state__UNIT.array__UNIT.length > 0 &&
+                state__UNIT.array__UNIT.map((item) => (
+                  <MenuItem
+                    key={item._id}
+                    value={item._id}
+                    className={classes.selectItem}
+                  >
+                    {/* <Checkbox checked={unit && unit.indexOf(item._id) > -1} /> */}
+                    {item.name__Unit}
+                  </MenuItem>
+                ))}
+            </Select>
+          </Grid>
+
+          <Grid item className={classes.wrapLink}>
+            <Tooltip title='Добавить еденицу измерения'>
+              <IconButton
+                onClick={() => history.push(`/reference-data/unit/add`)}
               >
-                {/* <Checkbox checked={unit && unit.indexOf(item._id) > -1} /> */}
-                {item.name__Unit}
-              </MenuItem>
-            ))}
-        </Select>
+                <Icon color='primary'>add_circle</Icon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item className={classes.item}>
-        <InputLabel id='group_ServiceJob-label'>Группа работ</InputLabel>
-        <Select
-          labelId='group_ServiceJob-label'
-          id='group_ServiceJob'
-          name='group_ServiceJob'
-          // multiple
-          required
-          fullWidth
-          value={group_ServiceJob ? group_ServiceJob : ''}
-          onChange={(e) => onChangeHandler(e)}
-          // input={<Input />}
-          // renderValue={(selected) => selected.join(', ')}
-          className={classes.select}
+        <Grid
+          container
+          className={classes.wrapSelectAndLink}
+          justify='space-around'
+          alignItems='center'
+          direction='row'
         >
-          {state__GROUP_SERVICE_JOB.array__GROUP_SERVICE_JOB &&
-            state__GROUP_SERVICE_JOB.array__GROUP_SERVICE_JOB.length > 0 &&
-            state__GROUP_SERVICE_JOB.array__GROUP_SERVICE_JOB.map((item) => (
-              <MenuItem
-                key={item._id}
-                value={item._id}
-                className={classes.selectItem}
-              >
-                {/* <Checkbox
+          <Grid item className={classes.wrapSelect}>
+            <InputLabel id='group_ServiceJob-label'>Группа работ</InputLabel>
+            <Select
+              labelId='group_ServiceJob-label'
+              id='group_ServiceJob'
+              name='group_ServiceJob'
+              // multiple
+              required
+              fullWidth
+              value={group_ServiceJob ? group_ServiceJob : ''}
+              onChange={(e) => onChangeHandler(e)}
+              // input={<Input />}
+              // renderValue={(selected) => selected.join(', ')}
+              className={classes.select}
+            >
+              {state__GROUP_SERVICE_JOB.array__GROUP_SERVICE_JOB &&
+                state__GROUP_SERVICE_JOB.array__GROUP_SERVICE_JOB.length > 0 &&
+                state__GROUP_SERVICE_JOB.array__GROUP_SERVICE_JOB.map(
+                  (item) => (
+                    <MenuItem
+                      key={item._id}
+                      value={item._id}
+                      className={classes.selectItem}
+                    >
+                      {/* <Checkbox
                           checked={
                             group_ServiceJob &&
                             group_ServiceJob.indexOf(item._id) > -1
                           }
                         /> */}
-                {item.name__Group_ServiceJob}
-              </MenuItem>
-            ))}
-        </Select>
+                      {item.name__Group_ServiceJob}
+                    </MenuItem>
+                  )
+                )}
+            </Select>
+          </Grid>
+          <Grid item className={classes.wrapLink}>
+            <Tooltip title='Добавить группу работ'>
+              <IconButton
+                onClick={() =>
+                  history.push(`/reference-data/group-service-job/add`)
+                }
+              >
+                <Icon color='primary'>add_circle</Icon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
+
+        {/* <Grid
+          container
+          className={classes.wrapSelectAndLink}
+          justify='space-around'
+          alignItems='center'
+          direction='row'
+        >
+          <Grid item className={classes.wrapSelect}></Grid>
+          <Grid item className={classes.wrapLink}>
+          <Tooltip title='Добавить группу работ'>
+              <IconButton
+                onClick={() =>
+                  history.push(`/reference-data/group-service-job/add`)
+                }
+              >
+                <Icon color='primary'>add_circle</Icon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid> */}
       </Grid>
       <Grid item className={classes.item}>
         <TextField
@@ -301,55 +379,74 @@ const ServiceJobAdd = ({
         />
       </Grid>
       <Grid item className={classes.item}>
-        <InputLabel id='products-label'>Товары</InputLabel>
-        <Select
-          labelId='products-label'
-          id='products'
-          name='products'
-          multiple
-          required
-          fullWidth
-          value={products ? products : []}
-          onChange={(e) => onChangeHandler(e)}
-          input={<Input />}
-          renderValue={(selected) => (
-            <div className={classes.chips}>
-              {selected &&
-                selected.length > 0 &&
-                state__PRODUCT.array__PRODUCT &&
-                state__PRODUCT.array__PRODUCT.length > 0 &&
-                selected.map((value) => {
-                  let itemToDispaly = state__PRODUCT.array__PRODUCT.find(
-                    (item) => item._id === value
-                  ).name__Product;
-
-                  return (
-                    <Chip
-                      key={value}
-                      label={itemToDispaly}
-                      className={classes.chip}
-                    />
-                  );
-                })}
-            </div>
-          )}
-          className={classes.select}
+        <Grid
+          container
+          className={classes.wrapSelectAndLink}
+          justify='space-around'
+          alignItems='center'
+          direction='row'
         >
-          {state__PRODUCT.array__PRODUCT &&
-            state__PRODUCT.array__PRODUCT.length > 0 &&
-            state__PRODUCT.array__PRODUCT.map((item) => (
-              <MenuItem
-                key={item._id}
-                value={item._id}
-                className={classes.selectItem}
+          <Grid item className={classes.wrapSelect}>
+            <InputLabel id='products-label'>Товары</InputLabel>
+            <Select
+              labelId='products-label'
+              id='products'
+              name='products'
+              multiple
+              required
+              fullWidth
+              value={products ? products : []}
+              onChange={(e) => onChangeHandler(e)}
+              input={<Input />}
+              renderValue={(selected) => (
+                <div className={classes.chips}>
+                  {selected &&
+                    selected.length > 0 &&
+                    state__PRODUCT.array__PRODUCT &&
+                    state__PRODUCT.array__PRODUCT.length > 0 &&
+                    selected.map((value) => {
+                      let itemToDispaly = state__PRODUCT.array__PRODUCT.find(
+                        (item) => item._id === value
+                      ).name__Product;
+
+                      return (
+                        <Chip
+                          key={value}
+                          label={itemToDispaly}
+                          className={classes.chip}
+                        />
+                      );
+                    })}
+                </div>
+              )}
+              className={classes.select}
+            >
+              {state__PRODUCT.array__PRODUCT &&
+                state__PRODUCT.array__PRODUCT.length > 0 &&
+                state__PRODUCT.array__PRODUCT.map((item) => (
+                  <MenuItem
+                    key={item._id}
+                    value={item._id}
+                    className={classes.selectItem}
+                  >
+                    <Checkbox
+                      checked={products && products.indexOf(item._id) > -1}
+                    />
+                    {item.name__Product}
+                  </MenuItem>
+                ))}
+            </Select>
+          </Grid>
+          <Grid item className={classes.wrapLink}>
+            <Tooltip title='Добавить товар'>
+              <IconButton
+                onClick={() => history.push(`/reference-data/product/add`)}
               >
-                <Checkbox
-                  checked={products && products.indexOf(item._id) > -1}
-                />
-                {item.name__Product}
-              </MenuItem>
-            ))}
-        </Select>
+                <Icon color='primary'>add_circle</Icon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item className={classes.item}>
         <Button
