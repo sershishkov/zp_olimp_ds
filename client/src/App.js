@@ -19,6 +19,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from './components/Alert';
 import Header from './ui/Header';
 import Footer from './ui/Footer';
+import FourOFour from './ui/FourOFour';
 
 import Landing from './pages/ourFace/Landing';
 import About from './pages/ourFace/About';
@@ -110,11 +111,22 @@ const GroupExpenseEdit = lazy(() =>
 const Firm = lazy(() => import('./pages/referenceData/firm/Firm'));
 const FirmAdd = lazy(() => import('./pages/referenceData/firm/FirmAdd'));
 const FirmEdit = lazy(() => import('./pages/referenceData/firm/FirmEdit'));
+/////////////////////////ACCOUNTANT///////////////////////////
 
 const Expense = lazy(() => import('./pages/accountant/expenses/Expense'));
 const ExpenseAdd = lazy(() => import('./pages/accountant/expenses/ExpenseAdd'));
 const ExpenseEdit = lazy(() =>
   import('./pages/accountant/expenses/ExpenseEdit')
+);
+
+const OurNakl = lazy(() =>
+  import('./pages/accountant/ourProductsWorks/ourNakl/OurNakl')
+);
+const OurNaklAdd = lazy(() =>
+  import('./pages/accountant/ourProductsWorks/ourNakl/OurNaklAdd')
+);
+const OurNaklEdit = lazy(() =>
+  import('./pages/accountant/ourProductsWorks/ourNakl/OurNaklEdit')
 );
 
 const useStyles = makeStyles((theme) => ({
@@ -378,6 +390,24 @@ function App() {
                     path='/accountant/expenses/expense/:id'
                     component={ExpenseEdit}
                   />
+
+                  <PrivateRoute
+                    exact
+                    path='/accountant/our-products-works/our-nakl'
+                    component={OurNakl}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/accountant/our-products-works/our-nakl/add'
+                    component={OurNaklAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/accountant/our-products-works/our-nakl/:id'
+                    component={OurNaklEdit}
+                  />
+
+                  <Route path='*' component={FourOFour} />
                 </Switch>
               </Suspense>
             </Container>

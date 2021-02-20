@@ -74,13 +74,40 @@ export const accountantLinks = {
   groupLinks: [
     {
       groupName: 'Поступления',
-      allowedRoles: ['accountant', 'boss', 'admin'],
+      allowedRoles: [
+        'seller',
+        'engineer',
+        'accountant',
+        'manager',
+        'boss',
+        'admin',
+      ],
       links: [],
     },
     {
       groupName: 'Реализация',
-      allowedRoles: ['accountant', 'boss', 'admin'],
-      links: [],
+      allowedRoles: [
+        'seller',
+        'engineer',
+        'accountant',
+        'manager',
+        'boss',
+        'admin',
+      ],
+      links: [
+        {
+          name__MenuLink: 'Накладные',
+          linkToPage: '/accountant/our-products-works/our-nakl',
+        },
+        {
+          name__MenuLink: 'Акты',
+          linkToPage: '/accountant/our-products-works/our-act',
+        },
+        {
+          name__MenuLink: 'Счета',
+          linkToPage: '/accountant/our-products-works/our-invoice',
+        },
+      ],
     },
     {
       groupName: 'Расходы',

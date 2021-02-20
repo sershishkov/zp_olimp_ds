@@ -16,6 +16,10 @@ import firm from './referenceData/firm';
 
 import expense from './accountant/expenses/expense';
 
+import ourAct from './accountant/ourProductsWorks/ourAct';
+import ourInvoice from './accountant/ourProductsWorks/ourInvoice';
+import ourNakl from './accountant/ourProductsWorks/ourNakl';
+
 export default combineReducers({
   nameOfPage,
   alert,
@@ -33,4 +37,8 @@ export default combineReducers({
   firm,
 
   expense,
+
+  ourAct,
+  ourInvoice,
+  ourNakl,
 });
