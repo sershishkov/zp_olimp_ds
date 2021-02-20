@@ -501,13 +501,13 @@ const ProductAdd = ({
             // !height ||
             // !weight ||
             name__PRODUCT_Helper.length !== 0 ||
-            enteredPrice_Helper.length !== 0 ||
-            amountInPackage_Helper.length !== 0 ||
-            expenseFor_Helper.length !== 0 ||
-            length_Helper.length !== 0 ||
-            width_Helper.length !== 0 ||
-            height_Helper.length !== 0 ||
-            weight_Helper.length !== 0
+            enteredPrice_Helper.length !== 0
+            // amountInPackage_Helper.length !== 0 ||
+            // expenseFor_Helper.length !== 0 ||
+            // length_Helper.length !== 0 ||
+            // width_Helper.length !== 0 ||
+            // height_Helper.length !== 0 ||
+            // weight_Helper.length !== 0
           }
           fullWidth
           variant='contained'

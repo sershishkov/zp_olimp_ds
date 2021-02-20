@@ -1,83 +1,75 @@
 const ErrorResponse = require('../../../utils/errorResponse');
 const asyncHandler = require('../../../middleware/async');
-const Model__OurInvoice = require('../../../models/accountant/ourProductsWorks/Model__OurInvoice');
+const Model__OurAct = require('../../../models/accountant/ourProductsWorks/Model__OurAct');
 
-//@desc   Add a __OurInvoice
-//@route  POST /api/accountant/our-products-works/our-invoice
+//@desc   Add a __OurAct
+//@route  POST /api/accountant/our-products-works/our-act
 //@access Private
-exports.add__OurInvoice = asyncHandler(async (req, res, next) => {
+exports.add__OurAct = asyncHandler(async (req, res, next) => {
   //Check if  exists something in body
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
   const userId = req.user.id;
   const {
-    invoiceNumber,
-    invoiceDate,
+    actNumber,
+    actDate,
     contract,
     ourFirm,
     client,
     serviceJobs,
-    products,
-    purpose_of_payment,
     formOfPayment,
     active,
   } = req.body;
-  const new__OurInvoice = new Model__OurInvoice({
-    invoiceNumber,
-    invoiceDate,
+  const new__OurAct = new Model__OurAct({
+    actNumber,
+    actDate,
     contract,
     ourFirm,
     client,
     serviceJobs,
-    products,
-    purpose_of_payment,
     formOfPayment,
     active,
     creator: userId,
   });
 
-  await new__OurInvoice.save();
+  await new__OurAct.save();
 
   res.status(200).json({
     success: true,
-    data: new__OurInvoice,
+    data: new__OurAct,
   });
 });
 
-//@desc   Update a __OurInvoice
-//@route  PUT /api/accountant/our-products-works/our-invoice/:id
+//@desc   Update a __OurAct
+//@route  PUT /api/accountant/our-products-works/our-act/:id
 //@access Private
-exports.update__OurInvoice = asyncHandler(async (req, res, next) => {
+exports.update__OurAct = asyncHandler(async (req, res, next) => {
   //Check if  exists something in body
   if (!req.body) {
     return next(new ErrorResponse('Не переданы значения', 400));
   }
   const {
-    invoiceNumber,
-    invoiceDate,
+    actNumber,
+    actDate,
     contract,
     ourFirm,
     client,
     serviceJobs,
-    products,
-    purpose_of_payment,
     formOfPayment,
     active,
   } = req.body;
 
-  const updated__OurInvoice = await Model__OurInvoice.findByIdAndUpdate(
+  const updated__OurAct = await Model__OurAct.findByIdAndUpdate(
     req.params.id,
     {
       $set: {
-        invoiceNumber,
-        invoiceDate,
+        actNumber,
+        actDate,
         contract,
         ourFirm,
         client,
         serviceJobs,
-        products,
-        purpose_of_payment,
         formOfPayment,
         active,
       },
@@ -90,16 +82,15 @@ exports.update__OurInvoice = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    data: updated__OurInvoice,
+    data: updated__OurAct,
   });
 });
 
-//@desc   Get all __OurInvoices
-//@route  GET /api/accountant/our-products-works/our-invoice
+//@desc   Get all __OurActs
+//@route  GET /api/accountant/our-products-works/our-act
 //@access Private
-exports.getAll__OurInvoices = asyncHandler(async (req, res, next) => {
-  // console.log(query);
-  const all__OurInvoices = await Model__OurInvoice.find(req.query)
+exports.getAll__OurActs = asyncHandler(async (req, res, next) => {
+  const all__OurActs = await Model__OurAct.find(req.query)
     .populate({ path: 'contract', select: 'number__Contract date_Contract ' })
     .populate({ path: 'ourFirm', select: 'name__Firm' })
     .populate({ path: 'client', select: 'name__Firm' })
@@ -107,66 +98,57 @@ exports.getAll__OurInvoices = asyncHandler(async (req, res, next) => {
       path: 'serviceJobs.serviceJob',
       select: 'name__ServiceJob',
     })
-    .populate({
-      path: 'products.product',
-      select: 'name__Product',
-    })
+
     .sort({
       invoiceDate: -1,
     });
   //Check if  exists response
-  if (!all__OurInvoices) {
+  if (!all__OurActs) {
     return next(new ErrorResponse('На данный момент ничего в базе нет ', 400));
   }
 
   res.status(200).json({
     success: true,
-    data: all__OurInvoices,
+    data: all__OurActs,
   });
 });
 
-//@desc   Get one __OurInvoice
-//@route  GET /api/accountant/our-products-works/our-invoice/:id
+//@desc   Get one __OurAct
+//@route  GET /api/accountant/our-products-works/our-act/:id
 //@access Private
-exports.getOne__OurInvoice = asyncHandler(async (req, res, next) => {
-  const one__OurInvoice = await Model__OurInvoice.findById(req.params.id)
+exports.getOne__OurAct = asyncHandler(async (req, res, next) => {
+  const one__OurAct = await Model__OurAct.findById(req.params.id)
     .populate({ path: 'contract', select: 'number__Contract date_Contract ' })
     .populate({ path: 'ourFirm', select: 'name__Firm' })
     .populate({ path: 'client', select: 'name__Firm' })
     .populate({
       path: 'serviceJobs.serviceJob',
       select: 'name__ServiceJob',
-    })
-    .populate({
-      path: 'products.product',
-      select: 'name__Product',
     });
   //Check if  exists response
-  if (!one__OurInvoice) {
+  if (!one__OurAct) {
     return next(new ErrorResponse('Нет  объекта с данным id', 400));
   }
 
   res.status(200).json({
     success: true,
-    data: one__OurInvoice,
+    data: one__OurAct,
   });
 });
 
-//@desc   DELETE one __OurInvoice
-//@route  DELETE /api/accountant/our-products-works/our-invoice/:id
+//@desc   DELETE one __OurAct
+//@route  DELETE /api/accountant/our-products-works/our-act/:id
 //@access Private
-exports.delete__OurInvoice = asyncHandler(async (req, res, next) => {
+exports.delete__OurAct = asyncHandler(async (req, res, next) => {
   if (req.user.role === 'admin' || req.user.role === 'accountant') {
-    const one__OurInvoice = await Model__OurInvoice.findByIdAndDelete(
-      req.params.id
-    );
+    const one__OurAct = await Model__OurAct.findByIdAndDelete(req.params.id);
 
     //Check if  exists response
-    if (!one__OurInvoice) {
+    if (!one__OurAct) {
       return next(new ErrorResponse('Нет  объекта с данным id', 400));
     }
   } else {
-    await Model__OurInvoice.findByIdAndUpdate(
+    await Model__OurAct.findByIdAndUpdate(
       req.params.id,
       {
         $set: {

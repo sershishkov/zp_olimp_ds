@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
-const Model__OurNakl = new mongoose.Schema({
-  naklNumber: {
+const Model__OurAct = new mongoose.Schema({
+  actNumber: {
     type: String,
     required: [true, 'Введите номер накладной'],
     unique: true,
   },
-  naclDate: {
+  actDate: {
     type: Date,
     // required: [true, 'Введите дату накладной'],
-    default: Date.now,
+    // default: Date.now,
   },
   contract: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,12 +26,12 @@ const Model__OurNakl = new mongoose.Schema({
     ref: 'Firm',
     required: [true, 'Выберите фирму Заказчика'],
   },
-  products: [
+  serviceJobs: [
     {
-      product: {
+      serviceJob: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: [true, 'Выберите товар'],
+        ref: 'ServiceJob',
+        required: [true, 'Выберите работу'],
       },
       description: {
         type: String,
@@ -40,13 +40,13 @@ const Model__OurNakl = new mongoose.Schema({
         type: Number,
         required: [true, 'Введите количество'],
       },
-      enteredPrice: {
+      employeePrice: {
         type: Number,
-        required: [true, 'Введите закупочную цену товара'],
+        required: [true, 'Введите  цену работникам'],
       },
       sellingPrice: {
         type: Number,
-        required: [true, 'Введите продажную цену товара'],
+        required: [true, 'Введите продажную цену работ'],
       },
     },
   ],
@@ -69,4 +69,4 @@ const Model__OurNakl = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('OurNakl', Model__OurNakl);
+module.exports = mongoose.model('OurAct', Model__OurAct);

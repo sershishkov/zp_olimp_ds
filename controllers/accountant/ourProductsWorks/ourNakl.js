@@ -72,7 +72,7 @@ exports.update__OurNakl = asyncHandler(async (req, res, next) => {
         client,
         products,
         formOfPayment,
-        active: active ? active : true,
+        active,
       },
     },
     {
@@ -91,7 +91,7 @@ exports.update__OurNakl = asyncHandler(async (req, res, next) => {
 //@route  GET /api/accountant/our-products-works/our-nakl
 //@access Private
 exports.getAll__OurNakls = asyncHandler(async (req, res, next) => {
-  const all__OurNakls = await Model__OurNakl.find()
+  const all__OurNakls = await Model__OurNakl.find(req.query)
     .populate({ path: 'ourFirm', select: 'name__Firm' })
     .populate({ path: 'client', select: 'name__Firm' })
     .populate({
@@ -138,11 +138,26 @@ exports.getOne__OurNakl = asyncHandler(async (req, res, next) => {
 //@route  DELETE /api/accountant/our-products-works/our-nakl/:id
 //@access Private
 exports.delete__OurNakl = asyncHandler(async (req, res, next) => {
-  const one__OurNakl = await Model__OurNakl.findByIdAndDelete(req.params.id);
+  if (req.user.role === 'admin' || req.user.role === 'accountant') {
+    const one__OurNakl = await Model__OurNakl.findByIdAndDelete(req.params.id);
 
-  //Check if  exists response
-  if (!one__OurNakl) {
-    return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    //Check if  exists response
+    if (!one__OurNakl) {
+      return next(new ErrorResponse('Нет  объекта с данным id', 400));
+    }
+  } else {
+    await Model__OurNakl.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          active: false,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
   }
 
   res.status(200).json({
