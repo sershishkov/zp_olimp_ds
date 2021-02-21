@@ -39,7 +39,7 @@ const About = ({ setNameOfPage }) => {
         <meta name='description' content='Главный ремонтник Запорожья' />
       </Helmet>
 
-      <Grid item className={classes.wrapVideo}>
+      {/* <Grid item className={classes.wrapVideo}>
         <Grid container justify='center' alignItems='center'>
           <Grid item>
             <video
@@ -57,8 +57,8 @@ const About = ({ setNameOfPage }) => {
             </video>
           </Grid>
         </Grid>
-      </Grid>
-      <Grid item className={classes.wrapVideo}>
+      </Grid> */}
+      {/* <Grid item className={classes.wrapVideo}>
         <iframe
           title='Lj'
           width='560'
@@ -68,7 +68,7 @@ const About = ({ setNameOfPage }) => {
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
           allowfullscreen
         ></iframe>
-      </Grid>
+      </Grid> */}
 
       <Grid item>
         <Typography variant='h3' className={classes.header} align='center'>

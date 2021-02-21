@@ -10,8 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import grey from '@material-ui/core/colors/grey';
 
-// import img_001 from '../../images/Roof/001.jpg';
-// import img_002 from '../../images/Roof/002.jpg';
+import img_001 from '../../images/Roof/001.jpg';
+import img_002 from '../../images/Roof/002.jpg';
 
 import ListOfPhotos from '../../components/ListOfPhotos';
 
@@ -29,22 +29,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const listOfFoto = [
-//   { imgUrl: img_001, description: 'Кровельные работы' },
-//   { imgUrl: img_002, description: 'Кровельные работы' },
-// ];
-
 const listOfFoto = [
-  {
-    imgUrl: 'https://drive.google.com/uc?id=1q8HkWHjP1sLTASmtaxekIYo8JOI12fHl',
-    description: 'Кровельные работы',
-  },
-
-  {
-    imgUrl: 'https://drive.google.com/uc?id=102_JhOXlsYwXtJBcMgieCsCkRxNpjWw9',
-    description: 'Кровельные работы',
-  },
+  { imgUrl: img_001, description: 'Кровельные работы' },
+  { imgUrl: img_002, description: 'Кровельные работы' },
 ];
+
+// const listOfFoto = [
+//   {
+//     imgUrl: 'https://drive.google.com/uc?id=1q8HkWHjP1sLTASmtaxekIYo8JOI12fHl',
+//     description: 'Кровельные работы',
+//   },
+
+//   {
+//     imgUrl: 'https://drive.google.com/uc?id=102_JhOXlsYwXtJBcMgieCsCkRxNpjWw9',
+//     description: 'Кровельные работы',
+//   },
+// ];
 
 const RoofingWork = ({ setNameOfPage }) => {
   const classes = useStyles();
