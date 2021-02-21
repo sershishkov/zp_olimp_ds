@@ -43,12 +43,13 @@ const useStyles = makeStyles((theme) => ({
 //   { imgUrl: img_006, description: 'Придомовая отмостка' },
 //   { imgUrl: img_007, description: 'Придомовая отмостка' },
 // ];
-// https://drive.google.com/file/d/1iPmlQ3keRf0YlgYa0u9xQGbNuAGW-i_6/view?usp=sharing
+
 const listOfFoto = [
   {
     imgUrl: 'https://drive.google.com/uc?id=1w4x1wkJqMz2EQGajbNEREANdRonVBDZV',
     description: 'Придомовая отмостка',
   },
+
   {
     imgUrl: 'https://drive.google.com/uc?id=1Ln63Zo1VnoX_1Q4GE-bbeI0zydMEPd9p',
     description: 'Придомовая отмостка',
