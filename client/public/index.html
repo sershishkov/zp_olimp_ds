@@ -39,9 +39,13 @@
    img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
    style-src  'self' 'unsafe-inline' *"
     /> -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src *  data: https:; media-src *  data: https:;style-src 'self' 'unsafe-inline'; frame-src https://www.youtube.com; script-src 'self' 'unsafe-inline'  ;"
+    />
     <!-- <meta
       http-equiv="Content-Security-Policy"
-      content="img-src * 'self' data: https:;"
+      content="frame-src https://www.youtube.com"
     /> -->
 
     <link
