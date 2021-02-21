@@ -57,16 +57,17 @@ const About = ({ setNameOfPage }) => {
             </video>
           </Grid>
         </Grid>
-
-        {/* <iframe
+      </Grid>
+      <Grid item className={classes.wrapVideo}>
+        <iframe
           title='Lj'
           width='560'
-          height='315'          
+          height='315'
           src='https://www.youtube.com/embed/BRPrHBVmLqI'
           frameborder='0'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
           allowfullscreen
-        ></iframe> */}
+        ></iframe>
       </Grid>
 
       <Grid item>
