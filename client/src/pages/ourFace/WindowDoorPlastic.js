@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import grey from '@material-ui/core/colors/grey';
 
-import img_001 from '../../images/Windows/001.jpg';
+// import img_001 from '../../images/Windows/001.jpg';
 
 import ListOfPhotos from '../../components/ListOfPhotos';
 
@@ -27,7 +27,14 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${grey[400]}`,
   },
 }));
-const listOfFoto = [{ imgUrl: img_001, description: 'Монтаж окон' }];
+// const listOfFoto = [{ imgUrl: img_001, description: 'Монтаж окон' }];
+
+const listOfFoto = [
+  {
+    imgUrl: 'https://drive.google.com/uc?id=1SQ9ft6FvXUA9RWCaN-ZLN8TaTuHN3MgN',
+    description: 'Монтаж окон',
+  },
+];
 
 const WindowsDoorPlastic = ({ setNameOfPage }) => {
   const classes = useStyles();

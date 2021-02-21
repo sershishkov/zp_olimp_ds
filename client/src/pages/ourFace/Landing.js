@@ -13,19 +13,19 @@ import grey from '@material-ui/core/colors/grey';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
-import landing_alpinist from '../../images/landing/landing_alpinist.jpg';
-// import landing_alpinist_2 from '../../images/landing/landing_alpinist_2.jpg';
-import landing_electro from '../../images/landing/landing_electro.jpg';
-// import landing_electro2 from '../../images/landing/landing_electro2.jpg';
-import landing_groundfloor from '../../images/landing/landing_groundfloor.jpeg';
-import landing_metall from '../../images/landing/landing_metall.jpg';
-import landing_plumbing from '../../images/landing/landing_plumbing.jpg';
-import landing_porch from '../../images/landing/landing_porch.jpg';
-import landing_roof from '../../images/landing/landing_roof.jpg';
-// import landing_roof2 from '../../images/landing/landing_roof2.jpg';
-import landing_windows from '../../images/landing/landing_windows.jpg';
-import landing_asfalt from '../../images/landing/landing_asfalt.jpg';
-import landing_entrance from '../../images/landing/landing_entrance.jpg';
+// import landing_alpinist from '../../images/landing/landing_alpinist.jpg';
+// // import landing_alpinist_2 from '../../images/landing/landing_alpinist_2.jpg';
+// import landing_electro from '../../images/landing/landing_electro.jpg';
+// // import landing_electro2 from '../../images/landing/landing_electro2.jpg';
+// import landing_groundfloor from '../../images/landing/landing_groundfloor.jpeg';
+// import landing_metall from '../../images/landing/landing_metall.jpg';
+// import landing_plumbing from '../../images/landing/landing_plumbing.jpg';
+// import landing_porch from '../../images/landing/landing_porch.jpg';
+// import landing_roof from '../../images/landing/landing_roof.jpg';
+// // import landing_roof2 from '../../images/landing/landing_roof2.jpg';
+// import landing_windows from '../../images/landing/landing_windows.jpg';
+// import landing_asfalt from '../../images/landing/landing_asfalt.jpg';
+// import landing_entrance from '../../images/landing/landing_entrance.jpg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -161,7 +161,11 @@ const Landing = ({ setNameOfPage }) => {
             component={Link}
             to='/asfalt'
           >
-            <img src={landing_asfalt} alt='Асфальт' className={classes.img} />
+            <img
+              src='https://drive.google.com/uc?id=1rA0-4W5ywtuFTs7InZhoIPSw5Ru8qd5e'
+              alt='Асфальт'
+              className={classes.img}
+            />
           </Grid>
         </Grid>
       </Grid>
@@ -227,7 +231,11 @@ const Landing = ({ setNameOfPage }) => {
             component={Link}
             to='/electro'
           >
-            <img src={landing_electro} alt='Электро' className={classes.img} />
+            <img
+              src='https://drive.google.com/uc?id=1S0kwp8q_Rvm1LmC--DIp_Zz4psJuY6HH'
+              alt='Электро'
+              className={classes.img}
+            />
           </Grid>
         </Grid>
       </Grid>
@@ -310,7 +318,7 @@ const Landing = ({ setNameOfPage }) => {
             to='/ground-floor-storm-water'
           >
             <img
-              src={landing_groundfloor}
+              src='https://drive.google.com/uc?id=1_HvyfypFqcooybbGP7KrTFyEaXeiJR4W'
               alt='Цоколь и Ливневки'
               className={classes.img}
             />
@@ -378,7 +386,7 @@ const Landing = ({ setNameOfPage }) => {
             to='/high-altitude-work'
           >
             <img
-              src={landing_alpinist}
+              src='https://drive.google.com/uc?id=1WCri6z07oENFAGxjm45v5mXSlpJ0Fb3v'
               alt='Высотные работы'
               className={classes.img}
             />
@@ -498,7 +506,7 @@ const Landing = ({ setNameOfPage }) => {
             to='/plumbing-work'
           >
             <img
-              src={landing_plumbing}
+              src='https://drive.google.com/uc?id=1AGMDV9NvrJ-a2GfX01JkL2i5mnUlK3z3'
               alt='Сантехнические работы'
               className={classes.img}
             />
@@ -575,7 +583,7 @@ const Landing = ({ setNameOfPage }) => {
             to='/porch-and-visors'
           >
             <img
-              src={landing_porch}
+              src='https://drive.google.com/uc?id=1ca8XbCKNREhNizEcZ-VPR2_xTH5gyOyx'
               alt='Крыльцо и козырьки'
               className={classes.img}
             />
@@ -670,7 +678,7 @@ const Landing = ({ setNameOfPage }) => {
             to='/repair-of-entrance'
           >
             <img
-              src={landing_entrance}
+              src='https://drive.google.com/uc?id=1kLYDhmp3zQb2PxM1qZnMN3U1-38_ICE6'
               alt='Ремонт подъездов'
               className={classes.img}
             />
@@ -774,7 +782,7 @@ const Landing = ({ setNameOfPage }) => {
             to='/roofing-work'
           >
             <img
-              src={landing_roof}
+              src='https://drive.google.com/uc?id=1j4o_wRIXLsBadekbbc5LodCFY0vwg2o6'
               alt='Кровельные работы'
               className={classes.img}
             />
@@ -852,7 +860,7 @@ const Landing = ({ setNameOfPage }) => {
             to='/steel-structures'
           >
             <img
-              src={landing_metall}
+              src='https://drive.google.com/uc?id=1hyYlSwpbNK2g1fC4J9j3OS0fmJ9Ynq2Y'
               alt='Металлоконструкции'
               className={classes.img}
             />
@@ -920,7 +928,7 @@ const Landing = ({ setNameOfPage }) => {
             to='/windows-door-plastic'
           >
             <img
-              src={landing_windows}
+              src='https://drive.google.com/uc?id=14GiFodZqV2oSgKWTQUr_4Mzx1qAV3leO'
               alt='Окна и двери металлопластиковые'
               className={classes.img}
             />

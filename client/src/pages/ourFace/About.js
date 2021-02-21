@@ -15,6 +15,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2em',
   },
+  wrapVideo: {
+    margin: 'auto',
+    width: 560,
+    height: 315,
+    // border: '1px solid #ff0000',
+  },
+  video: {},
 }));
 
 const About = ({ setNameOfPage }) => {
@@ -31,6 +38,36 @@ const About = ({ setNameOfPage }) => {
         <link rel='canonical' href='https://zp-olimp-ds.herokuapp.com/' />
         <meta name='description' content='Главный ремонтник Запорожья' />
       </Helmet>
+
+      <Grid item className={classes.wrapVideo}>
+        <Grid container justify='center' alignItems='center'>
+          <Grid item>
+            <video
+              width='560'
+              height='315'
+              // muted
+              // loop
+              // autoplay
+              controls
+            >
+              <source
+                src='https://drive.google.com/uc?id=1ffwND-DwVj3o2e-aJcz0Y_UMyh3FGT4C'
+                // type='video/mp4'
+              />
+            </video>
+          </Grid>
+        </Grid>
+
+        {/* <iframe
+          title='Lj'
+          width='560'
+          height='315'          
+          src='https://www.youtube.com/embed/BRPrHBVmLqI'
+          frameborder='0'
+          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+          allowfullscreen
+        ></iframe> */}
+      </Grid>
 
       <Grid item>
         <Typography variant='h3' className={classes.header} align='center'>

@@ -10,8 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import grey from '@material-ui/core/colors/grey';
 
-import img_001 from '../../images/HighAltitude/001.jpg';
-import img_002 from '../../images/HighAltitude/002.jpg';
+// import img_001 from '../../images/HighAltitude/001.jpg';
+// import img_002 from '../../images/HighAltitude/002.jpg';
 
 import ListOfPhotos from '../../components/ListOfPhotos';
 
@@ -28,9 +28,20 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${grey[400]}`,
   },
 }));
+// const listOfFoto = [
+//   { imgUrl: img_001, description: 'Высотные работы' },
+//   { imgUrl: img_002, description: 'Высотные работы' },
+// ];
 const listOfFoto = [
-  { imgUrl: img_001, description: 'Высотные работы' },
-  { imgUrl: img_002, description: 'Высотные работы' },
+  {
+    imgUrl: 'https://drive.google.com/uc?id=14N8JwNTaFIY64XnfY812oQolzpdQMnNO',
+    description: 'Высотные работы',
+  },
+
+  {
+    imgUrl: 'https://drive.google.com/uc?id=1H_xwSiGaht1e4cTPQIogWz6sm9DCHcEe',
+    description: 'Высотные работы',
+  },
 ];
 
 const HighAltitudeWork = ({ setNameOfPage }) => {
