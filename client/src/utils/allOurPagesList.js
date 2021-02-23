@@ -107,6 +107,10 @@ export const accountantLinks = {
           name__MenuLink: 'Счета',
           linkToPage: '/accountant/our-products-works/our-invoice',
         },
+        {
+          name__MenuLink: 'Договора',
+          linkToPage: '/accountant/contract',
+        },
       ],
     },
     {
@@ -195,3 +199,10 @@ export const accountantLinks = {
 };
 
 export const whoIsThisFirm = ['наша фирма', 'клиент', 'поставщик', 'партнер'];
+
+export const typeOfContracts = [
+  'Общий',
+  'Сумма',
+  'Предоплата',
+  'Частичная предоплата',
+];

@@ -107,3 +107,9 @@ export const UPDATE__OUR_ACT = 'UPDATE__OUR_ACT';
 export const GET_ALL__OUR_ACT = 'GET_ALL__OUR_ACT';
 export const GET_ONE__OUR_ACT = 'GET_ONE__OUR_ACT';
 export const DELETE__OUR_ACT = 'DELETE__OUR_ACT';
+
+export const ADD__CONTRACT = 'ADD__CONTRACT';
+export const UPDATE__CONTRACT = 'UPDATE__CONTRACT';
+export const GET_ALL__CONTRACT = 'GET_ALL__CONTRACT';
+export const GET_ONE__CONTRACT = 'GET_ONE__CONTRACT';
+export const DELETE__CONTRACT = 'DELETE__CONTRACT';

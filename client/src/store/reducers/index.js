@@ -15,6 +15,7 @@ import groupExpense from './referenceData/groupExpense';
 import firm from './referenceData/firm';
 
 import expense from './accountant/expenses/expense';
+import contract from './accountant/contract/contract';
 
 import ourAct from './accountant/ourProductsWorks/ourAct';
 import ourInvoice from './accountant/ourProductsWorks/ourInvoice';
@@ -37,6 +38,7 @@ export default combineReducers({
   firm,
 
   expense,
+  contract,
 
   ourAct,
   ourInvoice,

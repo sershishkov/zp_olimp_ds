@@ -119,6 +119,14 @@ const ExpenseEdit = lazy(() =>
   import('./pages/accountant/expenses/ExpenseEdit')
 );
 
+const Contract = lazy(() => import('./pages/accountant/contract/Contract'));
+const ContractAdd = lazy(() =>
+  import('./pages/accountant/contract/ContractAdd')
+);
+const ContractEdit = lazy(() =>
+  import('./pages/accountant/contract/ContractEdit')
+);
+
 const OurNakl = lazy(() =>
   import('./pages/accountant/ourProductsWorks/ourNakl/OurNakl')
 );
@@ -405,6 +413,22 @@ function App() {
                     exact
                     path='/accountant/our-products-works/our-nakl/:id'
                     component={OurNaklEdit}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path='/accountant/contract'
+                    component={Contract}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/accountant/contract/add'
+                    component={ContractAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/accountant/contract/:id'
+                    component={ContractEdit}
                   />
 
                   <Route path='*' component={FourOFour} />

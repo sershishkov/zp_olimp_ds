@@ -909,6 +909,7 @@ const FirmEdit = ({
             !firstPerson__Full_Name ||
             // !firstPerson__Full_Name_RoditelPadej ||
             !firstPerson__Short_Name ||
+            !email ||
             !phoneNumber ||
             (who_is && who_is.length === 0) ||
             name__FIRM_Helper.length !== 0 ||
