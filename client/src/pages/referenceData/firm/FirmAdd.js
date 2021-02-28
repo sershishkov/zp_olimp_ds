@@ -210,7 +210,7 @@ const FirmAdd = ({
     );
 
     clearFormData();
-    history.goBack();
+    // history.goBack();
   };
 
   const onChangeHandler = (event) => {

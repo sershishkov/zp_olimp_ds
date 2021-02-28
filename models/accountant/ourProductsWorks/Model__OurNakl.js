@@ -49,6 +49,10 @@ const Model__OurNakl = new mongoose.Schema(
           type: Number,
           required: [true, 'Введите продажную цену товара'],
         },
+        row__Sum: {
+          type: Number,
+          required: [true, 'Введите продажную цену товара'],
+        },
       },
     ],
     // sum__Product: {

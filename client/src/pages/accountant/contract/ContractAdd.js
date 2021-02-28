@@ -101,6 +101,7 @@ const FirmAdd = ({
   });
   const [date_Contract, set_date_Contract] = useState(new Date());
   const [active, setActive] = useState(true);
+
   const [searchOurFirm, set__searchOurFirm] = useState('');
   const [searchClient, set__searchClient] = useState('');
   const [array_of_OurFirm, set__array_of_OurFirm] = useState(
@@ -138,9 +139,9 @@ const FirmAdd = ({
       sum: '',
       ourFirm: '',
       client: '',
-      active: true,
     });
     set_date_Contract(new Date());
+    setActive(true);
   };
 
   useEffect(() => {

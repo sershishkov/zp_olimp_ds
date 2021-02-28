@@ -1,876 +1,1431 @@
-// import React, { useEffect, useState } from 'react';
-// import { useHistory } from 'react-router-dom';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import React, { useEffect, useState, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { DatePicker } from '@material-ui/pickers';
+import { format } from 'date-fns';
 
-// import { setNameOfPage } from '../../../../store/actions/nameOfPage';
-// // import { add__FIRM } from '../../../../store/actions/accountant/ourProductsWorks/ourNakl';
-// // import { getAll__PRODUCT } from '../../../../store/actions/accountant';
-// // import { getAll__FIRM } from '../../../../store/actions/referenceData/firm';
-// // import { getAll__PRODUCT } from '../../../../store/actions/referenceData/product';
+import { setNameOfPage } from '../../../../store/actions/nameOfPage';
+import { add__OUR_NAKL } from '../../../../store/actions/accountant/ourProductsWorks/ourNakl';
+import { getAll__CONTRACT } from '../../../../store/actions/accountant/contract/contract';
+import { getAll__FIRM } from '../../../../store/actions/referenceData/firm';
+import { getAll__PRODUCT } from '../../../../store/actions/referenceData/product';
+import { getAll__GROUP_PRODUCT } from '../../../../store/actions/referenceData/groupProduct';
+import FirmAdd from '../../../referenceData/firm/FirmAdd';
 
-// import Fab from '@material-ui/core/Fab';
+import {
+  generateDocNumber,
+  handleSearchInArray,
+} from '../../../../utils/helperFunction';
 
-// import { makeStyles } from '@material-ui/core/styles';
-// import Grid from '@material-ui/core/Grid';
-// import Typography from '@material-ui/core/Typography';
-// import Tooltip from '@material-ui/core/Tooltip';
-// import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Fab from '@material-ui/core/Fab';
 
-// import Button from '@material-ui/core/Button';
-// import TextField from '@material-ui/core/TextField';
-// import Input from '@material-ui/core/Input';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
+import Tooltip from '@material-ui/core/Tooltip';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
 // import MenuItem from '@material-ui/core/MenuItem';
 // import Select from '@material-ui/core/Select';
-// import Checkbox from '@material-ui/core/Checkbox';
 // import InputLabel from '@material-ui/core/InputLabel';
 // import Icon from '@material-ui/core/Icon';
-// import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     width: '100%',
-//     margin: 'auto',
-//   },
-//   item: {
-//     width: '100%',
-//     marginBottom: '2em',
-//   },
-//   dialogItem: {
-//     width: '100%',
-//   },
-//   wrapSelectAndLink: {
-//     // border: '1px solid #ff0000',
-//   },
-//   wrapSelect: {
-//     // border: '1px solid #00ff00',
-//     width: '300px',
-//   },
-//   select: {},
-//   wrapLink: {
-//     // border: '1px solid #0000ff',
-//   },
-// }));
+import DetailsIcon from '@material-ui/icons/Details';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
-// const FirmAdd = ({
-//   setNameOfPage,
-//   add__FIRM,
+import CloseIcon from '@material-ui/icons/Close';
 
-//   getAll__TYPE_FIRM,
+import Paper from '@material-ui/core/Paper';
+import TableContainer from '@material-ui/core/TableContainer';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
-//   // state__FIRM,
-//   state__TYPE_FIRM,
-// }) => {
-//   const classes = useStyles();
-//   const history = useHistory();
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Dialog from '@material-ui/core/Dialog';
 
-//   const [formData, setFormData] = useState({
-//     name__Firm: '',
-//     short_name__Firm: '',
-//     type_Firm: '',
-//     postCode: '',
-//     address: '',
-//     EDRPOU: '',
-//     ibanOwn: '',
-//     ibanGazBank: '',
-//     firstPerson__Position: '',
-//     firstPerson__Position_RoditelPadej: '',
-//     firstPerson__Full_Name: '',
-//     firstPerson__Full_Name_RoditelPadej: '',
-//     firstPerson__Short_Name: '',
-//     whichActsOnTheBasis: '',
-//     issuedBy: '',
-//     taxPayerOn: '',
-//     certificate_PDV: '',
-//     email: '',
-//     phoneNumber: '',
-//     who_is: [],
-//   });
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
-//   const {
-//     name__Firm,
-//     short_name__Firm,
-//     type_Firm,
-//     postCode,
-//     address,
-//     EDRPOU,
-//     ibanOwn,
-//     ibanGazBank,
-//     firstPerson__Position,
-//     firstPerson__Position_RoditelPadej,
-//     firstPerson__Full_Name,
-//     firstPerson__Full_Name_RoditelPadej,
-//     firstPerson__Short_Name,
-//     whichActsOnTheBasis,
-//     issuedBy,
-//     taxPayerOn,
-//     certificate_PDV,
-//     email,
-//     phoneNumber,
-//     who_is,
-//   } = formData;
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 
-//   const [name__FIRM_Helper, set_name__FIRM_Helper] = useState('');
-//   const [short_name__Firm_Helper, set_short_name__Firm_Helper] = useState('');
-//   // const [type_Firm_Helper, set_type_Firm_Helper] = useState('');
-//   const [postCode_Helper, set_postCode_Helper] = useState('');
-//   const [address_Helper, set_address_Helper] = useState('');
-//   const [EDRPOU_Helper, set_EDRPOU_Helper] = useState('');
-//   const [ibanOwn_Helper, set_ibanOwn_Helper] = useState('');
-//   const [ibanGazBank_Helper, set_ibanGazBank_Helper] = useState('');
-//   const [
-//     firstPerson__Position_Helper,
-//     set_firstPerson__Position_Helper,
-//   ] = useState('');
-//   const [
-//     firstPerson__Position_RoditelPadej_Helper,
-//     set_firstPerson__Position_RoditelPadej_Helper,
-//   ] = useState('');
-//   const [
-//     firstPerson__Full_Name_Helper,
-//     set_firstPerson__Full_Name_Helper,
-//   ] = useState('');
-//   const [
-//     firstPerson__Full_Name_RoditelPadej_Helper,
-//     set_firstPerson__Full_Name_RoditelPadej_Helper,
-//   ] = useState('');
-//   const [
-//     firstPerson__Short_Name_Helper,
-//     set_firstPerson__Short_Name_Helper,
-//   ] = useState('');
-//   const [whichActsOnTheBasis_Helper, set_whichActsOnTheBasis_Helper] = useState(
-//     ''
-//   );
-//   const [issuedBy_Helper, set_issuedBy_Helper] = useState('');
-//   const [taxPayerOn_Helper, set_taxPayerOn_Helper] = useState('');
-//   const [certificate_PDV_Helper, set_certificate_PDV_Helper] = useState('');
-//   const [email_Helper, set_email_Helper] = useState('');
-//   const [phoneNumber_Helper, set_phoneNumber_Helper] = useState('');
-//   const [who_is_Helper, set_who_is_Helper] = useState('');
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Switch from '@material-ui/core/Switch';
 
-//   const clearFormData = () => {
-//     setFormData({
-//       name__Firm: '',
-//       short_name__Firm: '',
-//       type_Firm: '',
-//       postCode: '',
-//       address: '',
-//       EDRPOU: '',
-//       ibanOwn: '',
-//       ibanGazBank: '',
-//       firstPerson__Position: '',
-//       firstPerson__Position_RoditelPadej: '',
-//       firstPerson__Full_Name: '',
-//       firstPerson__Full_Name_RoditelPadej: '',
-//       firstPerson__Short_Name: '',
-//       whichActsOnTheBasis: '',
-//       issuedBy: '',
-//       taxPayerOn: '',
-//       certificate_PDV: '',
-//       email: '',
-//       phoneNumber: '',
-//       who_is: [],
-//     });
-//   };
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    margin: 'auto',
+  },
+  item: {
+    width: '100%',
+    marginBottom: '2em',
+  },
+  dialogItem: {
+    width: '100%',
+  },
+  wrapSearchList: {
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    zIndex: 9999,
+    backgroundColor: '#EEE',
+  },
+  searchList: {
+    maxHeight: 150,
+    overflowY: 'scroll',
+  },
+  markUp_input: {
+    width: 40,
+    color: '#ff0000',
+    textAlign: 'center',
+  },
+  tableContainer: {
+    width: theme.breakpoints.width('lg'),
+    paddingBottom: 150,
+  },
+}));
 
-//   useEffect(() => {
-//     setNameOfPage('Добавить фирму');
-//     getAll__TYPE_FIRM();
+const OurNaklAdd = ({
+  setNameOfPage,
+  add__OUR_NAKL,
 
-//     clearFormData();
+  getAll__FIRM,
+  getAll__CONTRACT,
+  getAll__PRODUCT,
+  getAll__GROUP_PRODUCT,
 
-//     return () => {
-//       clearFormData();
-//     };
-//   }, [setNameOfPage, getAll__TYPE_FIRM]);
+  // state__OUR_NAKL,
+  state__FIRM,
+  state__PRODUCT,
+  state__CONTRACT,
+  state__GROUP_PRODUCT,
+}) => {
+  const classes = useStyles();
+  const history = useHistory();
 
-//   const onSubmit = () => {
-//     add__FIRM(
-//       name__Firm,
-//       short_name__Firm,
-//       type_Firm,
-//       postCode,
-//       address,
-//       EDRPOU,
-//       ibanOwn,
-//       ibanGazBank,
-//       firstPerson__Position,
-//       firstPerson__Position_RoditelPadej,
-//       firstPerson__Full_Name,
-//       firstPerson__Full_Name_RoditelPadej,
-//       firstPerson__Short_Name,
-//       whichActsOnTheBasis,
-//       issuedBy,
-//       taxPayerOn,
-//       certificate_PDV,
-//       email,
-//       phoneNumber,
-//       who_is
-//     );
+  const [formData, setFormData] = useState({
+    naklNumber: `ВН-${generateDocNumber()}`,
+    contract: '',
+    ourFirm: '',
+    client: '',
+    formOfPayment: 'форма1',
+  });
+  const [naclDate, set__naclDate] = useState(new Date());
+  const [active, set__active] = useState(true);
 
-//     clearFormData();
-//     history.goBack();
-//   };
+  const [taxAndMarkUp, set__taxAndMarkUp] = useState({
+    our__Tax: 7,
+    our__MarkUp: 20,
+    markUp__Budget: 0,
+  });
+  const [tempRowData, set__tempRowData] = useState({
+    temp__productId: '',
+    temp__name__Product: '',
+    temp_description: '',
+    temp__unit: '',
+    temp__amount: 0,
+    temp__enteredPrice: 0,
+    temp__sellingPrice: 0,
+    temp__Sum: 0,
+  });
+  const [tempContractData, set__tempContractData] = useState({
+    temp__number__Contract: '',
+    temp__date_Contract: '',
+    temp__typesOf_WorkInTheContract: '',
+  });
+  const [rows__Product, set__rows__Product] = useState([]);
+  const [displayNewRow, set__displayNewRow] = useState(false);
 
-//   const onChangeHandler = (event) => {
-//     setFormData({ ...formData, [event.target.name]: event.target.value });
+  const [openSelectProduct, set__openSelectProduct] = useState(false);
+  const [openSelectContract, set__openSelectContract] = useState(false);
+  const [openSelectOurFirm, set__openSelectOurFirm] = useState(false);
+  const [openSelectClient, set__openSelectClient] = useState(false);
+  const [openAddFirm, set__openAddFirm] = useState(false);
 
-//     let valid;
-//     switch (event.target.id) {
-//       case 'name__Firm':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_name__FIRM_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_name__FIRM_Helper('');
-//         }
-//         break;
+  const {
+    temp__number__Contract,
+    temp__date_Contract,
+    temp__typesOf_WorkInTheContract,
+  } = tempContractData;
 
-//       case 'short_name__Firm':
-//         valid = event.target.value.length >= 1;
-//         if (!valid) {
-//           set_short_name__Firm_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_short_name__Firm_Helper('');
-//         }
-//         break;
+  // console.log({
+  //   temp__number__Contract,
+  //   temp__date_Contract,
+  //   temp__typesOf_WorkInTheContract,
+  // });
 
-//       // case 'type_Firm':
-//       //   valid = event.target.value.length >= 3;
-//       //   if (!valid) {
-//       //     set_name__FIRM_Helper('Минимальная длина 3 знака');
-//       //   } else {
-//       //     set_name__FIRM_Helper('');
-//       //   }
-//       //   break;
+  const {
+    temp__productId,
+    temp__name__Product,
+    temp_description,
+    temp__unit,
+    temp__amount,
+    temp__enteredPrice,
+    temp__sellingPrice,
+    temp__Sum,
+  } = tempRowData;
 
-//       case 'postCode':
-//         valid = event.target.value.length === 5;
-//         if (!valid) {
-//           set_postCode_Helper('Почтовый индекс состоит из 5 цифр');
-//         } else {
-//           set_postCode_Helper('');
-//         }
-//         break;
+  const { our__Tax, our__MarkUp, markUp__Budget } = taxAndMarkUp;
 
-//       case 'address':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_address_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_address_Helper('');
-//         }
-//         break;
+  const { naklNumber, contract, ourFirm, client, formOfPayment } = formData;
 
-//       case 'EDRPOU':
-//         valid = /^\d{8,10}$/.test(event.target.value);
-//         if (!valid) {
-//           set_EDRPOU_Helper('количество знаков 8 или 10');
-//         } else {
-//           set_EDRPOU_Helper('');
-//         }
-//         break;
+  const [searchOurFirm, set__searchOurFirm] = useState('');
+  const [searchClient, set__searchClient] = useState('');
+  const [searchProduct, set__searchProduct] = useState('');
 
-//       case 'ibanOwn':
-//         valid = event.target.value.length >= 27;
-//         if (!valid) {
-//           set_ibanOwn_Helper('Минимальная длина 27 знаков');
-//         } else {
-//           set_ibanOwn_Helper('');
-//         }
-//         break;
+  const [array_of_OurFirm, set__array_of_OurFirm] = useState(
+    state__FIRM.array__FIRM.filter((item) => item.who_is.includes('наша фирма'))
+  );
+  const [array_of_Client, set__array_of_Client] = useState(
+    state__FIRM.array__FIRM.filter((item) => item.who_is.includes('клиент'))
+  );
+  const [array_of_Product, set__array_of_Product] = useState(
+    state__PRODUCT.array__PRODUCT
+  );
+  const [array_of_CONTRACT, set__array_of_CONTRACT] = useState([]);
 
-//       case 'ibanGazBank':
-//         valid = event.target.value.length >= 27;
-//         if (!valid) {
-//           set_ibanGazBank_Helper('Минимальная длина 27 знаков');
-//         } else {
-//           set_ibanGazBank_Helper('');
-//         }
-//         break;
+  const getRelatedContacts = () => {
+    if (ourFirm && ourFirm.length > 0 && client && client.length > 0) {
+      const relatedContracts = full_array_of_CONTRACT.filter(
+        (item) => item.ourFirm._id === ourFirm && item.client._id === client
+      );
+      if (relatedContracts && relatedContracts.length > 0) {
+        set__array_of_CONTRACT(relatedContracts);
+      } else {
+        set__array_of_CONTRACT([]);
+      }
+    }
+  };
 
-//       case 'firstPerson__Position':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_firstPerson__Position_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_firstPerson__Position_Helper('');
-//         }
-//         break;
+  const [openSearchListOurFirm, set__openSearchListOurFirm] = useState(false);
+  const [openSearchListClient, set__openSearchListClient] = useState(false);
+  const [openSearchListProduct, set__openSearchListProduct] = useState(false);
 
-//       case 'firstPerson__Position_RoditelPadej':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_firstPerson__Position_RoditelPadej_Helper(
-//             'Минимальная длина 3 знака'
-//           );
-//         } else {
-//           set_firstPerson__Position_RoditelPadej_Helper('');
-//         }
-//         break;
+  // const [full_array_of_OurFirm, set__full_array_of_OurFirm] = useState([]);
+  // const [full_array_of_Client, set__full_array_of_Client] = useState([]);
+  // const [full_array_of_Product, set__full_array_of_Product] = useState([]);
+  // const [
+  //   full_array_of_Group_Product,
+  //   set__full_array_of_Group_Product,
+  // ] = useState([]);
+  // const [full_array_of_CONTRACT, set__full_array_of_CONTRACT] = useState([]);
+  // console.log(array_of_CONTRACT);
 
-//       case 'firstPerson__Full_Name':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_firstPerson__Full_Name_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_firstPerson__Full_Name_Helper('');
-//         }
-//         break;
+  let full_array_of_CONTRACT = useMemo(() => state__CONTRACT.array__CONTRACT, [
+    state__CONTRACT.array__CONTRACT,
+  ]);
 
-//       case 'firstPerson__Full_Name_RoditelPadej':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_firstPerson__Full_Name_RoditelPadej_Helper(
-//             'Минимальная длина 3 знака'
-//           );
-//         } else {
-//           set_firstPerson__Full_Name_RoditelPadej_Helper('');
-//         }
-//         break;
+  let full_array_of_OurFirm = useMemo(
+    () =>
+      state__FIRM.array__FIRM.filter((item) =>
+        item.who_is.includes('наша фирма')
+      ),
+    [state__FIRM.array__FIRM]
+  );
 
-//       case 'firstPerson__Short_Name':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_firstPerson__Short_Name_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_firstPerson__Short_Name_Helper('');
-//         }
-//         break;
+  let full_array_of_Client = useMemo(
+    () =>
+      state__FIRM.array__FIRM.filter((item) => item.who_is.includes('клиент')),
+    [state__FIRM.array__FIRM]
+  );
 
-//       case 'whichActsOnTheBasis':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_whichActsOnTheBasis_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_whichActsOnTheBasis_Helper('');
-//         }
-//         break;
+  let full_array_of_Product = useMemo(() => state__PRODUCT.array__PRODUCT, [
+    state__PRODUCT.array__PRODUCT,
+  ]);
 
-//       case 'issuedBy':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_issuedBy_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_issuedBy_Helper('');
-//         }
-//         break;
+  let full_array_of_Group_Product = useMemo(
+    () => state__GROUP_PRODUCT.array__GROUP_PRODUCT,
+    [state__GROUP_PRODUCT.array__GROUP_PRODUCT]
+  );
 
-//       case 'taxPayerOn':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_taxPayerOn_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_taxPayerOn_Helper('');
-//         }
-//         break;
+  const handleChangeSwitch = (event) => {
+    set__active(event.target.checked);
+  };
+  const clearFormData = () => {
+    setFormData({
+      naklNumber: `ВН-${generateDocNumber()}`,
+      contract: '',
+      ourFirm: '',
+      client: '',
+      formOfPayment: 'форма1',
+    });
+    set__naclDate(new Date());
+    set__active(true);
+  };
 
-//       case 'certificate_PDV':
-//         valid = event.target.value.length >= 3;
-//         if (!valid) {
-//           set_certificate_PDV_Helper('Минимальная длина 3 знака');
-//         } else {
-//           set_certificate_PDV_Helper('');
-//         }
-//         break;
+  const clear__tempRowData = () => {
+    set__tempRowData({
+      temp__productId: '',
+      temp__name__Product: '',
+      temp_description: '',
+      temp__unit: '',
+      temp__amount: 0,
+      temp__enteredPrice: 0,
+      temp__sellingPrice: 0,
+      temp__Sum: 0,
+    });
+  };
 
-//       case 'email':
-//         valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-//           event.target.value
-//         );
-//         if (!valid) {
-//           set_email_Helper('не верный email');
-//         } else {
-//           set_email_Helper('');
-//         }
-//         break;
+  const deleteRow = (index) => {
+    const newArr = [...rows__Product];
+    newArr.splice(index, 1);
 
-//       case 'phoneNumber':
-//         valid = event.target.value.length === 17;
-//         if (!valid) {
-//           set_phoneNumber_Helper('не достаточно цифр');
-//         } else {
-//           set_phoneNumber_Helper('');
-//         }
-//         break;
+    set__rows__Product(newArr);
+  };
 
-//       case 'who_is':
-//         valid = event.target.value.length > 0;
-//         if (!valid) {
-//           set_who_is_Helper('Ничего не выбрано');
-//         } else {
-//           set_who_is_Helper('');
-//         }
-//         break;
+  const editRow = (index) => {
+    const editObj = rows__Product[index];
+    set__tempRowData({
+      temp__productId: editObj.temp__productId,
+      temp__name__Product: editObj.temp__name__Product,
+      temp_description: editObj.temp_description,
+      temp__unit: editObj.temp__unit,
+      temp__amount: editObj.temp__amount,
+      temp__enteredPrice: editObj.temp__enteredPrice,
+      temp__sellingPrice: editObj.temp__sellingPrice,
+      temp__Sum: editObj.temp__Sum,
+    });
+  };
 
-//       default:
-//         break;
-//     }
-//   };
+  const saveRow = () => {
+    let row_sum = 0;
+    let price_with_tax = 0;
+    let price_with_murkUP = 0;
+    let price_client = 0;
 
-//   const onInputHandler = (event) => {
-//     const inputMask_phoneNumber = {
-//       mask: '+{38}(000)000-00-00',
-//     };
-//     const inputMask_EDRPOU = {
-//       mask: /^(\d{0,10})$/,
-//     };
+    let total_row_sum = 0;
 
-//     const inputMask_postCode = {
-//       mask: /^(\d{0,5})$/,
-//     };
+    if (temp__sellingPrice && temp__sellingPrice > 0) {
+      row_sum = temp__amount * temp__sellingPrice;
+      total_row_sum = row_sum + (row_sum * markUp__Budget) / 100;
+      price_client = temp__sellingPrice;
+    } else {
+      price_with_tax =
+        temp__enteredPrice + (temp__enteredPrice * our__Tax) / 100;
+      price_with_murkUP = price_with_tax + (price_with_tax * our__MarkUp) / 100;
+      price_client =
+        price_with_murkUP + (price_with_murkUP * markUp__Budget) / 100;
 
-//     switch (event.target.name) {
-//       case 'phoneNumber':
-//         IMask(event.target, inputMask_phoneNumber);
+      total_row_sum = temp__amount * price_client;
+    }
 
-//         break;
-//       case 'EDRPOU':
-//         IMask(event.target, inputMask_EDRPOU);
+    const newRow = {
+      temp__productId,
+      temp__name__Product,
+      temp_description,
+      temp__unit,
+      temp__amount: Number(temp__amount).toFixed(2),
+      temp__enteredPrice: Number(temp__enteredPrice).toFixed(2),
+      temp__sellingPrice: Number(price_client).toFixed(2),
+      temp__Sum: Number(total_row_sum).toFixed(2),
+    };
+    const newArr = [...rows__Product, newRow];
 
-//         break;
-//       case 'postCode':
-//         IMask(event.target, inputMask_postCode);
+    set__rows__Product(newArr);
+    clear__tempRowData();
+    set__displayNewRow(false);
+    set__searchProduct('');
+  };
 
-//         break;
+  useEffect(() => {
+    setNameOfPage('Добавить накладную');
 
-//       default:
-//         break;
-//     }
-//   };
+    getAll__FIRM();
+    getAll__CONTRACT();
+    getAll__PRODUCT();
+    getAll__GROUP_PRODUCT();
 
-//   return (
-//     <Grid container className={classes.root} direction='column'>
-//       <Tooltip title='Назад'>
-//         <Fab
-//           color='secondary'
-//           aria-label='go Back'
-//           onClick={() => history.goBack()}
-//         >
-//           <ArrowBackIcon />
-//         </Fab>
-//       </Tooltip>
+    return () => {
+      clearFormData();
+    };
+  }, [
+    setNameOfPage,
+    getAll__FIRM,
+    getAll__CONTRACT,
+    getAll__PRODUCT,
+    getAll__GROUP_PRODUCT,
+  ]);
 
-//       <Grid item className={classes.item}>
-//         <Typography variant='h3' align='center'>
-//           Добавить фирму
-//         </Typography>
-//       </Grid>
+  const onSubmit = () => {
+    const products = rows__Product.map((item) => {
+      return {
+        product: item.temp__productId,
+        description: item.temp_description,
+        amount: Number(item.temp__amount).toFixed(2),
+        enteredPrice: Number(item.temp__enteredPrice).toFixed(2),
+        sellingPrice: Number(item.temp__sellingPrice).toFixed(2),
+        row__Sum: Number(item.temp__Sum).toFixed(2),
+      };
+    });
 
-//       <Grid item className={classes.item}>
-//         <TextField
-//           autoFocus
-//           id='name__Firm'
-//           name='name__Firm'
-//           label='Фирма полн'
-//           type='text'
-//           value={name__Firm ? name__Firm : ''}
-//           error={name__FIRM_Helper.length !== 0}
-//           helperText={name__FIRM_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           autoFocus
-//           id='short_name__Firm'
-//           name='short_name__Firm'
-//           label='Фирма сокр'
-//           type='text'
-//           value={short_name__Firm ? short_name__Firm : ''}
-//           error={short_name__Firm_Helper.length !== 0}
-//           helperText={short_name__Firm_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
+    add__OUR_NAKL(
+      naklNumber,
+      naclDate,
+      contract,
+      ourFirm,
+      client,
+      products,
+      formOfPayment,
+      active
+    );
+    set__rows__Product([]);
 
-//       <Grid item className={classes.item}>
-//         <Grid
-//           container
-//           className={classes.wrapSelectAndLink}
-//           justify='space-around'
-//           alignItems='center'
-//           direction='row'
-//         >
-//           <Grid item className={classes.wrapSelect}>
-//             <InputLabel id='type_Firm-label'>Форма Собств.</InputLabel>
-//             <Select
-//               labelId='type_Firm-label'
-//               id='type_Firm'
-//               name='type_Firm'
-//               // multiple
-//               required
-//               fullWidth
-//               value={type_Firm ? type_Firm : ''}
-//               onChange={(e) => onChangeHandler(e)}
-//               // input={<Input />}
-//               // renderValue={(selected) => selected.join(', ')}
-//               className={classes.select}
-//             >
-//               {state__TYPE_FIRM.array__TYPE_FIRM &&
-//                 state__TYPE_FIRM.array__TYPE_FIRM.length > 0 &&
-//                 state__TYPE_FIRM.array__TYPE_FIRM.map((item) => (
-//                   <MenuItem
-//                     key={item._id}
-//                     value={item._id}
-//                     className={classes.selectItem}
-//                   >
-//                     {/* <Checkbox checked={unit && unit.indexOf(item._id) > -1} /> */}
-//                     {item.name__Type_Firm}
-//                   </MenuItem>
-//                 ))}
-//             </Select>
-//           </Grid>
-//           <Grid item className={classes.wrapLink}>
-//             <Tooltip title='Добавить форму собственности'>
-//               <IconButton
-//                 onClick={() => history.push(`/reference-data/type-firm/add`)}
-//               >
-//                 <Icon color='primary'>add_circle</Icon>
-//               </IconButton>
-//             </Tooltip>
-//           </Grid>
-//         </Grid>
-//       </Grid>
+    clearFormData();
+    // history.goBack();
+  };
 
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='postCode'
-//           name='postCode'
-//           label='Почтовый индекс'
-//           type='number'
-//           value={postCode ? postCode : ''}
-//           error={postCode_Helper.length !== 0}
-//           helperText={postCode_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//           onInput={(e) => onInputHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='address'
-//           name='address'
-//           label='Адрес'
-//           type='text'
-//           value={address ? address : ''}
-//           error={address_Helper.length !== 0}
-//           helperText={address_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='EDRPOU'
-//           name='EDRPOU'
-//           label='ЄДРПОУ'
-//           type='number'
-//           value={EDRPOU ? EDRPOU : ''}
-//           error={EDRPOU_Helper.length !== 0}
-//           helperText={EDRPOU_Helper}
-//           fullWidth
-//           // autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//           onInput={(e) => onInputHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='ibanOwn'
-//           name='ibanOwn'
-//           label='Расчетн. счет собств.'
-//           type='text'
-//           value={ibanOwn ? ibanOwn : ''}
-//           error={ibanOwn_Helper.length !== 0}
-//           helperText={ibanOwn_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='ibanGazBank'
-//           name='ibanGazBank'
-//           label='Расчетн. счет бюдж.'
-//           type='text'
-//           value={ibanGazBank ? ibanGazBank : ''}
-//           error={ibanGazBank_Helper.length !== 0}
-//           helperText={ibanGazBank_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='firstPerson__Position'
-//           name='firstPerson__Position'
-//           label='Должность'
-//           type='text'
-//           value={firstPerson__Position ? firstPerson__Position : ''}
-//           error={firstPerson__Position_Helper.length !== 0}
-//           helperText={firstPerson__Position_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='firstPerson__Position_RoditelPadej'
-//           name='firstPerson__Position_RoditelPadej'
-//           label='Должность в родительном'
-//           type='text'
-//           value={
-//             firstPerson__Position_RoditelPadej
-//               ? firstPerson__Position_RoditelPadej
-//               : ''
-//           }
-//           error={firstPerson__Position_RoditelPadej_Helper.length !== 0}
-//           helperText={firstPerson__Position_RoditelPadej_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='firstPerson__Full_Name'
-//           name='firstPerson__Full_Name'
-//           label='Полное имя'
-//           type='text'
-//           value={firstPerson__Full_Name ? firstPerson__Full_Name : ''}
-//           error={firstPerson__Full_Name_Helper.length !== 0}
-//           helperText={firstPerson__Full_Name_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='firstPerson__Full_Name_RoditelPadej'
-//           name='firstPerson__Full_Name_RoditelPadej'
-//           label='Полное имя в родительном'
-//           type='text'
-//           value={
-//             firstPerson__Full_Name_RoditelPadej
-//               ? firstPerson__Full_Name_RoditelPadej
-//               : ''
-//           }
-//           error={firstPerson__Full_Name_RoditelPadej_Helper.length !== 0}
-//           helperText={firstPerson__Full_Name_RoditelPadej_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='firstPerson__Short_Name'
-//           name='firstPerson__Short_Name'
-//           label='Сокращенное имя'
-//           type='text'
-//           value={firstPerson__Short_Name ? firstPerson__Short_Name : ''}
-//           error={firstPerson__Short_Name_Helper.length !== 0}
-//           helperText={firstPerson__Short_Name_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='whichActsOnTheBasis'
-//           name='whichActsOnTheBasis'
-//           label='Действует на основании'
-//           type='text'
-//           value={whichActsOnTheBasis ? whichActsOnTheBasis : ''}
-//           error={whichActsOnTheBasis_Helper.length !== 0}
-//           helperText={whichActsOnTheBasis_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='issuedBy'
-//           name='issuedBy'
-//           label='Кем выдан и когда (только ФОП)'
-//           type='text'
-//           value={issuedBy ? issuedBy : ''}
-//           error={issuedBy_Helper.length !== 0}
-//           helperText={issuedBy_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='taxPayerOn'
-//           name='taxPayerOn'
-//           label='Налогооблажение'
-//           type='text'
-//           value={taxPayerOn ? taxPayerOn : ''}
-//           error={taxPayerOn_Helper.length !== 0}
-//           helperText={taxPayerOn_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='certificate_PDV'
-//           name='certificate_PDV'
-//           label='Св-во ПДВ '
-//           type='text'
-//           value={certificate_PDV ? certificate_PDV : ''}
-//           error={certificate_PDV_Helper.length !== 0}
-//           helperText={certificate_PDV_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='email'
-//           name='email'
-//           label='Почта '
-//           type='email'
-//           value={email ? email : ''}
-//           error={email_Helper.length !== 0}
-//           helperText={email_Helper}
-//           fullWidth
-//           autoComplete='email'
-//           onChange={(e) => onChangeHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <TextField
-//           id='phoneNumber'
-//           name='phoneNumber'
-//           label='Телефон'
-//           type='tel'
-//           value={phoneNumber ? phoneNumber : ''}
-//           error={phoneNumber_Helper.length !== 0}
-//           helperText={phoneNumber_Helper}
-//           fullWidth
-//           autoComplete='text'
-//           onChange={(e) => onChangeHandler(e)}
-//           onInput={(e) => onInputHandler(e)}
-//         />
-//       </Grid>
-//       <Grid item className={classes.item}>
-//         <InputLabel id='who_is-label'>Роли</InputLabel>
-//         <Select
-//           labelId='who_is-label'
-//           id='who_is'
-//           name='who_is'
-//           multiple
-//           required
-//           fullWidth
-//           value={who_is ? who_is : []}
-//           onChange={(e) => onChangeHandler(e)}
-//           input={<Input />}
-//           renderValue={(selected) => selected.join(', ')}
-//           className={classes.select}
-//         >
-//           {whoIsThisFirm.map((role) => (
-//             <MenuItem key={role} value={role} className={classes.selectItem}>
-//               <Checkbox checked={who_is && who_is.indexOf(role) > -1} />
-//               {role}
-//             </MenuItem>
-//           ))}
-//         </Select>
-//       </Grid>
+  const onChangeHandler = (event) => {
+    // console.log(event);
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
 
-//       <Grid item className={classes.item}>
-//         <Button
-//           disabled={
-//             !name__Firm ||
-//             !short_name__Firm ||
-//             !type_Firm ||
-//             !postCode ||
-//             !address ||
-//             !EDRPOU ||
-//             !ibanOwn ||
-//             !firstPerson__Position ||
-//             // !firstPerson__Position_RoditelPadej ||
-//             !firstPerson__Full_Name ||
-//             // !firstPerson__Full_Name_RoditelPadej ||
-//             !firstPerson__Short_Name ||
-//             !phoneNumber ||
-//             (who_is && who_is.length === 0) ||
-//             name__FIRM_Helper.length !== 0 ||
-//             short_name__Firm_Helper.length !== 0 ||
-//             postCode_Helper.length !== 0 ||
-//             address_Helper.length !== 0 ||
-//             EDRPOU_Helper.length !== 0 ||
-//             ibanOwn_Helper.length !== 0 ||
-//             firstPerson__Position_Helper.length !== 0 ||
-//             // firstPerson__Position_RoditelPadej_Helper.length !== 0 ||
-//             firstPerson__Full_Name_Helper.length !== 0 ||
-//             // firstPerson__Full_Name_RoditelPadej_Helper.length !== 0 ||
-//             firstPerson__Short_Name_Helper.length !== 0 ||
-//             whichActsOnTheBasis_Helper.length !== 0 ||
-//             taxPayerOn_Helper.length !== 0 ||
-//             email_Helper.length !== 0 ||
-//             phoneNumber_Helper.length !== 0 ||
-//             who_is_Helper.length !== 0
-//           }
-//           fullWidth
-//           variant='contained'
-//           onClick={() => onSubmit()}
-//           color='primary'
-//         >
-//           Добавить
-//         </Button>
-//       </Grid>
-//     </Grid>
-//   );
-// };
+  const onMarkUpChangeHandler = (event) => {
+    // console.log(event);
+    set__taxAndMarkUp({
+      ...taxAndMarkUp,
+      [event.target.name]: event.target.value,
+    });
+  };
 
-// FirmAdd.propTypes = {
-//   setNameOfPage: PropTypes.func.isRequired,
-//   add__FIRM: PropTypes.func.isRequired,
+  const onInputHandler = (event) => {
+    if (event.target.name === 'searchOurFirm') {
+      set__openSearchListOurFirm(true);
 
-//   getAll__TYPE_FIRM: PropTypes.func.isRequired,
+      set__searchOurFirm(event.target.value);
 
-//   // state_auth: PropTypes.object.isRequired,
-//   // state__FIRM: PropTypes.object.isRequired,
-//   state__TYPE_FIRM: PropTypes.object.isRequired,
-// };
+      set__array_of_OurFirm(
+        handleSearchInArray(full_array_of_OurFirm, event.target.value)
+      );
+    }
 
-// const mapStateToProps = (state) => ({
-//   // state_auth: state.auth,
-//   // state__FIRM: state.firm,
+    if (event.target.name === 'searchClient') {
+      set__openSearchListClient(true);
 
-//   state__TYPE_FIRM: state.typeFirm,
-// });
+      set__searchClient(event.target.value);
 
-// export default connect(mapStateToProps, {
-//   setNameOfPage,
-//   add__FIRM,
+      set__array_of_Client(
+        handleSearchInArray(full_array_of_Client, event.target.value)
+      );
+    }
 
-//   getAll__TYPE_FIRM,
-// })(FirmAdd);
+    if (event.target.name === 'searchProduct') {
+      set__openSearchListProduct(true);
 
-import React from 'react';
+      set__searchProduct(event.target.value);
 
-const OurNaklAdd = () => {
-  return <div>OurNaklAdd</div>;
+      set__array_of_Product(
+        handleSearchInArray(full_array_of_Product, event.target.value)
+      );
+    }
+  };
+
+  const onTempRowDataHandler = (event) => {
+    set__tempRowData({
+      ...tempRowData,
+
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  return (
+    <Grid container className={classes.root} direction='column'>
+      <Tooltip title='Назад'>
+        <Fab
+          color='secondary'
+          aria-label='go Back'
+          onClick={() => history.goBack()}
+        >
+          <ArrowBackIcon />
+        </Fab>
+      </Tooltip>
+
+      <Grid item className={classes.item}>
+        <Typography variant='h3' align='center'>
+          Добавить накладную
+        </Typography>
+      </Grid>
+
+      <Grid item className={classes.item}>
+        <Grid container justify='space-between' alignItems='center'>
+          <Grid item style={{ width: 150 }}>
+            <TextField
+              // autoFocus
+              id='naklNumber'
+              name='naklNumber'
+              label='Номер накладной'
+              type='text'
+              value={naklNumber ? naklNumber : ''}
+              // error={name__OUR_NAKL_Helper.length !== 0}
+              // helperText={name__OUR_NAKL_Helper}
+              fullWidth
+              autoComplete='text'
+              onChange={(e) => onChangeHandler(e)}
+            />
+          </Grid>
+          <Grid item style={{ width: 100 }}>
+            <DatePicker
+              id='naclDate'
+              name='naclDate'
+              label='Дата '
+              format='dd-MM-yyyy'
+              value={naclDate ? naclDate : ''}
+              fullWidth
+              autoOk
+              animateYearScrolling
+              disableFuture
+              // openTo='year'
+              onChange={(newDate) => {
+                set__naclDate(newDate);
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <Grid container>
+              <Grid item style={{ position: 'relative', width: 250 }}>
+                <TextField
+                  id='searchOurFirm'
+                  name='searchOurFirm'
+                  label='Выбери нашу фирму'
+                  type='search'
+                  value={searchOurFirm ? searchOurFirm : ''}
+                  fullWidth
+                  autoComplete='off'
+                  // onChange={(e) => onChangeHandler(e)}
+                  onInput={(e) => onInputHandler(e)}
+                />
+
+                <Grid
+                  item
+                  className={classes.wrapSearchList}
+                  style={{
+                    display:
+                      openSearchListOurFirm && searchOurFirm.length > 0
+                        ? 'block'
+                        : 'none',
+                  }}
+                >
+                  <List className={classes.searchList}>
+                    {array_of_OurFirm &&
+                      array_of_OurFirm.length > 0 &&
+                      array_of_OurFirm.map((item) => (
+                        <ListItem
+                          key={item._id}
+                          button
+                          onClick={() => {
+                            set__openSearchListOurFirm(false);
+                            set__searchOurFirm(item.name__Firm);
+                            setFormData({ ...formData, ourFirm: item._id });
+                            // belongContract();
+                          }}
+                        >
+                          <ListItemText>{item.name__Firm}</ListItemText>
+                        </ListItem>
+                      ))}
+                  </List>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Tooltip title='Подбор иcполнителя'>
+                  <IconButton onClick={() => set__openSelectOurFirm(true)}>
+                    <DetailsIcon color='primary' style={{ fontSize: 35 }} />
+                  </IconButton>
+                </Tooltip>
+                <Dialog
+                  open={openSelectOurFirm}
+                  onClose={() => set__openSelectOurFirm(false)}
+                >
+                  <DialogTitle>Подбор иполнителя</DialogTitle>
+                  <DialogContent dividers>
+                    <List>
+                      {full_array_of_OurFirm &&
+                        full_array_of_OurFirm.length > 0 &&
+                        full_array_of_OurFirm.map((item) => (
+                          <ListItem
+                            key={item._id}
+                            button
+                            onClick={() => {
+                              set__openSearchListOurFirm(false);
+                              set__searchOurFirm(item.name__Firm);
+                              setFormData({ ...formData, ourFirm: item._id });
+                              set__openSelectOurFirm(false);
+                              // belongContract();
+                            }}
+                          >
+                            <ListItemText disableTypography>
+                              {item.name__Firm}
+                            </ListItemText>
+                          </ListItem>
+                        ))}
+                    </List>
+                  </DialogContent>
+                </Dialog>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container>
+              <Grid item style={{ position: 'relative', width: 250 }}>
+                <TextField
+                  id='searchClient'
+                  name='searchClient'
+                  label='Выбери клиента'
+                  type='search'
+                  value={searchClient ? searchClient : ''}
+                  fullWidth
+                  autoComplete='off'
+                  // onChange={(e) => onChangeHandler(e)}
+                  onInput={(e) => onInputHandler(e)}
+                />
+
+                <Grid
+                  item
+                  className={classes.wrapSearchList}
+                  style={{
+                    display:
+                      openSearchListClient && searchClient.length > 0
+                        ? 'block'
+                        : 'none',
+                  }}
+                >
+                  <List className={classes.searchList}>
+                    {array_of_Client &&
+                      array_of_Client.length > 0 &&
+                      array_of_Client.map((item) => (
+                        <ListItem
+                          key={item._id}
+                          button
+                          onClick={() => {
+                            set__openSearchListClient(false);
+                            set__searchClient(item.name__Firm);
+                            setFormData({ ...formData, client: item._id });
+                            // belongContract();
+                          }}
+                        >
+                          <ListItemText>{item.name__Firm}</ListItemText>
+                        </ListItem>
+                      ))}
+                  </List>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Tooltip title='Подбор заказчика'>
+                  <IconButton onClick={() => set__openSelectClient(true)}>
+                    <DetailsIcon color='primary' style={{ fontSize: 35 }} />
+                  </IconButton>
+                </Tooltip>
+                <Dialog
+                  open={openSelectClient}
+                  onClose={() => set__openSelectClient(false)}
+                >
+                  <DialogTitle>Подбор заказчика</DialogTitle>
+                  <DialogContent dividers>
+                    <List>
+                      {full_array_of_Client &&
+                        full_array_of_Client.length > 0 &&
+                        full_array_of_Client.map((item) => (
+                          <ListItem
+                            key={item._id}
+                            button
+                            onClick={() => {
+                              set__openSearchListClient(false);
+                              set__searchClient(item.name__Firm);
+                              setFormData({ ...formData, client: item._id });
+                              set__openSelectClient(false);
+                              // belongContract();
+                            }}
+                          >
+                            <ListItemText disableTypography>
+                              {item.name__Firm}
+                            </ListItemText>
+                          </ListItem>
+                        ))}
+                    </List>
+                  </DialogContent>
+                </Dialog>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item style={{}}>
+            <Tooltip title='Добавить фирму'>
+              <IconButton
+                // onClick={() => history.push(`/reference-data/firm/add`)}
+                onClick={() => {
+                  set__openAddFirm(true);
+                }}
+              >
+                <AddBoxIcon color='primary' />
+              </IconButton>
+            </Tooltip>
+            <Dialog open={openAddFirm} onClose={() => set__openAddFirm(false)}>
+              <DialogTitle>Добавить фирму</DialogTitle>
+              <DialogContent dividers>
+                <FirmAdd />
+              </DialogContent>
+              <DialogActions>
+                <IconButton
+                  // onClick={() => history.push(`/reference-data/firm/add`)}
+                  onClick={() => {
+                    set__openAddFirm(false);
+                  }}
+                >
+                  <CloseIcon color='primary' />
+                </IconButton>
+              </DialogActions>
+            </Dialog>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid item className={classes.item}>
+        <Grid container justify='flex-start' alignItems='center'>
+          <Grid item>
+            <Typography>
+              {temp__number__Contract && `Договор № ${temp__number__Contract} `}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography>
+              {' '}
+              {temp__date_Contract &&
+                ` вiд ${format(new Date(temp__date_Contract), 'dd-MM-yyyy')}`}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography>
+              {' '}
+              {temp__typesOf_WorkInTheContract &&
+                ` работы: ${temp__typesOf_WorkInTheContract}`}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Tooltip title='Подбор договора'>
+              <span>
+                <IconButton
+                  onClick={() => {
+                    set__openSelectContract(true);
+                    getRelatedContacts();
+                  }}
+                  disabled={
+                    !(
+                      ourFirm &&
+                      ourFirm.length > 0 &&
+                      client &&
+                      client.length > 0
+                    )
+                  }
+                >
+                  <DetailsIcon
+                    color={
+                      !(
+                        ourFirm &&
+                        ourFirm.length > 0 &&
+                        client &&
+                        client.length > 0
+                      )
+                        ? 'disabled'
+                        : 'primary'
+                    }
+                    style={{
+                      fontSize: 35,
+                    }}
+                  />
+                </IconButton>
+              </span>
+            </Tooltip>
+          </Grid>
+
+          <Dialog
+            open={openSelectContract}
+            onClose={() => set__openSelectContract(false)}
+          >
+            <DialogTitle>Договора контрагентов</DialogTitle>
+            <DialogContent dividers>
+              <List>
+                {array_of_CONTRACT &&
+                  array_of_CONTRACT.length > 0 &&
+                  array_of_CONTRACT.map((item) => (
+                    <ListItem
+                      key={item._id}
+                      button
+                      onClick={() => {
+                        set__openSelectContract(false);
+                        set__tempContractData({
+                          ...tempContractData,
+                          temp__number__Contract: item.number__Contract,
+                          temp__date_Contract: item.date_Contract,
+                          temp__typesOf_WorkInTheContract:
+                            item.typesOf_WorkInTheContract,
+                        });
+                        setFormData({
+                          ...formData,
+                          contract: item._id,
+                        });
+                      }}
+                    >
+                      <ListItemText disableTypography>
+                        <Typography>
+                          {item.number__Contract &&
+                            `Договор № ${item.number__Contract}`}
+                        </Typography>
+                        <Typography>
+                          {' '}
+                          {item.date_Contract &&
+                            ` вiд ${format(
+                              new Date(item.date_Contract),
+                              'dd-MM-yyyy'
+                            )}`}
+                          {/* {item.date_Contract} */}
+                        </Typography>
+                        <Typography>{`работы: ${item.typesOf_WorkInTheContract}`}</Typography>
+                      </ListItemText>
+                    </ListItem>
+                  ))}
+              </List>
+            </DialogContent>
+          </Dialog>
+        </Grid>
+      </Grid>
+      <Grid item className={classes.item}>
+        <Grid container direction='row' justify='flex-start' spacing={3}>
+          <Grid item>
+            <Grid
+              container
+              direction='column'
+              justify='flex-start'
+              alignItems='flex-start'
+              // spacing={3}
+              style={{ width: 150 }}
+            >
+              <Grid item style={{ width: '100%' }}>
+                <Grid container justify='space-between' alignItems='center'>
+                  <Grid item>
+                    <Typography>Налог</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      // autoFocus
+                      id='our__Tax'
+                      name='our__Tax'
+                      // label='налог'
+                      type='number'
+                      value={our__Tax ? our__Tax : ''}
+                      color='secondary'
+                      // error={name__OUR_NAKL_Helper.length !== 0}
+                      // helperText={name__OUR_NAKL_Helper}
+                      // fullWidth
+                      // autoComplete='text'
+                      InputProps={{
+                        className: classes.markUp_input,
+                      }}
+                      // className={classes.markUp_input}
+                      onChange={(e) => onMarkUpChangeHandler(e)}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item style={{ width: '100%' }}>
+                <Grid container justify='space-between' alignItems='center'>
+                  <Grid item>
+                    <Typography> Наценка</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      // autoFocus
+                      id='our__MarkUp'
+                      name='our__MarkUp'
+                      // label='налог'
+                      type='number'
+                      value={our__MarkUp ? our__MarkUp : ''}
+                      // error={name__OUR_NAKL_Helper.length !== 0}
+                      // helperText={name__OUR_NAKL_Helper}
+                      // fullWidth
+                      // autoComplete='text'
+                      InputProps={{
+                        className: classes.markUp_input,
+                      }}
+                      // className={classes.markUp_input}
+                      onChange={(e) => onMarkUpChangeHandler(e)}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item style={{ width: '100%' }}>
+                <Grid container justify='space-between' alignItems='center'>
+                  <Grid item>
+                    <Typography>% бюджет</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      // autoFocus
+                      id='markUp__Budget'
+                      name='markUp__Budget'
+                      // label='налог'
+                      type='number'
+                      value={markUp__Budget ? markUp__Budget : ''}
+                      // error={name__OUR_NAKL_Helper.length !== 0}
+                      // helperText={name__OUR_NAKL_Helper}
+                      // fullWidth
+                      // autoComplete='text'
+                      InputProps={{
+                        className: classes.markUp_input,
+                      }}
+                      // className={classes.markUp_input}
+                      onChange={(e) => onMarkUpChangeHandler(e)}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <FormControl component='fieldset'>
+              <FormLabel component='legend'>Форма оплаты</FormLabel>
+              <RadioGroup
+                aria-label='genformOfPaymentder'
+                id='formOfPayment'
+                name='formOfPayment'
+                value={formOfPayment ? formOfPayment : ''}
+                onChange={(e) => onChangeHandler(e)}
+              >
+                <FormControlLabel
+                  value='форма1'
+                  control={<Radio />}
+                  label='форма1'
+                />
+                <FormControlLabel
+                  value='форма2'
+                  control={<Radio />}
+                  label='форма2'
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={active}
+                  onChange={(e) => handleChangeSwitch(e)}
+                  name='active'
+                />
+              }
+              label='Активный'
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item className={classes.item}>
+        <Paper className={classes.tablePaper}>
+          <TableContainer className={classes.tableContainer}>
+            <Table stickyHeader aria-label='sticky table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ display: 'none' }}>
+                    temp__productId
+                  </TableCell>
+                  <TableCell style={{ width: 20 }}>№</TableCell>
+                  <TableCell>Будматеріал</TableCell>
+                  <TableCell style={{ width: 120 }}>Доп ИНФО</TableCell>
+                  <TableCell style={{ width: 70 }}>Од. Вимиру</TableCell>
+                  <TableCell style={{ width: 80 }}>Кількість</TableCell>
+                  <TableCell style={{ width: 80 }}>Ціна зак</TableCell>
+                  <TableCell style={{ width: 80 }}>Ціна клиент</TableCell>
+                  <TableCell style={{ width: 80 }}>Сума</TableCell>
+                  <TableCell style={{ width: 120 }}>
+                    <Tooltip title='Добавить товар'>
+                      <IconButton onClick={() => set__displayNewRow(true)}>
+                        <AddBoxIcon color='primary' style={{ fontSize: 35 }} />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows__Product &&
+                  rows__Product.length > 0 &&
+                  rows__Product.map((item, index) => (
+                    <TableRow key={item.temp__productId}>
+                      <TableCell style={{ display: 'none' }}>
+                        {item.temp__productId}
+                      </TableCell>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{item.temp__name__Product}</TableCell>
+                      <TableCell>{item.temp_description}</TableCell>
+                      <TableCell>{item.temp__unit}</TableCell>
+                      <TableCell>{item.temp__amount}</TableCell>
+                      <TableCell>{item.temp__enteredPrice}</TableCell>
+                      <TableCell>{item.temp__sellingPrice}</TableCell>
+                      <TableCell>{item.temp__Sum}</TableCell>
+                      <TableCell>
+                        <Grid container>
+                          <Grid item>
+                            <IconButton onClick={() => editRow(index)}>
+                              <EditIcon color='primary' />
+                            </IconButton>
+                          </Grid>
+                          <Grid item>
+                            <IconButton onClick={() => deleteRow(index)}>
+                              <DeleteForeverIcon color='error' />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+
+                <TableRow
+                  style={{
+                    display: displayNewRow ? 'table-row' : 'none',
+                    border: '1px solid #ff0000',
+                  }}
+                >
+                  <TableCell style={{ display: 'none' }}>
+                    <TextField
+                      // autoFocus
+                      id='temp__productId'
+                      name='temp__productId'
+                      label='temp__productId'
+                      type='text'
+                      value={temp__productId ? temp__productId : ''}
+                      // error={name__OUR_NAKL_Helper.length !== 0}
+                      // helperText={name__OUR_NAKL_Helper}
+                      // fullWidth
+                      autoComplete='text'
+                      onChange={(e) => onTempRowDataHandler(e)}
+                    />
+                  </TableCell>
+                  <TableCell>{rows__Product.length + 1}</TableCell>
+                  <TableCell>
+                    <Grid
+                      container
+                      style={{ position: 'relative' }}
+                      justify='flex-start'
+                      alignItems='center'
+                    >
+                      <Grid item>
+                        <TextField
+                          autoFocus
+                          id='searchProduct'
+                          name='searchProduct'
+                          label='Товар'
+                          type='search'
+                          value={searchProduct ? searchProduct : ''}
+                          // error={name__OUR_NAKL_Helper.length !== 0}
+                          // helperText={name__OUR_NAKL_Helper}
+                          fullWidth
+                          autoComplete='off'
+                          onChange={(e) => {
+                            onInputHandler(e);
+                          }}
+                        />
+                      </Grid>
+
+                      <Grid item>
+                        <Tooltip title='Подбор товара'>
+                          <IconButton
+                            onClick={() => set__openSelectProduct(true)}
+                          >
+                            <DetailsIcon
+                              color='primary'
+                              style={{ fontSize: 35 }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+
+                      <Dialog
+                        open={openSelectProduct}
+                        onClose={() => set__openSelectProduct(false)}
+                      >
+                        <DialogTitle>Подбор товара</DialogTitle>
+                        <DialogContent dividers>
+                          <Accordion className={classes.accordion}>
+                            <AccordionSummary
+                              expandIcon={<ExpandMore />}
+                              aria-controls={`panel-accountant-content`}
+                              id={`panel-accountant-header`}
+                              className={classes.accordionSummary}
+                            >
+                              <Typography
+                                className={classes.accordionSummaryHeading}
+                              >
+                                Группы
+                              </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails
+                              className={classes.accordionSummaryDetails}
+                            >
+                              <List
+                                disablePadding
+                                className={classes.listAccoprdion}
+                              >
+                                {full_array_of_Group_Product &&
+                                  full_array_of_Group_Product.length > 0 &&
+                                  full_array_of_Group_Product.map((group) => (
+                                    <ListItem key={group._id}>
+                                      <ListItemText
+                                        disableTypography
+                                        className={classes.drawerItem_level2}
+                                      >
+                                        <Accordion
+                                          className={classes.accordion}
+                                        >
+                                          <AccordionSummary
+                                            expandIcon={<ExpandMore />}
+                                            aria-controls={`panel-${group._id}-content`}
+                                            id={`panel-${group._id}-header`}
+                                            className={classes.accordionSummary}
+                                          >
+                                            <Typography
+                                              className={
+                                                classes.accordionSummaryHeading
+                                              }
+                                            >
+                                              {group.name__Group_Product}
+                                            </Typography>
+                                          </AccordionSummary>
+                                          <AccordionDetails
+                                            className={
+                                              classes.accordionSummaryDetails
+                                            }
+                                          >
+                                            <List
+                                              disablePadding
+                                              className={classes.listAccoprdion}
+                                            >
+                                              {full_array_of_Product &&
+                                                full_array_of_Product.length >
+                                                  0 &&
+                                                full_array_of_Product
+                                                  .filter(
+                                                    (item) =>
+                                                      item.group_Product._id ===
+                                                      group._id
+                                                  )
+                                                  .map((item) => (
+                                                    <ListItem
+                                                      key={item._id}
+                                                      button
+                                                      onClick={() => {
+                                                        set__openSearchListProduct(
+                                                          false
+                                                        );
+                                                        set__openSelectProduct(
+                                                          false
+                                                        );
+                                                        set__searchProduct(
+                                                          item.name__Product
+                                                        );
+                                                        set__tempRowData({
+                                                          ...tempRowData,
+                                                          temp__productId: item._id
+                                                            ? item._id
+                                                            : '',
+                                                          temp__name__Product: item.name__Product
+                                                            ? item.name__Product
+                                                            : '',
+                                                          temp__unit: item.unit
+                                                            ? item.unit
+                                                                .name__Unit
+                                                            : '',
+                                                          temp__enteredPrice: item.enteredPrice
+                                                            ? item.enteredPrice
+                                                            : 0,
+                                                          temp__sellingPrice: item.sellingPrice
+                                                            ? item.sellingPrice
+                                                            : 0,
+                                                        });
+                                                      }}
+                                                    >
+                                                      <ListItemText
+                                                        disableTypography
+                                                        className={
+                                                          classes.drawerItem_level3
+                                                        }
+                                                      >
+                                                        {item.name__Product}
+                                                      </ListItemText>
+                                                    </ListItem>
+                                                  ))}
+                                            </List>
+                                          </AccordionDetails>
+                                        </Accordion>
+                                      </ListItemText>
+                                    </ListItem>
+                                  ))}
+                              </List>
+                            </AccordionDetails>
+                          </Accordion>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            autoFocus
+                            onClick={() => set__openSelectProduct(false)}
+                            color='primary'
+                          >
+                            Закрыть
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+
+                      <Grid
+                        item
+                        className={classes.wrapSearchList}
+                        style={{
+                          display:
+                            openSearchListProduct && searchProduct.length > 0
+                              ? 'block'
+                              : 'none',
+                        }}
+                      >
+                        <List className={classes.searchList}>
+                          {array_of_Product &&
+                            array_of_Product.length > 0 &&
+                            array_of_Product.map((item) => (
+                              <ListItem
+                                key={item._id}
+                                button
+                                onClick={() => {
+                                  set__openSearchListProduct(false);
+                                  // set__temp__select__productId(item._id);
+                                  set__searchProduct(item.name__Product);
+                                  set__tempRowData({
+                                    ...tempRowData,
+                                    temp__productId: item._id ? item._id : '',
+                                    temp__name__Product: item.name__Product
+                                      ? item.name__Product
+                                      : '',
+                                    temp__unit: item.unit
+                                      ? item.unit.name__Unit
+                                      : '',
+                                    temp__enteredPrice: item.enteredPrice
+                                      ? item.enteredPrice
+                                      : 0,
+                                    temp__sellingPrice: item.sellingPrice
+                                      ? item.sellingPrice
+                                      : 0,
+                                  });
+                                }}
+                              >
+                                <ListItemText>
+                                  {item.name__Product}
+                                </ListItemText>
+                              </ListItem>
+                            ))}
+                        </List>
+                      </Grid>
+                    </Grid>
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      // autoFocus
+                      id='temp_description'
+                      name='temp_description'
+                      label='доп'
+                      type='text'
+                      multiline
+                      value={temp_description ? temp_description : ''}
+                      // error={name__OUR_NAKL_Helper.length !== 0}
+                      // helperText={name__OUR_NAKL_Helper}
+                      fullWidth
+                      // autoComplete='text'
+                      onChange={(e) => onTempRowDataHandler(e)}
+                    />
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography>{temp__unit ? temp__unit : '?'}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      // autoFocus
+                      id='temp__amount'
+                      name='temp__amount'
+                      label='кол-во'
+                      type='number'
+                      step='0.001'
+                      value={temp__amount ? temp__amount : ''}
+                      // error={name__OUR_NAKL_Helper.length !== 0}
+                      // helperText={name__OUR_NAKL_Helper}
+                      fullWidth
+                      // autoComplete='text'
+                      onChange={(e) => onTempRowDataHandler(e)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      // autoFocus
+                      id='temp__enteredPrice'
+                      name='temp__enteredPrice'
+                      label='цена 1'
+                      type='number'
+                      step='0.01'
+                      value={temp__enteredPrice ? temp__enteredPrice : ''}
+                      // error={name__OUR_NAKL_Helper.length !== 0}
+                      // helperText={name__OUR_NAKL_Helper}
+                      fullWidth
+                      // autoComplete='text'
+                      onChange={(e) => onTempRowDataHandler(e)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      // autoFocus
+                      id='temp__sellingPrice'
+                      name='temp__sellingPrice'
+                      label='цена 2'
+                      type='number'
+                      step='0.01'
+                      value={temp__sellingPrice ? temp__sellingPrice : ''}
+                      // error={name__OUR_NAKL_Helper.length !== 0}
+                      // helperText={name__OUR_NAKL_Helper}
+                      fullWidth
+                      // autoComplete='text'
+                      onChange={(e) => onTempRowDataHandler(e)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Typography>{temp__Sum ? temp__Sum : '?'}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Grid container>
+                      <Grid item>
+                        <IconButton
+                          // disabled={
+                          //   !temp__productId ||
+                          //   !temp__name__Product ||
+                          //   !temp__amount ||
+                          //   !temp__enteredPrice
+                          // }
+
+                          disabled={
+                            !temp__productId ||
+                            temp__productId.length === 0 ||
+                            !temp__name__Product ||
+                            temp__name__Product.length === 0 ||
+                            !temp__amount ||
+                            temp__amount === 0 ||
+                            !temp__enteredPrice ||
+                            temp__enteredPrice === 0
+                          }
+                          onClick={() => saveRow()}
+                        >
+                          <SaveIcon
+                            // color={
+                            //   !temp__productId ||
+                            //   !temp__name__Product ||
+                            //   !temp__amount ||
+                            //   !temp__enteredPrice
+                            //     ? 'disabled'
+                            //     : 'primary'
+                            // }
+                            color={
+                              !temp__productId ||
+                              temp__productId.length === 0 ||
+                              !temp__name__Product ||
+                              temp__name__Product.length === 0 ||
+                              !temp__amount ||
+                              temp__amount === 0 ||
+                              !temp__enteredPrice ||
+                              temp__enteredPrice.length === 0
+                                ? 'disabled'
+                                : 'primary'
+                            }
+                          />
+                        </IconButton>
+                      </Grid>
+                      <Grid item>
+                        <IconButton
+                          onClick={() => {
+                            set__displayNewRow(false);
+                            clear__tempRowData();
+                            set__searchProduct('');
+                          }}
+                        >
+                          <CloseIcon color='error' />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Grid>
+
+      <Grid item className={classes.item}>
+        <Button
+          disabled={
+            !naklNumber ||
+            !naclDate ||
+            !contract ||
+            !ourFirm ||
+            !client ||
+            (rows__Product && rows__Product.length === 0) ||
+            !formOfPayment
+          }
+          variant='contained'
+          onClick={() => onSubmit()}
+          color='primary'
+        >
+          Провести
+        </Button>
+      </Grid>
+    </Grid>
+  );
 };
 
-export default OurNaklAdd;
+OurNaklAdd.propTypes = {
+  setNameOfPage: PropTypes.func.isRequired,
+  add__OUR_NAKL: PropTypes.func.isRequired,
+
+  getAll__FIRM: PropTypes.func.isRequired,
+  getAll__CONTRACT: PropTypes.func.isRequired,
+  getAll__PRODUCT: PropTypes.func.isRequired,
+
+  // state_auth: PropTypes.object.isRequired,
+  // state__OUR_NAKL: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  // state_auth: state.auth,
+  // state__OUR_NAKL: state.ourNakl,
+
+  state__PRODUCT: state.product,
+  state__CONTRACT: state.contract,
+  state__FIRM: state.firm,
+  state__GROUP_PRODUCT: state.groupProduct,
+});
+
+export default connect(mapStateToProps, {
+  setNameOfPage,
+  add__OUR_NAKL,
+
+  getAll__FIRM,
+  getAll__CONTRACT,
+  getAll__PRODUCT,
+  getAll__GROUP_PRODUCT,
+})(OurNaklAdd);

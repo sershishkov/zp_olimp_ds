@@ -1,18 +1,36 @@
-//https://material-table.com/#/
-import React, { useState, useEffect } from 'react';
-import MaterialTable from 'material-table';
+function CustomEditComponent(props) {
+  const { useState } = React;
 
-const MyEditableTable = (props) => {
-  const [data, setData] = useState([]);
+  const [columns, setColumns] = useState([
+    {
+      title: 'Name',
+      field: 'name',
+      editComponent: (props) => (
+        <input
+          type='text'
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
+      ),
+    },
+    { title: 'Surname', field: 'surname' },
+    { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+    {
+      title: 'Birth Place',
+      field: 'birthCity',
+      lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+    },
+  ]);
 
-  useEffect(() => {
-    setData(props.data);
-  }, [setData, props.data]);
+  const [data, setData] = useState([
+    { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+    { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
+  ]);
 
   return (
     <MaterialTable
-      title={props.title}
-      columns={props.columns}
+      title='Custom Edit Component Preview'
+      columns={columns}
       data={data}
       editable={{
         onRowAdd: (newData) =>
@@ -30,8 +48,7 @@ const MyEditableTable = (props) => {
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
-              // console.log(oldData);
-              // console.log(newData);
+
               resolve();
             }, 1000);
           }),
@@ -47,14 +64,6 @@ const MyEditableTable = (props) => {
             }, 1000);
           }),
       }}
-      options={{
-        sorting: props.sorting ? props.sorting : true,
-        search: props.search ? props.search : true,
-        pageSize: props.search ? props.search : 10,
-        filtering: props.filtering ? props.filtering : false,
-      }}
     />
   );
-};
-
-export default MyEditableTable;
+}

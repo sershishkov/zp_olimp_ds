@@ -38,7 +38,7 @@ export const add__OUR_NAKL = (
 
   try {
     const { data } = await axios.post(
-      `/accountant/our-products-works/our-nakl`,
+      `/api/accountant/our-products-works/our-nakl`,
       body,
       config
     );
@@ -87,7 +87,7 @@ export const update__OUR_NAKL = (
 
   try {
     const { data } = await axios.put(
-      `/accountant/our-products-works/our-nakl/${id__OUR_NAKL}`,
+      `/api/accountant/our-products-works/our-nakl/${id__OUR_NAKL}`,
       body,
       config
     );
@@ -108,7 +108,9 @@ export const update__OUR_NAKL = (
 
 export const getAll__OUR_NAKL = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/accountant/our-products-works/our-nakl`);
+    const { data } = await axios.get(
+      `/api/accountant/our-products-works/our-nakl`
+    );
     dispatch({ type: GET_ALL__OUR_NAKL, payload: data.data }); // sorted array
     // console.log(data.data);
   } catch (err) {
@@ -122,7 +124,7 @@ export const getAll__OUR_NAKL = () => async (dispatch) => {
 export const getOne__OUR_NAKL = (id__OUR_NAKL) => async (dispatch) => {
   try {
     const { data } = await axios.get(
-      `/accountant/our-products-works/our-nakl/${id__OUR_NAKL}`
+      `/api/accountant/our-products-works/our-nakl/${id__OUR_NAKL}`
     );
 
     dispatch({
@@ -140,7 +142,7 @@ export const getOne__OUR_NAKL = (id__OUR_NAKL) => async (dispatch) => {
 export const delete__OUR_NAKL = (id__OUR_NAKL) => async (dispatch) => {
   try {
     await axios.delete(
-      `/accountant/our-products-works/our-nakl/${id__OUR_NAKL}`
+      `/api/accountant/our-products-works/our-nakl/${id__OUR_NAKL}`
     );
     dispatch({
       type: DELETE__OUR_NAKL,

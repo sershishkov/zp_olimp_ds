@@ -2,15 +2,16 @@ export const handleSearchInArray = (origArray, searchData) => {
   const newRows = [...origArray];
 
   // Вернули массив с преобразованными объектами в массив только значений по которым будем искать
-  const set_Array_Of_Arrays = newRows.map(
-    (row) => Object.values(row)
-    // .filter((option) => option !== true && option !== false)
+  const аrray_Of_Arrays = newRows.map((row) =>
+    Object.values(row).filter(
+      (option) => option !== true && option !== false && option !== null
+    )
   );
 
   // создали массивы со значением true or false
   //те находим ячейки где есть совпадения
   //будет массив массивов только с true или false
-  const matches = set_Array_Of_Arrays.map((row) =>
+  const matches = аrray_Of_Arrays.map((row) =>
     row.map((option) =>
       option
         .toString()
@@ -28,7 +29,7 @@ export const handleSearchInArray = (origArray, searchData) => {
 
   let filteredArray = newRows.filter((row) => row.search === true);
   // console.log(origArray);
-  // console.log(set_Array_Of_Arrays);
+  // console.log(аrray_Of_Arrays);
   // console.log(matches);
   // console.log(filteredArray);
 

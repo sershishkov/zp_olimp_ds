@@ -21,6 +21,7 @@ exports.add__OurNakl = asyncHandler(async (req, res, next) => {
     formOfPayment,
     active,
   } = req.body;
+
   const new__OurNakl = new Model__OurNakl({
     naklNumber,
     naclDate,

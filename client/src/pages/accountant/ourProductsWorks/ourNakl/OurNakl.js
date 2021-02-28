@@ -60,7 +60,7 @@ const Firm = ({
       ? state__OUR_NAKL.array__OUR_NAKL.map((item) => {
           return {
             naklNumber: item.naklNumber,
-            naclDate: format(item.naclDate, 'dd-MM-yyyy'),
+            naclDate: format(new Date(item.naclDate), 'dd-MM-yyyy'),
             client: item.client.name__Firm,
             sum__Product: item.sum__Product,
             active: item.active ? 'да' : 'нет',
@@ -86,7 +86,7 @@ const Firm = ({
 
   const myMaterialTable = (
     <MaterialTable
-      title='Список Фирм'
+      title='Накладные'
       columns={[
         { title: '№ накл', field: 'naklNumber' },
         { title: 'Дата накл', field: 'naclDate' },
