@@ -86,27 +86,50 @@ const ServiceJob = ({
       title='Список работ'
       columns={[
         { title: 'Работа', field: 'name__ServiceJob' },
-        { title: 'Ед.изм', field: 'unit' },
         {
-          title: 'Цена работникам',
-          field: 'employeePrice',
+          title: 'Ед.изм',
+          field: 'unit',
           cellStyle: {
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ffff00',
+          },
+        },
+        {
+          title: 'Цена работникам',
+          field: 'employeePrice',
+
+          cellStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ff0000',
+          },
+
+          headerStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
         {
           title: 'Цена клиентам',
           field: 'sellingPrice',
           cellStyle: {
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ff0000',
           },
 
           headerStyle: {
+            width: '10%',
             textAlign: 'center',
+            // border: '1px solid #ffff00',
           },
         },
 

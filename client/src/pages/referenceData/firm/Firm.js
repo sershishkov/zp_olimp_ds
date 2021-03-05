@@ -86,7 +86,21 @@ const Firm = ({
       columns={[
         { title: 'Работа', field: 'name__Firm' },
         { title: 'Адрес', field: 'address' },
-        { title: 'Кто есть', field: 'who_is' },
+        {
+          title: 'Кто есть',
+          field: 'who_is',
+          cellStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ff0000',
+          },
+
+          headerStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ffff00',
+          },
+        },
 
         {
           title: 'Редактировать',

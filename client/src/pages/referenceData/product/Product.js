@@ -70,7 +70,8 @@ const Product = ({
           return {
             name__Product: item.name__Product,
             unit: item.unit.name__Unit,
-            group_Product: item.group_Product.name__Group_Product,
+            enteredPrice: item.enteredPrice,
+            // group_Product: item.group_Product.name__Group_Product,
 
             edit: (
               <IconButton
@@ -96,8 +97,37 @@ const Product = ({
       title='Список работ'
       columns={[
         { title: 'Товар', field: 'name__Product' },
-        { title: 'Ед.изм', field: 'unit' },
-        { title: 'Группа товаров', field: 'group_Product' },
+        {
+          title: 'Ед.изм',
+          field: 'unit',
+          cellStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ff0000',
+          },
+
+          headerStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ffff00',
+          },
+        },
+        {
+          title: 'Цена Закуп',
+          field: 'enteredPrice',
+          cellStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ff0000',
+          },
+
+          headerStyle: {
+            width: '10%',
+            textAlign: 'center',
+            // border: '1px solid #ffff00',
+          },
+        },
+        // { title: 'Группа товаров', field: 'group_Product' },
 
         {
           title: 'Редактировать',

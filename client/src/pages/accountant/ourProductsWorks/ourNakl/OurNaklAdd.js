@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { DatePicker } from '@material-ui/pickers';
 import { format } from 'date-fns';
+import { setAlert } from '../../../../store/actions/alert';
 
 import { setNameOfPage } from '../../../../store/actions/nameOfPage';
 import { add__OUR_NAKL } from '../../../../store/actions/accountant/ourProductsWorks/ourNakl';
@@ -11,7 +12,7 @@ import { getAll__CONTRACT } from '../../../../store/actions/accountant/contract/
 import { getAll__FIRM } from '../../../../store/actions/referenceData/firm';
 import { getAll__PRODUCT } from '../../../../store/actions/referenceData/product';
 import { getAll__GROUP_PRODUCT } from '../../../../store/actions/referenceData/groupProduct';
-import FirmAdd from '../../../referenceData/firm/FirmAdd';
+import Link from '@material-ui/core/Link';
 
 import {
   generateDocNumber,
@@ -33,10 +34,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Select from '@material-ui/core/Select';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 
 import DetailsIcon from '@material-ui/icons/Details';
@@ -44,6 +41,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import DoneIcon from '@material-ui/icons/Done';
 
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -54,6 +52,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import TableFooter from '@material-ui/core/TableFooter';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -100,10 +99,26 @@ const useStyles = makeStyles((theme) => ({
     width: 40,
     color: '#ff0000',
     textAlign: 'center',
+    paddingLeft: 7,
   },
   tableContainer: {
     width: theme.breakpoints.width('lg'),
     paddingBottom: 150,
+  },
+  tableBody: {
+    // position: 'relative',
+  },
+
+  wrapEditableRow: {
+    position: 'relative',
+    // border: '1px solid #ff0000',
+  },
+  editableRow: {
+    width: theme.breakpoints.width('lg'),
+    backgroundColor: '#e0e0e0',
+    position: 'absolute',
+    top: 80,
+    zIndex: 3,
   },
 }));
 
@@ -115,6 +130,7 @@ const OurNaklAdd = ({
   getAll__CONTRACT,
   getAll__PRODUCT,
   getAll__GROUP_PRODUCT,
+  setAlert,
 
   // state__OUR_NAKL,
   state__FIRM,
@@ -162,19 +178,15 @@ const OurNaklAdd = ({
   const [openSelectContract, set__openSelectContract] = useState(false);
   const [openSelectOurFirm, set__openSelectOurFirm] = useState(false);
   const [openSelectClient, set__openSelectClient] = useState(false);
-  const [openAddFirm, set__openAddFirm] = useState(false);
+  const [addMode, set__addMode] = useState(true);
+  const [editIndex, set__editIndex] = useState('');
+  const [totalProductSum, set__totalProductSum] = useState(0);
 
   const {
     temp__number__Contract,
     temp__date_Contract,
     temp__typesOf_WorkInTheContract,
   } = tempContractData;
-
-  // console.log({
-  //   temp__number__Contract,
-  //   temp__date_Contract,
-  //   temp__typesOf_WorkInTheContract,
-  // });
 
   const {
     temp__productId,
@@ -222,16 +234,6 @@ const OurNaklAdd = ({
   const [openSearchListOurFirm, set__openSearchListOurFirm] = useState(false);
   const [openSearchListClient, set__openSearchListClient] = useState(false);
   const [openSearchListProduct, set__openSearchListProduct] = useState(false);
-
-  // const [full_array_of_OurFirm, set__full_array_of_OurFirm] = useState([]);
-  // const [full_array_of_Client, set__full_array_of_Client] = useState([]);
-  // const [full_array_of_Product, set__full_array_of_Product] = useState([]);
-  // const [
-  //   full_array_of_Group_Product,
-  //   set__full_array_of_Group_Product,
-  // ] = useState([]);
-  // const [full_array_of_CONTRACT, set__full_array_of_CONTRACT] = useState([]);
-  // console.log(array_of_CONTRACT);
 
   let full_array_of_CONTRACT = useMemo(() => state__CONTRACT.array__CONTRACT, [
     state__CONTRACT.array__CONTRACT,
@@ -292,10 +294,14 @@ const OurNaklAdd = ({
     const newArr = [...rows__Product];
     newArr.splice(index, 1);
 
+    let total = 0;
+    newArr.forEach((item) => (total += Number(item.temp__Sum)));
+    set__totalProductSum(total.toFixed(2));
+
     set__rows__Product(newArr);
   };
 
-  const editRow = (index) => {
+  const dispayEditRow = (index) => {
     const editObj = rows__Product[index];
     set__tempRowData({
       temp__productId: editObj.temp__productId,
@@ -307,9 +313,14 @@ const OurNaklAdd = ({
       temp__sellingPrice: editObj.temp__sellingPrice,
       temp__Sum: editObj.temp__Sum,
     });
+
+    set__editIndex(index);
+    set__searchProduct(editObj.temp__name__Product);
+    set__displayNewRow(true);
+    set__addMode(false);
   };
 
-  const saveRow = () => {
+  const calculateNewRow = () => {
     let row_sum = 0;
     let price_with_tax = 0;
     let price_with_murkUP = 0;
@@ -341,7 +352,35 @@ const OurNaklAdd = ({
       temp__sellingPrice: Number(price_client).toFixed(2),
       temp__Sum: Number(total_row_sum).toFixed(2),
     };
+
+    return newRow;
+  };
+
+  const saveEditRow = () => {
+    const newRow = calculateNewRow();
+    const newArr = [...rows__Product];
+    newArr.splice(editIndex, 1, newRow);
+
+    let total = 0;
+    newArr.forEach((item) => (total += Number(item.temp__Sum)));
+    set__totalProductSum(total.toFixed(2));
+
+    set__rows__Product(newArr);
+    clear__tempRowData();
+    set__displayNewRow(false);
+    set__searchProduct('');
+    set__addMode(true);
+    set__editIndex('');
+  };
+
+  const saveRow = () => {
+    const newRow = calculateNewRow();
+
     const newArr = [...rows__Product, newRow];
+
+    let total = 0;
+    newArr.forEach((item) => (total += Number(item.temp__Sum)));
+    set__totalProductSum(total.toFixed(2));
 
     set__rows__Product(newArr);
     clear__tempRowData();
@@ -568,7 +607,10 @@ const OurNaklAdd = ({
                             onClick={() => {
                               set__openSearchListOurFirm(false);
                               set__searchOurFirm(item.name__Firm);
-                              setFormData({ ...formData, ourFirm: item._id });
+                              setFormData({
+                                ...formData,
+                                ourFirm: item._id,
+                              });
                               set__openSelectOurFirm(false);
                               // belongContract();
                             }}
@@ -651,7 +693,10 @@ const OurNaklAdd = ({
                             onClick={() => {
                               set__openSearchListClient(false);
                               set__searchClient(item.name__Firm);
-                              setFormData({ ...formData, client: item._id });
+                              setFormData({
+                                ...formData,
+                                client: item._id,
+                              });
                               set__openSelectClient(false);
                               // belongContract();
                             }}
@@ -669,31 +714,10 @@ const OurNaklAdd = ({
           </Grid>
           <Grid item style={{}}>
             <Tooltip title='Добавить фирму'>
-              <IconButton
-                // onClick={() => history.push(`/reference-data/firm/add`)}
-                onClick={() => {
-                  set__openAddFirm(true);
-                }}
-              >
+              <IconButton component={Link} href={`/reference-data/firm/add`}>
                 <AddBoxIcon color='primary' />
               </IconButton>
             </Tooltip>
-            <Dialog open={openAddFirm} onClose={() => set__openAddFirm(false)}>
-              <DialogTitle>Добавить фирму</DialogTitle>
-              <DialogContent dividers>
-                <FirmAdd />
-              </DialogContent>
-              <DialogActions>
-                <IconButton
-                  // onClick={() => history.push(`/reference-data/firm/add`)}
-                  onClick={() => {
-                    set__openAddFirm(false);
-                  }}
-                >
-                  <CloseIcon color='primary' />
-                </IconButton>
-              </DialogActions>
-            </Dialog>
           </Grid>
         </Grid>
       </Grid>
@@ -701,59 +725,64 @@ const OurNaklAdd = ({
       <Grid item className={classes.item}>
         <Grid container justify='flex-start' alignItems='center'>
           <Grid item>
-            <Typography>
-              {temp__number__Contract && `Договор № ${temp__number__Contract} `}
-            </Typography>
+            <Grid
+              container
+              direction='column'
+              justify='flex-start'
+              alignItems='flex-start'
+            >
+              <Grid item>
+                <Typography>
+                  {temp__number__Contract &&
+                    `Договор № ${temp__number__Contract} `}{' '}
+                  {temp__date_Contract &&
+                    ` вiд ${format(
+                      new Date(temp__date_Contract),
+                      'dd-MM-yyyy'
+                    )}`}
+                </Typography>{' '}
+              </Grid>
+              <Grid item>
+                <Typography>
+                  {' '}
+                  {temp__typesOf_WorkInTheContract &&
+                    ` ${temp__typesOf_WorkInTheContract}`}
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item>
-            <Typography>
-              {' '}
-              {temp__date_Contract &&
-                ` вiд ${format(new Date(temp__date_Contract), 'dd-MM-yyyy')}`}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography>
-              {' '}
-              {temp__typesOf_WorkInTheContract &&
-                ` работы: ${temp__typesOf_WorkInTheContract}`}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Tooltip title='Подбор договора'>
-              <span>
-                <IconButton
-                  onClick={() => {
-                    set__openSelectContract(true);
-                    getRelatedContacts();
-                  }}
-                  disabled={
-                    !(
-                      ourFirm &&
-                      ourFirm.length > 0 &&
-                      client &&
-                      client.length > 0
-                    )
-                  }
-                >
-                  <DetailsIcon
-                    color={
-                      !(
-                        ourFirm &&
-                        ourFirm.length > 0 &&
-                        client &&
-                        client.length > 0
-                      )
-                        ? 'disabled'
-                        : 'primary'
-                    }
-                    style={{
-                      fontSize: 35,
+            <Grid container justify='center' alignItems='center' spacing={2}>
+              <Grid item>
+                <Tooltip title='Подбор договора'>
+                  {/* <span> */}
+                  <IconButton
+                    onClick={() => {
+                      set__openSelectContract(true);
+                      getRelatedContacts();
                     }}
-                  />
-                </IconButton>
-              </span>
-            </Tooltip>
+                  >
+                    <DetailsIcon
+                      color='primary'
+                      style={{
+                        fontSize: 35,
+                      }}
+                    />
+                  </IconButton>
+                  {/* </span> */}
+                </Tooltip>
+              </Grid>
+              <Grid item>
+                <Tooltip title='Создать договор'>
+                  <IconButton
+                    component={Link}
+                    href={`/accountant/contract/add`}
+                  >
+                    <AddBoxIcon color='primary' />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            </Grid>
           </Grid>
 
           <Dialog
@@ -821,7 +850,7 @@ const OurNaklAdd = ({
               <Grid item style={{ width: '100%' }}>
                 <Grid container justify='space-between' alignItems='center'>
                   <Grid item>
-                    <Typography>Налог</Typography>
+                    <Typography>%Налог</Typography>
                   </Grid>
                   <Grid item>
                     <TextField
@@ -832,8 +861,6 @@ const OurNaklAdd = ({
                       type='number'
                       value={our__Tax ? our__Tax : ''}
                       color='secondary'
-                      // error={name__OUR_NAKL_Helper.length !== 0}
-                      // helperText={name__OUR_NAKL_Helper}
                       // fullWidth
                       // autoComplete='text'
                       InputProps={{
@@ -848,7 +875,7 @@ const OurNaklAdd = ({
               <Grid item style={{ width: '100%' }}>
                 <Grid container justify='space-between' alignItems='center'>
                   <Grid item>
-                    <Typography> Наценка</Typography>
+                    <Typography> %Наценка</Typography>
                   </Grid>
                   <Grid item>
                     <TextField
@@ -936,7 +963,7 @@ const OurNaklAdd = ({
           </Grid>
         </Grid>
       </Grid>
-      <Grid item className={classes.item}>
+      <Grid item className={classes.wrapEditableRow}>
         <Paper className={classes.tablePaper}>
           <TableContainer className={classes.tableContainer}>
             <Table stickyHeader aria-label='sticky table'>
@@ -955,18 +982,25 @@ const OurNaklAdd = ({
                   <TableCell style={{ width: 80 }}>Сума</TableCell>
                   <TableCell style={{ width: 120 }}>
                     <Tooltip title='Добавить товар'>
-                      <IconButton onClick={() => set__displayNewRow(true)}>
+                      <IconButton
+                        onClick={() => {
+                          set__displayNewRow(true);
+                        }}
+                      >
                         <AddBoxIcon color='primary' style={{ fontSize: 35 }} />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody
+                className={classes.tableBody}
+                style={{ position: 'relative' }}
+              >
                 {rows__Product &&
                   rows__Product.length > 0 &&
                   rows__Product.map((item, index) => (
-                    <TableRow key={item.temp__productId}>
+                    <TableRow key={`${item.temp__productId}-${index}`}>
                       <TableCell style={{ display: 'none' }}>
                         {item.temp__productId}
                       </TableCell>
@@ -981,12 +1015,17 @@ const OurNaklAdd = ({
                       <TableCell>
                         <Grid container>
                           <Grid item>
-                            <IconButton onClick={() => editRow(index)}>
+                            <IconButton onClick={() => dispayEditRow(index)}>
                               <EditIcon color='primary' />
                             </IconButton>
                           </Grid>
                           <Grid item>
-                            <IconButton onClick={() => deleteRow(index)}>
+                            <IconButton
+                              onClick={() => {
+                                deleteRow(index);
+                                // totalProductSumHandler();
+                              }}
+                            >
                               <DeleteForeverIcon color='error' />
                             </IconButton>
                           </Grid>
@@ -996,9 +1035,9 @@ const OurNaklAdd = ({
                   ))}
 
                 <TableRow
+                  className={classes.editableRow}
                   style={{
                     display: displayNewRow ? 'table-row' : 'none',
-                    border: '1px solid #ff0000',
                   }}
                 >
                   <TableCell style={{ display: 'none' }}>
@@ -1009,14 +1048,18 @@ const OurNaklAdd = ({
                       label='temp__productId'
                       type='text'
                       value={temp__productId ? temp__productId : ''}
-                      // error={name__OUR_NAKL_Helper.length !== 0}
-                      // helperText={name__OUR_NAKL_Helper}
                       // fullWidth
                       autoComplete='text'
                       onChange={(e) => onTempRowDataHandler(e)}
                     />
                   </TableCell>
-                  <TableCell>{rows__Product.length + 1}</TableCell>
+                  <TableCell style={{ width: 20 }}>
+                    {addMode
+                      ? rows__Product.length + 1
+                      : editIndex
+                      ? editIndex + 1
+                      : ''}
+                  </TableCell>
                   <TableCell>
                     <Grid
                       container
@@ -1032,8 +1075,6 @@ const OurNaklAdd = ({
                           label='Товар'
                           type='search'
                           value={searchProduct ? searchProduct : ''}
-                          // error={name__OUR_NAKL_Helper.length !== 0}
-                          // helperText={name__OUR_NAKL_Helper}
                           fullWidth
                           autoComplete='off'
                           onChange={(e) => {
@@ -1209,7 +1250,6 @@ const OurNaklAdd = ({
                                 button
                                 onClick={() => {
                                   set__openSearchListProduct(false);
-                                  // set__temp__select__productId(item._id);
                                   set__searchProduct(item.name__Product);
                                   set__tempRowData({
                                     ...tempRowData,
@@ -1238,7 +1278,7 @@ const OurNaklAdd = ({
                       </Grid>
                     </Grid>
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{ width: 120 }}>
                     <TextField
                       // autoFocus
                       id='temp_description'
@@ -1247,18 +1287,16 @@ const OurNaklAdd = ({
                       type='text'
                       multiline
                       value={temp_description ? temp_description : ''}
-                      // error={name__OUR_NAKL_Helper.length !== 0}
-                      // helperText={name__OUR_NAKL_Helper}
                       fullWidth
-                      // autoComplete='text'
+                      autoComplete='off'
                       onChange={(e) => onTempRowDataHandler(e)}
                     />
                   </TableCell>
 
-                  <TableCell>
+                  <TableCell style={{ width: 70 }}>
                     <Typography>{temp__unit ? temp__unit : '?'}</Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{ width: 80 }}>
                     <TextField
                       // autoFocus
                       id='temp__amount'
@@ -1267,14 +1305,12 @@ const OurNaklAdd = ({
                       type='number'
                       step='0.001'
                       value={temp__amount ? temp__amount : ''}
-                      // error={name__OUR_NAKL_Helper.length !== 0}
-                      // helperText={name__OUR_NAKL_Helper}
                       fullWidth
                       // autoComplete='text'
                       onChange={(e) => onTempRowDataHandler(e)}
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{ width: 80 }}>
                     <TextField
                       // autoFocus
                       id='temp__enteredPrice'
@@ -1283,14 +1319,12 @@ const OurNaklAdd = ({
                       type='number'
                       step='0.01'
                       value={temp__enteredPrice ? temp__enteredPrice : ''}
-                      // error={name__OUR_NAKL_Helper.length !== 0}
-                      // helperText={name__OUR_NAKL_Helper}
                       fullWidth
                       // autoComplete='text'
                       onChange={(e) => onTempRowDataHandler(e)}
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{ width: 80 }}>
                     <TextField
                       // autoFocus
                       id='temp__sellingPrice'
@@ -1299,27 +1333,19 @@ const OurNaklAdd = ({
                       type='number'
                       step='0.01'
                       value={temp__sellingPrice ? temp__sellingPrice : ''}
-                      // error={name__OUR_NAKL_Helper.length !== 0}
-                      // helperText={name__OUR_NAKL_Helper}
                       fullWidth
                       // autoComplete='text'
                       onChange={(e) => onTempRowDataHandler(e)}
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{ width: 80 }}>
                     <Typography>{temp__Sum ? temp__Sum : '?'}</Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{ width: 120 }}>
                     <Grid container>
                       <Grid item>
                         <IconButton
-                          // disabled={
-                          //   !temp__productId ||
-                          //   !temp__name__Product ||
-                          //   !temp__amount ||
-                          //   !temp__enteredPrice
-                          // }
-
+                          style={{ display: !addMode ? 'none' : undefined }}
                           disabled={
                             !temp__productId ||
                             temp__productId.length === 0 ||
@@ -1330,17 +1356,42 @@ const OurNaklAdd = ({
                             !temp__enteredPrice ||
                             temp__enteredPrice === 0
                           }
-                          onClick={() => saveRow()}
+                          onClick={() => {
+                            saveRow();
+                          }}
                         >
                           <SaveIcon
-                            // color={
-                            //   !temp__productId ||
-                            //   !temp__name__Product ||
-                            //   !temp__amount ||
-                            //   !temp__enteredPrice
-                            //     ? 'disabled'
-                            //     : 'primary'
-                            // }
+                            color={
+                              !temp__productId ||
+                              temp__productId.length === 0 ||
+                              !temp__name__Product ||
+                              temp__name__Product.length === 0 ||
+                              !temp__amount ||
+                              temp__amount === 0 ||
+                              !temp__enteredPrice ||
+                              temp__enteredPrice.length === 0
+                                ? 'disabled'
+                                : 'primary'
+                            }
+                          />
+                        </IconButton>
+                        <IconButton
+                          style={{ display: addMode ? 'none' : undefined }}
+                          disabled={
+                            !temp__productId ||
+                            temp__productId.length === 0 ||
+                            !temp__name__Product ||
+                            temp__name__Product.length === 0 ||
+                            !temp__amount ||
+                            temp__amount === 0 ||
+                            !temp__enteredPrice ||
+                            temp__enteredPrice === 0
+                          }
+                          onClick={() => {
+                            saveEditRow();
+                          }}
+                        >
+                          <DoneIcon
                             color={
                               !temp__productId ||
                               temp__productId.length === 0 ||
@@ -1371,6 +1422,22 @@ const OurNaklAdd = ({
                   </TableCell>
                 </TableRow>
               </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell style={{ display: 'none' }}></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell style={{ textAlign: 'center' }} colSpan={6}>
+                    <Typography style={{ color: '#000' }} variant='h6'>
+                      Разом матеріали
+                    </Typography>
+                  </TableCell>
+                  <TableCell style={{ textAlign: 'center' }} colSpan={2}>
+                    <Typography style={{ color: '#000' }} variant='h6'>
+                      {totalProductSum}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
             </Table>
           </TableContainer>
         </Paper>
@@ -1400,6 +1467,7 @@ const OurNaklAdd = ({
 
 OurNaklAdd.propTypes = {
   setNameOfPage: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
   add__OUR_NAKL: PropTypes.func.isRequired,
 
   getAll__FIRM: PropTypes.func.isRequired,
@@ -1428,4 +1496,5 @@ export default connect(mapStateToProps, {
   getAll__CONTRACT,
   getAll__PRODUCT,
   getAll__GROUP_PRODUCT,
+  setAlert,
 })(OurNaklAdd);
